@@ -1,0 +1,1553 @@
+[
+  {
+    "id": 2,
+    "name": "Oree",
+    "type": ["Digital"],
+    "stats": {
+      "hp": 0,
+      "sta": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "spatk": 0,
+      "spdef": 0
+    },
+    "traits": ["None"],
+    "bred_techniques": [],
+    "evolution": [2, 3]
+  },
+  {
+    "id": 3,
+    "name": "Zaobian",
+    "type": ["Digital"],
+    "stats": {
+      "hp": 0,
+      "sta": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "spatk": 0,
+      "spdef": 0
+    },
+    "traits": ["None"],
+    "bred_techniques": [],
+    "evolution": [2, 3]
+  },
+  {
+    "id": 7,
+    "name": "Platypet",
+    "type": ["Water", "Toxic"],
+    "stats": {
+      "hp": 55,
+      "sta": 65,
+      "spd": 65,
+      "atk": 45,
+      "def": 31,
+      "spatk": 67,
+      "spdef": 56
+    },
+    "traits": ["Toxic Affinity", "Amphibian"],
+    "bred_techniques": [
+      "Sharp Rain",
+      "Shrill Voice",
+      "Urushiol",
+      "Intimidation",
+      "Antitoxins",
+      "Flood"
+    ],
+    "evolution": [7, 8, 9]
+  },
+  {
+    "id": 8,
+    "name": "Platox",
+    "type": ["Water", "Toxic"],
+    "stats": {
+      "hp": 62,
+      "sta": 44,
+      "spd": 74,
+      "atk": 50,
+      "def": 35,
+      "spatk": 75,
+      "spdef": 63
+    },
+    "traits": ["Resistant", "Resilient"],
+    "bred_techniques": [
+      "Sharp Rain",
+      "Shrill Voice",
+      "Urushiol",
+      "Intimidation",
+      "Antitoxins",
+      "Flood"
+    ],
+    "evolution": [7, 8, 9]
+  },
+  {
+    "id": 9,
+    "name": "Platimous",
+    "type": ["Water", "Toxic"],
+    "stats": {
+      "hp": 71,
+      "sta": 49,
+      "spd": 82,
+      "atk": 56,
+      "def": 39,
+      "spatk": 90,
+      "spdef": 70
+    },
+    "traits": ["Zen", "Determined"],
+    "bred_techniques": [
+      "Sharp Rain",
+      "Shrill Voice",
+      "Urushiol",
+      "Intimidation",
+      "Antitoxins",
+      "Flood"
+    ],
+    "evolution": [7, 8, 9]
+  },
+  {
+    "id": 10,
+    "name": "Swali",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 44,
+      "sta": 65,
+      "spd": 35,
+      "atk": 50,
+      "def": 40,
+      "spatk": 55,
+      "spdef": 60
+    },
+    "traits": ["Shared Pain", "Mithridatism"],
+    "bred_techniques": [
+      "Hypoxia",
+      "Spores"
+    ],
+    "evolution": [10, 11]
+  },
+  {
+    "id": 11,
+    "name": "Loali",
+    "type": ["Nature", "Wind"],
+    "stats": {
+      "hp": 55,
+      "sta": 80,
+      "spd": 80,
+      "atk": 60,
+      "def": 50,
+      "spatk": 70,
+      "spdef": 90
+    },
+    "traits": ["Botanist", "Toxic Farewell"],
+    "bred_techniques": [
+      "Hypoxia",
+      "Spores"
+    ],
+    "evolution": [10, 11]
+  },
+  {
+    "id": 12,
+    "name": "Tateru",
+    "type": ["Nature", "Wind"],
+    "stats": {
+      "hp": 70,
+      "sta": 90,
+      "spd": 60,
+      "atk": 68,
+      "def": 66,
+      "spatk": 54,
+      "spdef": 66
+    },
+    "traits": ["Soft Touch", "Resilient"],
+    "bred_techniques": [
+      "Inner Spirit",
+      "Perfect Jab"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 16,
+    "name": "Paharo",
+    "type": ["Wind"],
+    "stats": {
+      "hp": 48,
+      "sta": 18,
+      "spd": 60,
+      "atk": 40,
+      "def": 40,
+      "spatk": 50,
+      "spdef": 50
+    },
+    "traits": ["Hover", "Friendship"],
+    "bred_techniques": [
+      "Humiliating Slap",
+      "Hyperkinetic Strike"
+    ],
+    "evolution": [16, 17, 18]
+  },
+  {
+    "id": 17,
+    "name": "Paharac",
+    "type": ["Wind"],
+    "stats": {
+      "hp": 60,
+      "sta": 30,
+      "spd": 70,
+      "atk": 50,
+      "def": 55,
+      "spatk": 60,
+      "spdef": 60
+    },
+    "traits": ["Caffeinated", "Camaraderie"],
+    "bred_techniques": [
+      "Humiliating Slap",
+      "Hyperkinetic Strike"
+    ],
+    "evolution": [16, 17, 18]
+  },
+  {
+    "id": 18,
+    "name": "Grandpah",
+    "type": ["Wind"],
+    "stats": {
+      "hp": 69,
+      "sta": 36,
+      "spd": 78,
+      "atk": 55,
+      "def": 61,
+      "spatk": 72,
+      "spdef": 66
+    },
+    "traits": ["Last Rush", "Bully"],
+    "bred_techniques": [
+      "Humiliating Slap",
+      "Hyperkinetic Strike"
+    ],
+    "evolution": [16, 17, 18]
+  },
+  {
+    "id": 21,
+    "name": "BunBun",
+    "type": ["Earth", "Crystal"],
+    "stats": {
+      "hp": 72,
+      "sta": 40,
+      "spd": 69,
+      "atk": 50,
+      "def": 36,
+      "spatk": 64,
+      "spdef": 43
+    },
+    "traits": ["Caffeinated", "Resilient"],
+    "bred_techniques": [
+      "Dust Vortex",
+      "Crystal Bite"
+    ],
+    "evolution": [21, 22]
+  },
+  {
+    "id": 22,
+    "name": "Mudrid",
+    "type": ["Earth", "Crystal"],
+    "stats": {
+      "hp": 85,
+      "sta": 44,
+      "spd": 95,
+      "atk": 60,
+      "def": 42,
+      "spatk": 75,
+      "spdef": 50
+    },
+    "traits": ["Receptive", "Resistant"],
+    "bred_techniques": [
+      "Dust Vortex",
+      "Crystal Bite"
+    ],
+    "evolution": [21, 22]
+  },
+  {
+    "id": 23,
+    "name": "Hidody",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 49,
+      "sta": 70,
+      "spd": 39,
+      "atk": 42,
+      "def": 39,
+      "spatk": 62,
+      "spdef": 55
+    },
+    "traits": ["Electric Synthesize", "Botanist"],
+    "bred_techniques": [
+      "Water Cutting Lily",
+      "Hypoxia",
+      "Spores",
+      "Lullaby",
+      "Sacrifice"
+    ],
+    "evolution": [23, 24]
+  },
+  {
+    "id": 24,
+    "name": "Taifu",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 60,
+      "sta": 87,
+      "spd": 45,
+      "atk": 50,
+      "def": 45,
+      "spatk": 78,
+      "spdef": 78
+    },
+    "traits": ["Toxic Farewell", "Resilient"],
+    "bred_techniques": [
+      "Water Cutting Lily",
+      "Hypoxia",
+      "Spores",
+      "Lullaby",
+      "Sacrifice"
+    ],
+    "evolution": [23, 24]
+  },
+  {
+    "id": 25,
+    "name": "Fomu",
+    "type": ["Water"],
+    "stats": {
+      "hp": 40,
+      "sta": 60,
+      "spd": 40,
+      "atk": 30,
+      "def": 35,
+      "spatk": 65,
+      "spdef": 70
+    },
+    "traits": ["Amphibian", "Hydrologist"],
+    "bred_techniques": [
+      "Sharp Rain",
+      "Ice Shuriken",
+      "Lullaby"
+    ],
+    "evolution": [25, 26]
+  },
+  {
+    "id": 26,
+    "name": "Wiplump",
+    "type": ["Water", "Wind"],
+    "stats": {
+      "hp": 66,
+      "sta": 80,
+      "spd": 70,
+      "atk": 40,
+      "def": 50,
+      "spatk": 95,
+      "spdef": 80
+    },
+    "traits": ["Plethoric", "Patient"],
+    "bred_techniques": [
+      "Sharp Rain",
+      "Ice Shuriken",
+      "Lullaby"
+    ],
+    "evolution": [25, 26]
+  },
+  {
+    "id": 27,
+    "name": "Skail",
+    "type": ["Neutral"],
+    "stats": {
+      "hp": 57,
+      "sta": 43,
+      "spd": 60,
+      "atk": 45,
+      "def": 50,
+      "spatk": 32,
+      "spdef": 41
+    },
+    "traits": ["Furor", "Scavenger"],
+    "bred_techniques": [
+      "Oshi-Dashi",
+      "Perfect Jab"
+    ],
+    "evolution": [27, 28]
+  },
+  {
+    "id": 28,
+    "name": "Skunch",
+    "type": ["Neutral", "Melee"],
+    "stats": {
+      "hp": 72,
+      "sta": 62,
+      "spd": 75,
+      "atk": 70,
+      "def": 70,
+      "spatk": 45,
+      "spdef": 60
+    },
+    "traits": ["Brawny", "Bully"],
+    "bred_techniques": [
+      "Oshi-Dashi",
+      "Perfect Jab"
+    ],
+    "evolution": [27, 28]
+  },
+  {
+    "id": 32,
+    "name": "Houchic",
+    "type": ["Mental"],
+    "stats": {
+      "hp": 38,
+      "sta": 44,
+      "spd": 66,
+      "atk": 40,
+      "def": 41,
+      "spatk": 72,
+      "spdef": 52
+    },
+    "traits": ["Mental Alliance", "Soft Touch"],
+    "bred_techniques": [],
+    "evolution": [32, 33]
+  },
+  {
+    "id": 33,
+    "name": "Tental",
+    "type": ["Mental"],
+    "stats": {
+      "hp": 41,
+      "sta": 51,
+      "spd": 76,
+      "atk": 42,
+      "def": 50,
+      "spatk": 81,
+      "spdef": 62
+    },
+    "traits": ["Water Affinity", "Avenger"],
+    "bred_techniques": [],
+    "evolution": [32, 33]
+  },
+  {
+    "id": 35,
+    "name": "Orphyll",
+    "type": ["Nature", "Toxic"],
+    "stats": {
+      "hp": 42,
+      "sta": 48,
+      "spd": 75,
+      "atk": 68,
+      "def": 64,
+      "spatk": 27,
+      "spdef": 40
+    },
+    "traits": ["Toxic Affinity", "Apothecary"],
+    "bred_techniques": [
+      "Narcolpetic Hit",
+      "Bark Shield",
+      "Photosynthesis"
+    ],
+    "evolution": [35, 36]
+  },
+  {
+    "id": 36,
+    "name": "Nidrasil",
+    "type": ["Nature", "Toxic"],
+    "stats": {
+      "hp": 77,
+      "sta": 52,
+      "spd": 61,
+      "atk": 88,
+      "def": 80,
+      "spatk": 36,
+      "spdef": 51
+    },
+    "traits": ["Toxic Farewell", "Tri-Apothecary"],
+    "bred_techniques": [
+      "Narcolpetic Hit",
+      "Bark Shield",
+      "Photosynthesis"
+    ],
+    "evolution": [35, 36]
+  },
+  {
+    "id": 37,
+    "name": "Banapi",
+    "type": ["Fire"],
+    "stats": {
+      "hp": 42,
+      "sta": 40,
+      "spd": 70,
+      "atk": 50,
+      "def": 50,
+      "spatk": 40,
+      "spdef": 41
+    },
+    "traits": ["Pyromaniac", "Settling"],
+    "bred_techniques": [
+      "Roar"
+    ],
+    "evolution": [37, 38]
+  },
+  {
+    "id": 38,
+    "name": "Capyre",
+    "type": ["Fire"],
+    "stats": {
+      "hp": 55,
+      "sta": 55,
+      "spd": 88,
+      "atk": 71,
+      "def": 68,
+      "spatk": 45,
+      "spdef": 47
+    },
+    "traits": ["Last Rush", "Resilient"],
+    "bred_techniques": [
+      "Roar"
+    ],
+    "evolution": [37, 38]
+  },
+  {
+    "id": 39,
+    "name": "Lapinite",
+    "type": ["Crystal"],
+    "stats": {
+      "hp": 58,
+      "sta": 31,
+      "spd": 46,
+      "atk": 44,
+      "def": 63,
+      "spatk": 55,
+      "spdef": 56
+    },
+    "traits": ["Scavenger", "Electric Synthesize"],
+    "bred_techniques": [
+      "Diamond Fort"
+    ],
+    "evolution": [39, 40, 41]
+  },
+  {
+    "id": 40,
+    "name": "Azuroc",
+    "type": ["Crystal"],
+    "stats": {
+      "hp": 64,
+      "sta": 34,
+      "spd": 50,
+      "atk": 58,
+      "def": 69,
+      "spatk": 60,
+      "spdef": 62
+    },
+    "traits": ["Mirroring", "Fainted Curse"],
+    "bred_techniques": [
+      "Diamond Fort"
+    ],
+    "evolution": [39, 40, 41]
+  },
+  {
+    "id": 41,
+    "name": "Zenoreth",
+    "type": ["Crystal"],
+    "stats": {
+      "hp": 71,
+      "sta": 35,
+      "spd": 56,
+      "atk": 67,
+      "def": 87,
+      "spatk": 65,
+      "spdef": 69
+    },
+    "traits": ["Channeler", "Wrecked Farewell"],
+    "bred_techniques": [
+      "Diamond Fort"
+    ],
+    "evolution": [39, 40, 41]
+  },
+  {
+    "id": 44,
+    "name": "Bigu",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 55,
+      "sta": 68,
+      "spd": 20,
+      "atk": 65,
+      "def": 38,
+      "spatk": 41,
+      "spdef": 42
+    },
+    "traits": ["Warm-Blooded", "Amphibian"],
+    "bred_techniques": [
+      "Ice Cubes",
+      "Toxic Slime",
+      "Bubbles"
+    ],
+    "evolution": [44, 45]
+  },
+  {
+    "id": 45,
+    "name": "Babwa",
+    "type": ["Nature", "Water"],
+    "stats": {
+      "hp": 85,
+      "sta": 92,
+      "spd": 40,
+      "atk": 79,
+      "def": 57,
+      "spatk": 51,
+      "spdef": 44
+    },
+    "traits": ["Mucous", "Withdrawal"],
+    "bred_techniques": [
+      "Ice Cubes",
+      "Toxic Slime",
+      "Bubbles"
+    ],
+    "evolution": [44, 45]
+  },
+  {
+    "id": 48,
+    "name": "Kaku",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 69,
+      "sta": 48,
+      "spd": 35,
+      "atk": 35,
+      "def": 60,
+      "spatk": 60,
+      "spdef": 50
+    },
+    "traits": ["Caffeinated", "Mithridatism"],
+    "bred_techniques": [
+      "Bark Shield",
+      "Lifeful Sap"
+    ],
+    "evolution": [48, 49]
+  },
+  {
+    "id": 49,
+    "name": "Saku",
+    "type": ["Nature", "Wind"],
+    "stats": {
+      "hp": 82,
+      "sta": 60,
+      "spd": 40,
+      "atk": 40,
+      "def": 62,
+      "spatk": 66,
+      "spdef": 70
+    },
+    "traits": ["Air Specialist", "Botanist"],
+    "bred_techniques": [
+      "Bark Shield",
+      "Lifeful Sap"
+    ],
+    "evolution": [48, 49]
+  },
+  {
+    "id": 50,
+    "name": "Valash",
+    "type": ["Neutral", "Crystal"],
+    "stats": {
+      "hp": 58,
+      "sta": 57,
+      "spd": 90,
+      "atk": 74,
+      "def": 56,
+      "spatk": 74,
+      "spdef": 56
+    },
+    "traits": ["Scavenger", "Determined"],
+    "bred_techniques": [
+      "Ninja Jutusu",
+      "Clinch"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 53,
+    "name": "Barnshe",
+    "type": ["Mental", "Wind"],
+    "stats": {
+      "hp": 50,
+      "sta": 51,
+      "spd": 65,
+      "atk": 60,
+      "def": 40,
+      "spatk": 75,
+      "spdef": 79
+    },
+    "traits": ["Neutrality", "Air Specialist"],
+    "bred_techniques": [
+      "Beta Burst",
+      "Energy Manipulation",
+      "Lullaby"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 54,
+    "name": "Gyalis",
+    "type": ["Crystal", "Melee"],
+    "stats": {
+      "hp": 86,
+      "sta": 44,
+      "spd": 100,
+      "atk": 85,
+      "def": 61,
+      "spatk": 23,
+      "spdef": 61
+    },
+    "traits": ["Mirroring", "Resistant"],
+    "bred_techniques": [
+      "Crystal Spikes",
+      "Earth Wave",
+      "Haito Uchi",
+      "Heat Up",
+      "Crystallize"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 55,
+    "name": "Occlura",
+    "type": ["Crystal"],
+    "stats": {
+      "hp": 50,
+      "sta": 39,
+      "spd": 50,
+      "atk": 45,
+      "def": 43,
+      "spatk": 38,
+      "spdef": 65
+    },
+    "traits": ["Warm-Blooded", "Scavenger"],
+    "bred_techniques": [
+      "Psy Surge",
+      "Humiliating Slap"
+    ],
+    "evolution": [55, 56]
+  },
+  {
+    "id": 56,
+    "name": "Myx",
+    "type": ["Crystal", "Mental"],
+    "stats": {
+      "hp": 51,
+      "sta": 59,
+      "spd": 65,
+      "atk": 51,
+      "def": 43,
+      "spatk": 94,
+      "spdef": 80
+    },
+    "traits": ["Puppet Master", "Rejuvenate"],
+    "bred_techniques": [
+      "Psy Surge",
+      "Humiliating Slap"
+    ],
+    "evolution": [55, 56]
+  },
+  {
+    "id": 57,
+    "name": "Raiber",
+    "type": ["Fire"],
+    "stats": {
+      "hp": 57,
+      "sta": 35,
+      "spd": 42,
+      "atk": 40,
+      "def": 61,
+      "spatk": 59,
+      "spdef": 38
+    },
+    "traits": ["Comaraderie", "Rested"],
+    "bred_techniques": [
+      "Rampage"
+    ],
+    "evolution": [57, 58, 59]
+  },
+  {
+    "id": 58,
+    "name": "Raize",
+    "type": ["Fire"],
+    "stats": {
+      "hp": 66,
+      "sta": 46,
+      "spd": 48,
+      "atk": 46,
+      "def": 74,
+      "spatk": 69,
+      "spdef": 43
+    },
+    "traits": ["Furor", "Demoralize"],
+    "bred_techniques": [
+      "Rampage"
+    ],
+    "evolution": [57, 58, 59]
+  },
+  {
+    "id": 59,
+    "name": "Raican",
+    "type": ["Fire"],
+    "stats": {
+      "hp": 77,
+      "sta": 49,
+      "spd": 60,
+      "atk": 77,
+      "def": 77,
+      "spatk": 51,
+      "spdef": 50
+    },
+    "traits": ["Prideful", "Motivator"],
+    "bred_techniques": [
+      "Rampage"
+    ],
+    "evolution": [57, 58, 59]
+  },
+  {
+    "id": 60,
+    "name": "Pewki",
+    "type": ["Water"],
+    "stats": {
+      "hp": 70,
+      "sta": 32,
+      "spd": 33,
+      "atk": 42,
+      "def": 45,
+      "spatk": 31,
+      "spdef": 10
+    },
+    "traits": ["Hydrologist", "Rested"],
+    "bred_techniques": [
+      "High-pressure Water",
+      "Flood"
+    ],
+    "evolution": [60, 61]
+  },
+  {
+    "id": 61,
+    "name": "Piraniant",
+    "type": ["Water"],
+    "stats": {
+      "hp": 80,
+      "sta": 50,
+      "spd": 55,
+      "atk": 77,
+      "def": 85,
+      "spatk": 65,
+      "spdef": 37
+    },
+    "traits": ["Patient", "Energy Reserve"],
+    "bred_techniques": [
+      "High-pressure Water",
+      "Flood"
+    ],
+    "evolution": [60, 61]
+  },
+  {
+    "id": 69,
+    "name": "Saipat",
+    "type": ["Water", "Melee"],
+    "stats": {
+      "hp": 92,
+      "sta": 42,
+      "spd": 70,
+      "atk": 80,
+      "def": 50,
+      "spatk": 70,
+      "spdef": 40
+    },
+    "traits": ["Amphibian", "Toxic Affinity"],
+    "bred_techniques": [
+      "Toxic Ink",
+      "Ice Shuriken"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 72,
+    "name": "Crystle",
+    "type": ["Crystal"],
+    "stats": {
+      "hp": 60,
+      "sta": 41,
+      "spd": 33,
+      "atk": 61,
+      "def": 69,
+      "spatk": 46,
+      "spdef": 42
+    },
+    "traits": ["Amphibian", "Rested"],
+    "bred_techniques": [],
+    "evolution": [72, 73]
+  },
+  {
+    "id": 73,
+    "name": "Sherald",
+    "type": ["Crystal"],
+    "stats": {
+      "hp": 68,
+      "sta": 45,
+      "spd": 43,
+      "atk": 69,
+      "def": 78,
+      "spatk": 51,
+      "spdef": 48
+    },
+    "traits": ["Mirroring", "Provident"],
+    "bred_techniques": [],
+    "evolution": [72, 73]
+  },
+  {
+    "id": 79,
+    "name": "Hocus",
+    "type": ["Mental"],
+    "stats": {
+      "hp": 0,
+      "sta": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "spatk": 0,
+      "spdef": 0
+    },
+    "traits": ["None"],
+    "bred_techniques": [],
+    "evolution": [79, 80]
+  },
+  {
+    "id": 79,
+    "name": "Pocus",
+    "type": ["Mental"],
+    "stats": {
+      "hp": 0,
+      "sta": 0,
+      "spd": 0,
+      "atk": 0,
+      "def": 0,
+      "spatk": 0,
+      "spdef": 0
+    },
+    "traits": ["None"],
+    "bred_techniques": [],
+    "evolution": [79, 80]
+  },
+  {
+    "id": 82,
+    "name": "Sparzy",
+    "type": ["Electric"],
+    "stats": {
+      "hp": 70,
+      "sta": 80,
+      "spd": 85,
+      "atk": 85,
+      "def": 46,
+      "spatk": 42,
+      "spdef": 46
+    },
+    "traits": ["Last Rush", "Lightning Rod"],
+    "bred_techniques": [],
+    "evolution": []
+  },
+  {
+    "id": 84,
+    "name": "Mushi",
+    "type": ["Toxic"],
+    "stats": {
+      "hp": 48,
+      "sta": 33,
+      "spd": 68,
+      "atk": 48,
+      "def": 36,
+      "spatk": 48,
+      "spdef": 29
+    },
+    "traits": ["Resistant", "Resilient"],
+    "bred_techniques": ["Inner Spirit"],
+    "evolution": [84, 85]
+  },
+  {
+    "id": 85,
+    "name": "Mushook",
+    "type": ["Toxic", "Melee"],
+    "stats": {
+      "hp": 67,
+      "sta": 45,
+      "spd": 81,
+      "atk": 81,
+      "def": 80,
+      "spatk": 49,
+      "spdef": 41
+    },
+    "traits": ["Parrier", "Tireless"],
+    "bred_techniques": ["Inner Spirit"],
+    "evolution": [84, 85]
+  },
+  {
+    "id": 86,
+    "name": "Magmis",
+    "type": ["Fire"],
+    "stats": {
+      "hp": 52,
+      "sta": 51,
+      "spd": 37,
+      "atk": 55,
+      "def": 42,
+      "spatk": 45,
+      "spdef": 35
+    },
+    "traits": ["Caffeinated", "Thick Skin"],
+    "bred_techniques": [],
+    "evolution": [86, 87]
+  },
+  {
+    "id": 87,
+    "name": "Mastione",
+    "type": ["Fire"],
+    "stats": {
+      "hp": 69,
+      "sta": 62,
+      "spd": 52,
+      "atk": 91,
+      "def": 65,
+      "spatk": 62,
+      "spdef": 37
+    },
+    "traits": ["Bully", "Pyromaniac"],
+    "bred_techniques": [],
+    "evolution": [86, 87]
+  },
+  {
+    "id": 88,
+    "name": "Umishi",
+    "type": ["Water"],
+    "stats": {
+      "hp": 51,
+      "sta": 76,
+      "spd": 80,
+      "atk": 21,
+      "def": 34,
+      "spatk": 63,
+      "spdef": 45
+    },
+    "traits": ["Shared Pain", "Caffeinated"],
+    "bred_techniques": [
+      "Flood"
+    ],
+    "evolution": [88, 89]
+  },
+  {
+    "id": 89,
+    "name": "Ukama",
+    "type": ["Water"],
+    "stats": {
+      "hp": 68,
+      "sta": 90,
+      "spd": 100,
+      "atk": 34,
+      "def": 51,
+      "spatk": 76,
+      "spdef": 54
+    },
+    "traits": ["Hydrologist", "Plethoric"],
+    "bred_techniques": [
+      "Flood"
+    ],
+    "evolution": [88, 89]
+  },
+  {
+    "id": 92,
+    "name": "Smazee",
+    "type": ["Melee"],
+    "stats": {
+      "hp": 49,
+      "sta": 55,
+      "spd": 66,
+      "atk": 69,
+      "def": 44,
+      "spatk": 37,
+      "spdef": 37
+    },
+    "traits": ["Fever Rush", "Friendship"],
+    "bred_techniques": [
+      "Earth Wave"
+    ],
+    "evolution": [92, 93]
+  },
+  {
+    "id": 93,
+    "name": "Baboong",
+    "type": ["Melee"],
+    "stats": {
+      "hp": 54,
+      "sta": 61,
+      "spd": 75,
+      "atk": 79,
+      "def": 51,
+      "spatk": 41,
+      "spdef": 41
+    },
+    "traits": ["Brawny", "Warm-Blooded"],
+    "bred_techniques": [
+      "Earth Wave"
+    ],
+    "evolution": [92, 93]
+  },
+  {
+    "id": 102,
+    "name": "Spriole",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 72,
+      "sta": 38,
+      "spd": 65,
+      "atk": 42,
+      "def": 70,
+      "spatk": 37,
+      "spdef": 31
+    },
+    "traits": ["Camaraderie", "Botanist"],
+    "bred_techniques": [
+      "Frond Whip",
+      "Spores"
+    ],
+    "evolution": [102, 103, 104]
+  },
+  {
+    "id": 103,
+    "name": "Deendre",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 80,
+      "sta": 42,
+      "spd": 70,
+      "atk": 48,
+      "def": 74,
+      "spatk": 42,
+      "spdef": 35
+    },
+    "traits": ["Mithridatism", "Settling"],
+    "bred_techniques": [
+      "Frond Whip",
+      "Spores"
+    ],
+    "evolution": [102, 103, 104]
+  },
+  {
+    "id": 104,
+    "name": "Cerneaf",
+    "type": ["Nature"],
+    "stats": {
+      "hp": 91,
+      "sta": 44,
+      "spd": 79,
+      "atk": 60,
+      "def": 88,
+      "spatk": 43,
+      "spdef": 46
+    },
+    "traits": ["Callosity", "Settling"],
+    "bred_techniques": [
+      "Frond Whip",
+      "Spores"
+    ],
+    "evolution": [102, 103, 104]
+  },
+  {
+    "id": 105,
+    "name": "Toxolotl",
+    "type": ["Toxic"],
+    "stats": {
+      "hp": 59,
+      "sta": 40,
+      "spd": 47,
+      "atk": 50,
+      "def": 64,
+      "spatk": 65,
+      "spdef": 37
+    },
+    "traits": ["Power Nap", "Toxic Farewell"],
+    "bred_techniques": [
+      "Narcoleptic Hit"
+    ],
+    "evolution": [105, 106]
+  },
+  {
+    "id": 106,
+    "name": "Noxolotl",
+    "type": ["Toxic"],
+    "stats": {
+      "hp": 72,
+      "sta": 49,
+      "spd": 57,
+      "atk": 61,
+      "def": 78,
+      "spatk": 79,
+      "spdef": 45
+    },
+    "traits": ["Trance", "Toxic Skin"],
+    "bred_techniques": [
+      "Narcoleptic Hit"
+    ],
+    "evolution": [105, 106]
+  },
+  {
+    "id": 107,
+    "name": "Blooze",
+    "type": ["Toxic"],
+    "stats": {
+      "hp": 68,
+      "sta": 50,
+      "spd": 33,
+      "atk": 43,
+      "def": 52,
+      "spatk": 46,
+      "spdef": 54
+    },
+    "traits": ["Toxic Skin", "Bully"],
+    "bred_techniques": [],
+    "evolution": [107, 108]
+  },
+  {
+    "id": 108,
+    "name": "Goolder",
+    "type": ["Toxic"],
+    "stats": {
+      "hp": 120,
+      "sta": 70,
+      "spd": 10,
+      "atk": 64,
+      "def": 56,
+      "spatk": 64,
+      "spdef": 56
+    },
+    "traits": ["Strong Liver", "Punching Bag"],
+    "bred_techniques": [],
+    "evolution": [107, 108]
+  },
+  {
+    "id": 109,
+    "name": "Zephyruff",
+    "type": ["Toxic", "Wind"],
+    "stats": {
+      "hp": 58,
+      "sta": 34,
+      "spd": 68,
+      "atk": 43,
+      "def": 47,
+      "spatk": 50,
+      "spdef": 51
+    },
+    "traits": ["Toxic Affinity", "Air Specialist"],
+    "bred_techniques": ["Feather Gatling"],
+    "evolution": [109, 110]
+  },
+  {
+    "id": 110,
+    "name": "Volarend",
+    "type": ["Toxic", "Wind"],
+    "stats": {
+      "hp": 69,
+      "sta": 38,
+      "spd": 74,
+      "atk": 51,
+      "def": 61,
+      "spatk": 68,
+      "spdef": 96
+    },
+    "traits": ["Aerobic", "Anaerobic"],
+    "bred_techniques": ["Feather Gatling"],
+    "evolution": [109, 110]
+  },
+  {
+    "id": 113,
+    "name": "Ganki",
+    "type": ["Electric", "Wind"],
+    "stats": {
+      "hp": 38,
+      "sta": 46,
+      "spd": 61,
+      "atk": 57,
+      "def": 38,
+      "spatk": 62,
+      "spdef": 73
+    },
+    "traits": ["Botanophobia", "Cold-Natured"],
+    "bred_techniques": ["Tesla Prison"],
+    "evolution": [113, 114]
+  },
+  {
+    "id": 114,
+    "name": "Gazuma",
+    "type": ["Electric", "Wind"],
+    "stats": {
+      "hp": 46,
+      "sta": 53,
+      "spd": 67,
+      "atk": 68,
+      "def": 43,
+      "spatk": 81,
+      "spdef": 91
+    },
+    "traits": ["Receptive", "Fast Charge"],
+    "bred_techniques": ["Tesla Prison"],
+    "evolution": [113, 114]
+  },
+  {
+    "id": 115,
+    "name": "Oceara",
+    "type": ["Water"],
+    "stats": {
+      "hp": 64,
+      "sta": 42,
+      "spd": 100,
+      "atk": 54,
+      "def": 51,
+      "spatk": 110,
+      "spdef": 65
+    },
+    "traits": ["Hydrologist", "Mithridatism"],
+    "bred_techniques": [],
+    "evolution": []
+  },
+  {
+    "id": 122,
+    "name": "Shuine",
+    "type": ["Crystal", "Water"],
+    "stats": {
+      "hp": 43,
+      "sta": 90,
+      "spd": 81,
+      "atk": 67,
+      "def": 49,
+      "spatk": 72,
+      "spdef": 60
+    },
+    "traits": ["Immunity", "Guardian"],
+    "bred_techniques": [],
+    "evolution": []
+  },
+  {
+    "id": 123,
+    "name": "Nessla",
+    "type": ["Water", "Electric"],
+    "stats": {
+      "hp": 45,
+      "sta": 58,
+      "spd": 66,
+      "atk": 76,
+      "def": 50,
+      "spatk": 70,
+      "spdef": 72
+    },
+    "traits": ["Electric Synthesize", "Hydrologist"],
+    "bred_techniques": [],
+    "evolution": []
+  },
+  {
+    "id": 127,
+    "name": "Kalazu",
+    "type": ["Water"],
+    "stats": {
+      "hp": 63,
+      "sta": 24,
+      "spd": 28,
+      "atk": 54,
+      "def": 70,
+      "spatk": 38,
+      "spdef": 44
+    },
+    "traits": ["Mithridatism", "Hydrologist"],
+    "bred_techniques": [
+      "Clinch",
+      "Iced Stalactite",
+      "Toxic Slime"
+    ],
+    "evolution": [127, 128]
+  },
+  {
+    "id": 128,
+    "name": "Kalabyss",
+    "type": ["Water", "Toxic"],
+    "stats": {
+      "hp": 82,
+      "sta": 35,
+      "spd": 37,
+      "atk": 75,
+      "def": 100,
+      "spatk": 65,
+      "spdef": 55
+    },
+    "traits": ["Botanophobia", "Loneliness"],
+    "bred_techniques": [
+      "Clinch",
+      "Iced Stalactite",
+      "Toxic Slime"
+    ],
+    "evolution": [127, 128]
+  },
+  {
+    "id": 129,
+    "name": "Adoroboros",
+    "type": ["Toxic", "Mental"],
+    "stats": {
+      "hp": 66,
+      "sta": 66,
+      "spd": 60,
+      "atk": 29,
+      "def": 42,
+      "spatk": 70,
+      "spdef": 110
+    },
+    "traits": ["Synergy Master", "Toxic Skin"],
+    "bred_techniques": [
+      "Inner Spirit",
+      "Held Anger",
+      "Hypnosis"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 130,
+    "name": "Tuwai",
+    "type": ["Wind"],
+    "stats": {
+      "hp": 54,
+      "sta": 47,
+      "spd": 58,
+      "atk": 62,
+      "def": 45,
+      "spatk": 60,
+      "spdef": 47
+    },
+    "traits": ["Spoilsport", "Resilient"],
+    "bred_techniques": [],
+    "evolution": [130, 133]
+  },
+  {
+    "id": 133,
+    "name": "Tuvine",
+    "type": ["Wind", "Crystal"],
+    "stats": {
+      "hp": 57,
+      "sta": 47,
+      "spd": 65,
+      "atk": 70,
+      "def": 111,
+      "spatk": 60,
+      "spdef": 47
+    },
+    "traits": ["Receptive", "Determined"],
+    "bred_techniques": [],
+    "evolution": [130, 133]
+  },
+  {
+    "id": 137,
+    "name": "Kinu",
+    "type": ["Nature", "Mental"],
+    "stats": {
+      "hp": 47,
+      "sta": 74,
+      "spd": 74,
+      "atk": 53,
+      "def": 41,
+      "spatk": 69,
+      "spdef": 96
+    },
+    "traits": ["Protector", "Benefactor"],
+    "bred_techniques": ["Lullaby"],
+    "evolution": []
+  },
+  {
+    "id": 138,
+    "name": "Vulvir",
+    "type": ["Fire", "Earth"],
+    "stats": {
+      "hp": 59,
+      "sta": 54,
+      "spd": 57,
+      "atk": 47,
+      "def": 64,
+      "spatk": 47,
+      "spdef": 31
+    },
+    "traits": ["Camaraderie", "Caffeinated"],
+    "bred_techniques": ["Earth Wave", "Extinction"],
+    "evolution": [138, 139, 140]
+  },
+  {
+    "id": 139,
+    "name": "Vulor",
+    "type": ["Fire", "Earth"],
+    "stats": {
+      "hp": 65,
+      "sta": 59,
+      "spd": 63,
+      "atk": 49,
+      "def": 71,
+      "spatk": 49,
+      "spdef": 32
+    },
+    "traits": ["Pyromaniac", "Individualist"],
+    "bred_techniques": ["Earth Wave", "Extinction"],
+    "evolution": [138, 139, 140]
+  },
+  {
+    "id": 140,
+    "name": "Vulcrane",
+    "type": ["Fire", "Earth"],
+    "stats": {
+      "hp": 76,
+      "sta": 65,
+      "spd": 73,
+      "atk": 74,
+      "def": 86,
+      "spatk": 64,
+      "spdef": 35
+    },
+    "traits": ["Receptive", "Vigorous"],
+    "bred_techniques": ["Earth Wave", "Extinction"],
+    "evolution": [138, 139, 140]
+  },
+  {
+    "id": 141,
+    "name": "Pigepic",
+    "type": ["Wind"],
+    "stats": {
+      "hp": 54,
+      "sta": 72,
+      "spd": 58,
+      "atk": 60,
+      "def": 72,
+      "spatk": 45,
+      "spdef": 72
+    },
+    "traits": ["Friendship", "Fainted Curse"],
+    "bred_techniques": [
+      "Sharp Rain",
+      "Head Charge",
+      "Hypnosis"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 161,
+    "name": "Anahir",
+    "type": ["Crystal", "Fire"],
+    "stats": {
+      "hp": 54,
+      "sta": 36,
+      "spd": 31,
+      "atk": 50,
+      "def": 101,
+      "spatk": 50,
+      "spdef": 101
+    },
+    "traits": ["Trauma", "Flawed Crystal"],
+    "bred_techniques": [],
+    "evolution": []
+  }
+]
