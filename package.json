@@ -1,7 +1,7 @@
 {
   "name": "temtem-market",
-  "version": "1.2.0",
-  "description": "Federated Authentication for Blockstack",
+  "version": "1.0.0",
+  "description": "A Market for Temtem",
   "scripts": {
     "lint": "eslint . --ext .ts,.vue",
     "test": "node build/backend/temtem-market.js",

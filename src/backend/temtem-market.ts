@@ -24,10 +24,6 @@ try {
 
 configureLogger();
 
-/*
-{"url_prefix": "https://gaia.blockstack.org/hub/", "entries":["19u3AZ6Z2FqBHqMjGHiZDZ7UBGJhoUvCoP/key.json"] }
-*/
-
 console.log('Initializing Database...');
 
 db.init(config).then(async () => {
