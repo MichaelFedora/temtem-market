@@ -4,6 +4,8 @@ export interface SerializedListing {
   id?: string;
   userID: string;
   type: 'sell';
+  price: number;
+  created: number;
 
   temID: string;
   name: string;
@@ -35,10 +37,15 @@ export interface PartialListing {
   bred_techniques: string[];
 }
 
-export class Listing {
+export class Listing implements SerializedListing {
   id: string;
   userID: string;
+  status?: 'online' | 'in_game' | 'offline';
+  user?: string; // name
   type: 'sell';// | 'buy' | 'auction'
+
+  price: number; // currentBidder
+  created: number;
 
   temID: string;
   name: string;
@@ -64,6 +71,12 @@ export class Listing {
     this.userID = String(listing.userID || '');
     if(!['sell'].includes(listing.type))
       throw new Error('Invalid listing type: "' + listing.type + '"!');
+
+    this.status = String(listing.status) as any || undefined;
+    this.user = String(listing.user) || undefined;
+
+    this.price = Number(listing.price || -1);
+    this.created = Number(listing.created || 0);
     this.type = listing.type;
 
     this.temID = String(listing.temID || '');
@@ -88,12 +101,16 @@ export class Listing {
 
   public serialize(noId = false): SerializedListing {
     const l: SerializedListing = Object.assign({ }, this);
+    if(this.status)
+      delete (l as any).status;
+    if(this.user)
+      delete (l as any).user;
     if(noId)
       delete l.id;
     return l;
   }
 
-  public static deserialize(obj: SerializedListing): Listing {
+  public static deserialize(obj: SerializedListing & { user: string; status: string }): Listing {
     return new Listing(obj);
   }
 }

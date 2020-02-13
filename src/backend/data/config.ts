@@ -3,6 +3,7 @@ export interface Config {
   port: number;
 
   sessionExpTime: number;
+  heartbeatTimeout: number;
 
   db_host: string;
   db_port: number;

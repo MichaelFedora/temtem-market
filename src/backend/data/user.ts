@@ -6,7 +6,12 @@ export interface SerializedUser {
 
   temUserID: string;
   temUserName: string;
+
+  status: 'online' | 'in_game' | 'invisible';
+  heartbeat: number;
 }
+
+export const userStatusType = ['online', 'in_game', 'invisible'];
 
 export class User {
   id: string;
@@ -18,6 +23,9 @@ export class User {
   temUserID: string;
   temUserName: string;
 
+  status: 'online' | 'in_game' | 'invisible';
+  heartbeat: number;
+
   constructor(user: Partial<User> = { }) {
     this.id = String(user.id || '');
 
@@ -26,6 +34,9 @@ export class User {
 
     this.temUserID = String(user.temUserID || '');
     this.temUserName = String(user.temUserName || '');
+
+    this.status = userStatusType.includes(user.status || '') ? user.status : 'online';
+    this.heartbeat = Number(user.heartbeat) || 0;
   }
 
   public serialize(noId = false): SerializedUser {
@@ -33,7 +44,9 @@ export class User {
       discordAvatar: this.discordAvatar,
       discordName: this.discordName,
       temUserID: this.temUserID,
-      temUserName: this.temUserName
+      temUserName: this.temUserName,
+      status: this.status,
+      heartbeat: this.heartbeat
     };
     if(!noId)
       u.id = this.id;
@@ -47,7 +60,10 @@ export class User {
       discordName: obj.discordName,
 
       temUserID: obj.temUserID,
-      temUserName: obj.temUserName
+      temUserName: obj.temUserName,
+
+      status: obj.status,
+      heartbeat: obj.heartbeat
     });
   }
 }

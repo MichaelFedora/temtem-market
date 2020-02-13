@@ -1,20 +1,21 @@
-import { r, MasterPool, RTable, RDatabase } from 'rethinkdb-ts';
-import { User, SerializedUser } from '../data/user';
+import { r, MasterPool, RTable, RDatabase, JoinResult, RStream } from 'rethinkdb-ts';
+import { User, SerializedUser, userStatusType } from '../data/user';
 import { NotFoundError } from '../data/errors';
 import { getLogger, Logger } from 'log4js';
 import { Session } from '../data/session';
 import { Config } from '../data/config';
 import { SerializedListing, PartialListing, Listing } from '../data/listing';
-import { SerializedTemtem, Stats } from '../data/temtem';
+import { Temtem, Stats } from '../data/temtem';
 import { readJSONSync } from 'fs-extra';
 import { calcScore, stat_50, stat_0 } from '../util';
 
 interface IDBService {
   db: RDatabase;
   sessionExpTime: number;
+  heartbeatTimeout: number;
   usersTbl: RTable<SerializedUser>;
   sessionsTbl: RTable<Session>;
-  temdataTbl: RTable<SerializedTemtem>;
+  temdataTbl: RTable<Temtem>;
   listingsTbl: RTable<SerializedListing>;
 }
 
@@ -29,12 +30,13 @@ class DatabaseService implements IDBService {
 
   public get dbName() { return this.config.db; }
   public get sessionExpTime() { return this.config.sessionExpTime; }
+  public get heartbeatTimeout() { return this.config.heartbeatTimeout; }
 
   public get db() { return r.db(this.dbName); }
 
   public get usersTbl(): RTable<SerializedUser> { return this.db.table('users'); }
   public get sessionsTbl(): RTable<Session> { return this.db.table('sessions'); }
-  public get temdataTbl(): RTable<SerializedTemtem> { return this.db.table('temdata'); }
+  public get temdataTbl(): RTable<Temtem> { return this.db.table('temdata'); }
   public get listingsTbl(): RTable<SerializedListing> { return this.db.table('listings'); }
 
   public async init(config: Config): Promise<void> {
@@ -170,7 +172,7 @@ class DatabaseService implements IDBService {
   private _temdata = new class TemData {
     constructor(private parent: IDBService, private logger: Logger) { }
 
-    public get table(): RTable<SerializedTemtem> { return this.parent.temdataTbl; }
+    public get table(): RTable<Temtem> { return this.parent.temdataTbl; }
 
     public async init() {
 
@@ -195,15 +197,19 @@ class DatabaseService implements IDBService {
       return this.table.run();
     }
 
-    public async search(text: string, limit = 20) {
-      limit = Math.min(1, Math.max(50, limit));
+    public async search(text: string, limit = 20, start = 0) {
+      if(limit)
+        limit = Math.max(1, Math.min(50, Number(limit)));
+      if(start)
+        start = Math.max(0, Number(start));
       const groups = text.split(/\W/).filter(a => a);
       return this.table
         .filter(doc => doc('name').match(`(?i)${groups.map(a => `(?:${a})`)})`).ne(null))
-        .limit(limit).run();
+        .skip(start).limit(limit).run();
     }
 
   }(this, this.logger);
+  public get temdata() { return this._temdata; }
 
 
   private _listings = new class Listings {
@@ -242,8 +248,8 @@ class DatabaseService implements IDBService {
       // validate things
 
       for(const k of ['hp', 'sta', 'spd', 'atk', 'def', 'spatk', 'spdef']) {
-        listing.svs[k] = listing.svs[k] ? Math.round(Math.min(0, Math.max(50, listing.svs[k]))) : 0;
-        listing.tvs[k] = listing.tvs[k] ? Math.round(Math.min(0, Math.max(50, listing.tvs[k]))) : 0;
+        listing.svs[k] = listing.svs[k] ? Math.round(Math.max(0, Math.min(50, listing.svs[k]))) : 0;
+        listing.tvs[k] = listing.tvs[k] ? Math.round(Math.max(0, Math.min(50, listing.tvs[k]))) : 0;
       }
 
       if(!tem.traits.includes(listing.trait))
@@ -302,14 +308,14 @@ class DatabaseService implements IDBService {
 
     public async add(userID: string, listing: PartialListing) {
       const actual = await this.makeListing(userID, listing);
-      const result = await this.table.insert(listing).run();
+      const result = await this.table.insert(actual.serialize(true)).run();
       actual.id = result.generated_keys[0];
       return actual;
     }
 
     public async update(id: string, userID: string, listing: PartialListing) {
       const actual = await this.makeListing(userID, listing);
-      await this.table.get(id).update(actual).run();
+      await this.table.get(id).update(actual.serialize(true)).run();
     }
 
     public async delete(listingID: string) {
@@ -317,19 +323,79 @@ class DatabaseService implements IDBService {
     }
 
     public async get(listingID: string) {
-      return this.table.get(listingID).run();
+      const l = await this.table.get(listingID).run();
+      const u = await this.parent.usersTbl.get(l.userID).run();
+      const status: 'online' | 'in_game' | 'offline' =
+        u.status === 'invisible' || (u.heartbeat < (Date.now() - this.parent.heartbeatTimeout)) ?
+          'offline' :
+          u.status;
+      return Listing.deserialize(Object.assign(l, { user: u.discordName, status }));
     }
 
     public async getForUser(userID: string) {
-      return this.table.getAll(userID, { index: 'userID' }).run();
+      const u = await this.parent.usersTbl.get(userID).run();
+      const status: 'online' | 'in_game' | 'offline' =
+        u.status === 'invisible' || (u.heartbeat < (Date.now() - this.parent.heartbeatTimeout)) ?
+          'offline' :
+          u.status;
+      return this.table.getAll(userID, { index: 'userID' }).run()
+        .then(all => all.map(l => Listing.deserialize(Object.assign(l, { user: u.discordName, status }))));
     }
 
-    public async getForTem(temID: string, opts?: { page: number; type: 'sell' }) {
-      opts = Object.assign({ page: 0, type: 'sell' }, opts);
+    public async getForTem(temID: string, opts?: { limit?: number; start?: number; type?: 'sell' }) {
+      opts = Object.assign({ limit: 100, start: 0, type: 'sell' }, opts);
 
-      return this.table.getAll(temID, { index: 'temID' })
-        .filter(doc => doc('type').eq(opts.type))
-        .skip(opts.page * 100).limit(100).run();
+      const tems = this.table.getAll(temID, { index: 'temID' }).filter(doc => doc('type').eq(opts.type).and(doc('price').ge(0)));
+      const temsAndUsers = tems.eqJoin('userID', this.parent.usersTbl);
+
+      // get ingame tems
+      const ingameTems = temsAndUsers.filter(doc => doc('right')('status').eq('in_game')
+        .and(doc('right')('heartbeat').gt(Date.now() - this.parent.heartbeatTimeout)));
+
+      let ret = await ingameTems.orderBy('price', 'score', 'created').skip(opts.start).limit(opts.limit).run()
+        .then(all => all.map(l => Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, status: 'in_game' }))));
+      if(ret.length === opts.limit)
+        return ret;
+
+      // get online tems
+      const onlineTems = temsAndUsers.filter(doc => doc('right')('status').eq('online')
+        .and(doc('right')('heartbeat').gt(Date.now() - this.parent.heartbeatTimeout)));
+      const onlineRet = await onlineTems.orderBy('price', 'score', 'created')
+        .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
+        .then(all => all.map(l => Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, status: 'online' }))));
+      ret = ret.concat(onlineRet);
+      if(ret.length === opts.limit)
+        return ret;
+
+      // get offline tems
+      const offlineTems = temsAndUsers.filter(doc => doc('right')('status').eq('invisible')
+        .or(doc('right')('heartbeat').le(Date.now() - this.parent.heartbeatTimeout)));
+      const offlineRet = await offlineTems.orderBy('price', 'score', 'created')
+        .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
+        .then(all => all.map(l => Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, status: 'offline' }))));
+
+      return ret.concat(offlineRet);
+    }
+
+    public async getRecent() {
+      const listings = await this.table.orderBy(r.desc('created')).limit(10).run();
+
+      const uids: string[] = [];
+      for(const l of listings)
+        if(!uids.includes(l.userID)) uids.push(l.userID);
+
+      const users = await this.parent.usersTbl.getAll(...uids).pluck('id', 'status', 'heartbeat').run();
+
+      const userInfo: { [key: string]: { user: string; status: 'offline' | 'in_game' | 'online' } } = { };
+      for(const u of users) {
+        userInfo[u.id] = {
+          user: u.discordName,
+          status: u.status === 'invisible' || u.heartbeat <= (Date.now() - this.parent.heartbeatTimeout) ?
+            'offline' : u.status as 'in_game' | 'online'
+        };
+      }
+
+      return listings.map(l => Listing.deserialize(Object.assign(l, userInfo[l.userID])));
     }
 
   }(this, this.logger);

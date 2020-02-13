@@ -1,12 +1,11 @@
 import { Router } from 'express';
 import { Logger } from 'log4js';
-import { handleError, handleValidationError, validateSession, wrapAsync } from './middleware';
+import { validateSession, wrapAsync } from './middleware';
 import { Config } from '../../data/config';
 import dbService from '../db-service';
 import { AuthError, MalformedError } from '../../data/errors';
 import axios from 'axios';
-import { Session } from '../../data/session';
-import { User } from '../../data/user';
+import { User, userStatusType } from '../../data/user';
 
 export default function createUserApi(logger: Logger, config: Config) {
   const router = Router();
@@ -40,11 +39,13 @@ export default function createUserApi(logger: Logger, config: Config) {
       user.discordName = userInfo.username + '#' + userInfo.discriminator;
       await dbService.users.update(user);
     } else {
-      res.redirect(`/register?avatar=${userInfo.avatar}&name=${userInfo.username}&sid=${sid}`);
+      res.redirect('/register'
+      + `?avatar=${JSON.stringify(userInfo.avatar)}`
+      + `&name=${JSON.stringify(userInfo.username)}`
+      + `&sid=${JSON.stringify(sid)}`);
     }
   }));
   router.post('/register', validateSession(), wrapAsync(async (req, res) => {
-    if(!req.body.avatar) throw new MalformedError('No discord avatar!');
     if(!req.body.name) throw new MalformedError('No discord name!');
     if(!req.body.temUserName) throw new MalformedError('No Temtem username!');
     if(!req.body.temUserID) throw new MalformedError('No Temtem userID!');
@@ -65,6 +66,21 @@ export default function createUserApi(logger: Logger, config: Config) {
     const sessions = (await dbService.sessions.getAllForUser(user.id)).forEach(a => delete a.userID);
     const listings = (await dbService.listings.getForUser(user.id)).forEach(a => delete a.userID);
     res.json(Object.assign({ }, user, { sessions, listings }));
+  }));
+  router.put('/status', validateSession(), wrapAsync(async (req, res) => {
+    if(userStatusType.includes(req.body)) {
+      const user: User = (req as any).user;
+      user.status = req.body;
+      await dbService.users.update(user);
+      res.sendStatus(204);
+    } else
+      res.sendStatus(400);
+  }));
+  router.post('/heartbeat', validateSession(), wrapAsync(async (req, res) => {
+    const user: User = (req as any).user;
+    user.heartbeat = Date.now();
+    await dbService.users.update(user);
+    res.sendStatus(204);
   }));
 
   return router;

@@ -8,22 +8,7 @@ export interface Stats {
   spdef: number;
 }
 
-export interface SerializedTemtem {
-  id: number;
-
-  name: string;
-
-  type: string[];
-  stats: Stats;
-  traits: string[];
-  bred_techniques: string[];
-
-  evolution: number[];
-
-  max_score: number;
-}
-
-export class Temtem {
+export interface Temtem {
   id: number;
 
   name: string;

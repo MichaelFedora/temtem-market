@@ -3,6 +3,7 @@
   "port": 6969,
 
   "sessionExpTime": 604800000,
+  "heartbeatTimeout": 120000,
 
   "db_host": "127.0.0.1",
   "db_port": 1207,

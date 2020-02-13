@@ -1,6 +1,9 @@
 import { Stats } from './data/temtem';
+import { Listing } from './data/listing';
 
-export const stat_keys: Array<keyof Stats> = [ 'hp', 'sta', 'spd', 'atk', 'def', 'spatk', 'spdef' ];
+export const listing_types: readonly (Listing['type'])[] = Object.freeze(['sell']);
+
+export const stat_keys: readonly (keyof Stats)[] = Object.freeze([ 'hp', 'sta', 'spd', 'atk', 'def', 'spatk', 'spdef' ]);
 export const stat_50: Stats = {
   hp: 50,
   sta: 50,
