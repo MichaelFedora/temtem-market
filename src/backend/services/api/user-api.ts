@@ -10,7 +10,7 @@ import { User, userStatusType } from '../../data/user';
 export default function createUserApi(logger: Logger, config: Config) {
   const router = Router();
 
-  router.post('/login', (req, res) => {
+  router.get('/login', (req, res) => {
     res.redirect('https://discordapp.com/api/oauth2/authorize'
     + `?client_id=${config.clientID}&scope=identify`
     + `&response_type=code&scope=identify&redirect_uri=${config.redirectUri}`);
@@ -44,6 +44,8 @@ export default function createUserApi(logger: Logger, config: Config) {
       + `&name=${JSON.stringify(userInfo.username)}`
       + `&sid=${JSON.stringify(sid)}`);
     }
+
+    res.redirect(`/?sid=${JSON.stringify(sid)}`);
   }));
   router.post('/register', validateSession(), wrapAsync(async (req, res) => {
     if(!req.body.name) throw new MalformedError('No discord name!');
@@ -56,6 +58,9 @@ export default function createUserApi(logger: Logger, config: Config) {
   router.post('/logout', validateSession(), wrapAsync(async (req, res) => {
     await dbService.sessions.delete(req.query.sid);
     res.sendStatus(204);
+  }));
+  router.get('/', validateSession(), wrapAsync(async (req, res) => {
+    res.json((req as any).user);
   }));
   router.delete('/', validateSession(), wrapAsync(async (req, res) => {
     await dbService.users.delete((req as any).user.id);

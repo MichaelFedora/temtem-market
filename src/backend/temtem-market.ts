@@ -5,7 +5,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as helmet from 'helmet';
 import { getLogger, shutdown } from 'log4js';
-import * as bodyParser from 'body-parser';
+import { json, text } from 'body-parser';
 import * as fs from 'fs-extra';
 
 import db from './services/db-service';
@@ -34,7 +34,8 @@ db.init(config).then(async () => {
   const app = express();
   app.set('trust proxy', 1);
 
-  app.use(bodyParser);
+  app.use(json());
+  app.use(text());
 
   app.use(cors({ origin: '*', methods: 'GET,POST,PUT,DELETE' }));
   app.use(helmet());

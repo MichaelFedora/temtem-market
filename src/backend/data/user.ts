@@ -1,3 +1,4 @@
+
 export interface SerializedUser {
   id?: string;
 
@@ -13,7 +14,7 @@ export interface SerializedUser {
 
 export const userStatusType = ['online', 'in_game', 'invisible'];
 
-export class User {
+export class User implements SerializedUser{
   id: string;
 
   discordAvatar: string;

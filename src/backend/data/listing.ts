@@ -12,6 +12,7 @@ export interface SerializedListing {
 
   luma: boolean;
   level: number;
+  sex: 'm' | 'f';
   svs: Stats;
   tvs: Stats;
   trait: string;
@@ -24,20 +25,20 @@ export interface SerializedListing {
 }
 
 export interface PartialListing {
-  userID: string;
   type: 'sell';
 
   temID: string;
 
   luma: boolean;
   level: number;
+  sex: 'm' | 'f';
   svs: Stats;
   tvs: Stats;
   trait: string;
   bred_techniques: string[];
 }
 
-export class Listing implements SerializedListing {
+export class Listing implements SerializedListing, PartialListing {
   id: string;
   userID: string;
   status?: 'online' | 'in_game' | 'offline';
@@ -53,6 +54,7 @@ export class Listing implements SerializedListing {
   luma: boolean;
   level: number;
   svs: Stats;
+  sex: 'm' | 'f';
   tvs: Stats;
   trait: string;
   bred_techniques: string[];
@@ -84,6 +86,7 @@ export class Listing implements SerializedListing {
     this.luma = Boolean(listing.luma || false);
 
     this.level = Number(listing.level || 0);
+    this.sex = String(listing.sex || '') as any;
     this.svs = Object.assign({ hp: 0, sta: 0, spd: 0, atk: 0, def: 0, spatk: 0, spdef: 0 }, listing.svs);
     this.tvs = Object.assign({ hp: 0, sta: 0, spd: 0, atk: 0, def: 0, spatk: 0, spdef: 0 }, listing.tvs);
     this.trait = String(listing.trait || '');

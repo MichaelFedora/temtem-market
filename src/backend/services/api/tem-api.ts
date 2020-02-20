@@ -12,7 +12,7 @@ import { listing_types } from '../../util';
 export default function createTemApi(logger: Logger) {
   const router = Router();
 
-  router.get('', wrapAsync(async (req, res) => {
+  router.get('/', wrapAsync(async (req, res) => {
     res.json(await dbService.temdata.getAll());
   }));
 

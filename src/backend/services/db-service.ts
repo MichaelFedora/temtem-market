@@ -1,6 +1,6 @@
 import { r, MasterPool, RTable, RDatabase, JoinResult, RStream } from 'rethinkdb-ts';
 import { User, SerializedUser, userStatusType } from '../data/user';
-import { NotFoundError } from '../data/errors';
+import { NotFoundError, NotAllowedError } from '../data/errors';
 import { getLogger, Logger } from 'log4js';
 import { Session } from '../data/session';
 import { Config } from '../data/config';
@@ -43,7 +43,7 @@ class DatabaseService implements IDBService {
     this.config = config;
     this.pool = await r.connectPool({ host: config.db_host, port: config.db_port });
 
-    r.dbList().contains(this.dbName).not().run().then(async result => {
+    await r.dbList().contains(this.dbName).run().then(async result => {
       if(!result)
         await r.dbCreate(this.dbName).run().then(a => this.logger.info(`Created db "${this.dbName}!`));
     });
@@ -307,6 +307,11 @@ class DatabaseService implements IDBService {
     }
 
     public async add(userID: string, listing: PartialListing) {
+      const count = await this.table.getAll(userID, { index: 'userID' }).count().run();
+
+      if(count >= 100)
+        throw new NotAllowedError('Cannot have more than 100 listings!');
+
       const actual = await this.makeListing(userID, listing);
       const result = await this.table.insert(actual.serialize(true)).run();
       actual.id = result.generated_keys[0];
