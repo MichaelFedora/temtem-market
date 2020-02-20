@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "outDir": "build",
+    "outDir": "build/backend",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -19,7 +19,6 @@
   },
   "include": [
     "src/backend/**/*.ts",
-    "src/common/util/**/*.ts",
   ],
   "exclude": [
     "node_modules"
