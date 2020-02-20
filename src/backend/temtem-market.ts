@@ -79,7 +79,7 @@ db.init(config).then(async () => {
     console.log(err.stack);
   process.exit(1);
 }).catch(err => {
-  console.error('Hestia.js caught an error!');
+  console.error('Temtem-Market.js caught an error!');
   console.error(err);
   shutdown((e) => {
     if(e) {

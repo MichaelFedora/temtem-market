@@ -22,10 +22,6 @@ export default function createTemApi(logger: Logger) {
     res.json(await dbService.temdata.search(req.query.q, limit, start));
   }));
 
-
-  router.get('/listings/:id', wrapAsync(async (req, res) => {
-    res.json(await dbService.listings.get(req.params.id));
-  }));
   router.get('/listings/tem/:temID', wrapAsync(async (req, res) => {
     const opts: { start?: number; limit?: number; type?: any } = { };
     if(req.query.start)
@@ -41,6 +37,9 @@ export default function createTemApi(logger: Logger) {
   }));
   router.get('/listings/recent', wrapAsync(async (req, res) => {
     res.json(await dbService.listings.getRecent());
+  }));
+  router.get('/listings/:id', wrapAsync(async (req, res) => {
+    res.json(await dbService.listings.get(req.params.id));
   }));
 
 

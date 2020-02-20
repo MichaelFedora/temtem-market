@@ -7,6 +7,7 @@ import { Config } from '../data/config';
 import { SerializedListing, PartialListing, Listing } from '../data/listing';
 import { Temtem, Stats } from '../data/temtem';
 import { readJSONSync } from 'fs-extra';
+import * as path from 'path';
 import { calcScore, stat_50, stat_0 } from '../util';
 
 interface IDBService {
@@ -53,8 +54,10 @@ class DatabaseService implements IDBService {
         await this.db.tableCreate(tableName).run().then(a => this.logger.info(`Created table "${tableName}"!`));
     });
 
-    this.users.init();
-    this.sessions.init();
+    await this.users.init();
+    await this.sessions.init();
+    await this.temdata.init();
+    await this.listings.init();
   }
 
   private _users = new class Users {
@@ -185,16 +188,18 @@ class DatabaseService implements IDBService {
         bred_techniques: string[];
         evolution: number[];
         score?: number;
-      }[] = readJSONSync('temdata.json');
+      }[] = readJSONSync(path.join(process.cwd(), 'temdata.json'));
 
       for(const entry of data) {
         entry.score = calcScore(entry.stats, stat_50, stat_0);
         await this.table.insert(data, { conflict: 'replace' }).run();
       }
+
+      this.logger.info('Added temdata: ' + data.length + ' entries.');
     }
 
     public async getAll() {
-      return this.table.run();
+      return this.table.orderBy('id').run();
     }
 
     public async search(text: string, limit = 20, start = 0) {
@@ -329,6 +334,9 @@ class DatabaseService implements IDBService {
 
     public async get(listingID: string) {
       const l = await this.table.get(listingID).run();
+      if(!l)
+        return null;
+
       const u = await this.parent.usersTbl.get(l.userID).run();
       const status: 'online' | 'in_game' | 'offline' =
         u.status === 'invisible' || (u.heartbeat < (Date.now() - this.parent.heartbeatTimeout)) ?
