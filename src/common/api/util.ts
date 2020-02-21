@@ -59,3 +59,7 @@ export function getTemIcon(temID: number, luma = false) {
   s_temID = '000'.slice(s_temID.length) + s_temID;
   return `M${s_temID}_${luma ? 'Luma' : ''}Sprite.png`;
 }
+
+export function getDiscordAvatar(userID: string, hash: string) {
+  return `https://cdn.discordapp.com/avatars/${userID}/${hash}.png`;
+}
