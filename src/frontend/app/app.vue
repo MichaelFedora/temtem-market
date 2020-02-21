@@ -36,47 +36,30 @@
       </div>
 
       <div class='navbar-end'>
-        <a v-if='loggedIn' class='navbar-item is-hidden-desktop profile-container' style='border-bottom: 2px solid rgba(0,0,0,0.1)'>
-          <figure v-if='avatar'><img :src='avatar'></figure>
-          <div v-else>
-            <span>{{ (name || '?')[0] }}</span>
-          </div>
-          <div>
-            <span>{{ name }}</span>
-            <span title='Tamer ID'>{{ temUserID }}</span>
-          </div>
+        <a v-if='!loggedIn' class='navbar-item has-icon' :href='discordLoginURL'>
+          <b-icon icon='discord' />
+          <span>&nbsp;Login</span>
         </a>
         <template v-else>
-          <span class='navbar-item has-icon is-hidden-desktop'>
-            <b-icon icon='login-variant' />
-            <span>&nbsp;Login via:</span>
-          </span>
-          <a class='navbar-item has-icon is-hidden-desktop' style='padding-left: 2rem' :href='discordLoginURL'>
-            <b-icon icon='discord' />
-            <span>&nbsp;Discord</span>
-          </a>
-        </template>
-
-        <b-dropdown id='settings-dropdown' class='is-hidden-touch' position='is-bottom-left'>
-          <a slot='trigger' class='navbar-item nav-avatar is-hidden-touch' title='Profile'>
-            <figure v-if='avatar' class='avatar'><img :src='avatar'></figure>
-            <div v-else-if='loggedIn' class='avatar'>
+          <a class='navbar-item is-hidden-desktop profile-container' style='border-bottom: 2px solid rgba(0,0,0,0.1)'>
+            <figure v-if='avatar'><img :src='avatar'></figure>
+            <div v-else>
               <span>{{ (name || '?')[0] }}</span>
             </div>
-            <template>
-              <span>Login&nbsp;</span>
-              <b-icon icon='login-variant' />
-            </template>
+            <div>
+              <span>{{ name }}</span>
+              <span title='Tamer ID'>{{ temUserID }}</span>
+            </div>
           </a>
 
-          <template v-if='!loggedIn'>
-            <b-dropdown-item has-link>
-              <a :href='discordLoginURL' style='display: flex; align-items: center;'>
-                <b-icon icon='discord' /><span>&nbsp;Discord</span>
-              </a>
-            </b-dropdown-item>
-          </template>
-          <template v-else>
+          <b-dropdown id='settings-dropdown' class='is-hidden-touch' position='is-bottom-left'>
+            <a slot='trigger' class='navbar-item nav-avatar is-hidden-touch' title='Profile'>
+              <figure v-if='avatar' class='avatar'><img :src='avatar'></figure>
+              <div class='avatar'>
+                <span>{{ (name || '?')[0] }}</span>
+              </div>
+            </a>
+
             <b-dropdown-item class='profile-container'>
               <figure v-if='avatar'><img :src='avatar'></figure>
               <div v-else>
@@ -110,10 +93,8 @@
             </b-dropdown-item>
             <b-dropdown-item @click='settings()'><b-icon icon='cog' />Settings</b-dropdown-item>
             <b-dropdown-item @click='logout()'><b-icon icon='logout-variant' />Logout</b-dropdown-item>
-          </template>
-        </b-dropdown>
+          </b-dropdown>
 
-        <template v-if='loggedIn'>
           <a class='navbar-item flex-item is-hidden-desktop' @click='settings()'>
             <b-icon icon='settings' />
             <span style='font-weight:600'>&nbsp;Settings</span>

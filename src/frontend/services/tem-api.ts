@@ -40,7 +40,7 @@ class TemApi {
   }
 
   public get discordLoginURL() {
-    return `${this.userOrigin}/login/discord`;
+    return `${this.userOrigin}/login`;
   }
 
   public async register(name: string, avatar: string, temUserName: string, temUserID: string) {

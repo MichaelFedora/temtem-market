@@ -10,7 +10,7 @@ import { User, userStatusType } from '../../data/user';
 export default function createUserApi(logger: Logger, config: Config) {
   const router = Router();
 
-  router.get('/login/discord', (req, res) => {
+  router.get('/login', (req, res) => {
     res.redirect('https://discordapp.com/api/oauth2/authorize'
     + `?client_id=${config.clientID}&scope=identify`
     + `&response_type=code&redirect_uri=${config.redirectUri}`);
@@ -58,8 +58,7 @@ export default function createUserApi(logger: Logger, config: Config) {
       await dbService.users.update(user);
     } else {
       res.redirect('/register'
-      + `?id=${userInfo.id}&via=discord&sid=${sid}`
-      + `&name=${userInfo.username}#${userInfo.discriminator}`
+      + `?sid=${sid}&name=${userInfo.username}#${userInfo.discriminator}`
       + `&avatar=https://cdn.discordapp.com/avatars/${userInfo.id}/${userInfo.avatar}`);
       return;
     }
