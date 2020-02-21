@@ -42,7 +42,8 @@ export class Listing implements SerializedListing, PartialListing {
   id: string;
   userID: string;
   status?: 'online' | 'in_game' | 'offline';
-  user?: string; // name
+  user?: string; // user name
+  avatar?: string; // user avatar
   type: 'sell';// | 'buy' | 'auction'
 
   price: number; // currentBidder
@@ -74,8 +75,9 @@ export class Listing implements SerializedListing, PartialListing {
     if(!['sell'].includes(listing.type))
       throw new Error('Invalid listing type: "' + listing.type + '"!');
 
-    this.status = String(listing.status) as any || undefined;
-    this.user = String(listing.user) || undefined;
+    this.status = String(listing.status || '') as any || undefined;
+    this.user = String(listing.user || '') || undefined;
+    this.avatar = String(listing.avatar || '') || undefined;
 
     this.price = Number(listing.price || -1);
     this.created = Number(listing.created || 0);
@@ -108,12 +110,14 @@ export class Listing implements SerializedListing, PartialListing {
       delete (l as any).status;
     if(this.user)
       delete (l as any).user;
+    if(this.avatar)
+      delete (l as any).avatar;
     if(noId)
       delete l.id;
     return l;
   }
 
-  public static deserialize(obj: SerializedListing & { user: string; status: string }): Listing {
+  public static deserialize(obj: SerializedListing & { user: string; avatar: string; status: string }): Listing {
     return new Listing(obj);
   }
 }

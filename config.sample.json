@@ -9,7 +9,7 @@
   "db_port": 1207,
   "db": "temtem_market_test",
 
-  "clientID": 1234,
+  "clientID": "1234",
   "clientSecret": "secret",
   "redirectUri": "http://localhost:6969/api/user/discord_auth"
 }

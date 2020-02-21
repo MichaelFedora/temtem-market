@@ -4,55 +4,76 @@ import { validateSession, wrapAsync } from './middleware';
 import { Config } from '../../data/config';
 import dbService from '../db-service';
 import { AuthError, MalformedError } from '../../data/errors';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { User, userStatusType } from '../../data/user';
 
 export default function createUserApi(logger: Logger, config: Config) {
   const router = Router();
 
-  router.get('/login', (req, res) => {
+  router.get('/login/discord', (req, res) => {
     res.redirect('https://discordapp.com/api/oauth2/authorize'
     + `?client_id=${config.clientID}&scope=identify`
-    + `&response_type=code&scope=identify&redirect_uri=${config.redirectUri}`);
+    + `&response_type=code&redirect_uri=${config.redirectUri}`);
   });
   router.get('/discord_auth', wrapAsync(async (req, res) => {
     if(!req.query.code) throw new AuthError('No code given!');
     const creds = Buffer.from(`${config.clientID}:${config.clientSecret}`).toString('base64');
-    const authInfoRes = await axios.post('https://discordapp.com/api/oauth2/token'
-    + `?grant_type=authorization_code&code=${req.query.code}`
-    + `&redirect_uri=${config.redirectUri}&scope=identify`, null, { headers: { Authorization: `Basic ${creds}` } });
+    let authInfoRes: any;
+    try {
+      authInfoRes = await axios.post('https://discordapp.com/api/oauth2/token'
+        + `?grant_type=authorization_code&code=${req.query.code}`
+        + `&redirect_uri=${config.redirectUri}&scope=identify`, null, { headers: { Authorization: `Basic ${creds}` } });
+    } catch(e) {
+      console.error('Error posting auth code for token: ', e.message || e);
+      res.sendStatus(500);
+      return;
+    }
 
     const token = authInfoRes.data.access_token;
     // const refreshToken = authInfoRes.data.refresh_token;
 
-    const userInfoRes = await axios.get('https://discordapp.com/api/users/@me', { headers: 'Bearer ' + token });
+    let userInfoRes: any;
+    try {
+      userInfoRes = await axios.get('https://discordapp.com/api/users/@me', { headers: { Authorization: 'Bearer ' + token } });
+    } catch(e) {
+      console.error('Error getting @me: ', e.message || e);
+      res.sendStatus(500);
+      return;
+    }
     const userInfo: { id: string; username: string; discriminator: string; avatar: string } = userInfoRes.data;
 
     // go ahead and revoke it when we're done
-    await axios.post('https://discordapp.com/api/oauth2/token/revoke', { headers: 'Bearer ' + token });
+    /* try { // not working *shrug*
+      await axios.post('https://discordapp.com/api/oauth2/token/revoke', { headers: { Authorization: 'Bearer ' + token } });
+    } catch(e) {
+      console.error('Error posting discord token revoke: ', e.message || e);
+    } */
 
     const sid = await dbService.sessions.create(userInfo.id);
 
     const user = await dbService.users.get(userInfo.id);
     if(user) {
-      user.discordAvatar = userInfo.avatar;
+      user.discordAvatar = `https://cdn.discordapp.com/avatars/${userInfo.id}/${userInfo.avatar}`;
       user.discordName = userInfo.username + '#' + userInfo.discriminator;
       await dbService.users.update(user);
     } else {
       res.redirect('/register'
-      + `?avatar=${JSON.stringify(userInfo.avatar)}`
-      + `&name=${JSON.stringify(userInfo.username)}`
-      + `&sid=${JSON.stringify(sid)}`);
+      + `?id=${userInfo.id}&via=discord&sid=${sid}`
+      + `&name=${userInfo.username}#${userInfo.discriminator}`
+      + `&avatar=https://cdn.discordapp.com/avatars/${userInfo.id}/${userInfo.avatar}`);
+      return;
     }
 
-    res.redirect(`/?sid=${JSON.stringify(sid)}`);
+    res.redirect(`/?sid=${sid}`);
   }));
-  router.post('/register', validateSession(), wrapAsync(async (req, res) => {
+  router.post('/register', wrapAsync(async (req, res) => {
     if(!req.body.name) throw new MalformedError('No discord name!');
     if(!req.body.temUserName) throw new MalformedError('No Temtem username!');
     if(!req.body.temUserID) throw new MalformedError('No Temtem userID!');
 
-    await dbService.users.register(req.query.sid, req.body.avatar, req.body.name, req.body.temUserName, req.body.temUserID);
+    const sess = await dbService.sessions.get(req.query.sid);
+
+    await dbService.users.register(sess.userID, req.body.avatar, req.body.name, req.body.temUserName, req.body.temUserID);
     res.sendStatus(204);
   }));
   router.post('/logout', validateSession(), wrapAsync(async (req, res) => {

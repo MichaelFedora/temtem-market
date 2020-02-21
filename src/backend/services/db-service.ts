@@ -106,7 +106,7 @@ class DatabaseService implements IDBService {
 
     public async get(id: string) {
       const user = await this.table.get(id).run();
-      return User.deserialize(user);
+      return user ? User.deserialize(user) : null;
     }
 
     public async getFromTemUserID(temUserID: string) {
@@ -145,6 +145,7 @@ class DatabaseService implements IDBService {
     }
 
     public async create(userID: string) {
+      await this.trimUser(userID); // trim them whenever we create another one
       const res = await this.table.insert({ userID, created: Date.now() } as Session).run();
       return res.generated_keys[0];
     }
@@ -167,6 +168,12 @@ class DatabaseService implements IDBService {
 
     public async trim() {
       return this.table.filter(doc => doc('created').lt(Date.now() - this.parent.sessionExpTime)).delete().run();
+    }
+
+    public async trimUser(userID: string) {
+      return this.table.getAll(userID, { index: 'userID' })
+        .filter(doc => doc('created').lt(Date.now() - this.parent.sessionExpTime))
+        .delete().run();
     }
   }(this, this.logger);
   public get sessions() { return this._sessions; }
@@ -342,7 +349,7 @@ class DatabaseService implements IDBService {
         u.status === 'invisible' || (u.heartbeat < (Date.now() - this.parent.heartbeatTimeout)) ?
           'offline' :
           u.status;
-      return Listing.deserialize(Object.assign(l, { user: u.discordName, status }));
+      return Listing.deserialize(Object.assign(l, { user: u.discordName, avatar: u.discordAvatar, status }));
     }
 
     public async getForUser(userID: string) {
@@ -352,7 +359,7 @@ class DatabaseService implements IDBService {
           'offline' :
           u.status;
       return this.table.getAll(userID, { index: 'userID' }).run()
-        .then(all => all.map(l => Listing.deserialize(Object.assign(l, { user: u.discordName, status }))));
+        .then(all => all.map(l => Listing.deserialize(Object.assign(l, { user: u.discordName, avatar: u.discordAvatar, status }))));
     }
 
     public async getForTem(temID: string, opts?: { limit?: number; start?: number; type?: 'sell' }) {
@@ -366,7 +373,8 @@ class DatabaseService implements IDBService {
         .and(doc('right')('heartbeat').gt(Date.now() - this.parent.heartbeatTimeout)));
 
       let ret = await ingameTems.orderBy('price', 'score', 'created').skip(opts.start).limit(opts.limit).run()
-        .then(all => all.map(l => Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, status: 'in_game' }))));
+        .then(all => all.map(l =>
+          Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'in_game' }))));
       if(ret.length === opts.limit)
         return ret;
 
@@ -375,7 +383,8 @@ class DatabaseService implements IDBService {
         .and(doc('right')('heartbeat').gt(Date.now() - this.parent.heartbeatTimeout)));
       const onlineRet = await onlineTems.orderBy('price', 'score', 'created')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
-        .then(all => all.map(l => Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, status: 'online' }))));
+        .then(all => all.map(l =>
+          Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'online' }))));
       ret = ret.concat(onlineRet);
       if(ret.length === opts.limit)
         return ret;
@@ -385,7 +394,8 @@ class DatabaseService implements IDBService {
         .or(doc('right')('heartbeat').le(Date.now() - this.parent.heartbeatTimeout)));
       const offlineRet = await offlineTems.orderBy('price', 'score', 'created')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
-        .then(all => all.map(l => Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, status: 'offline' }))));
+        .then(all => all.map(l =>
+          Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'offline' }))));
 
       return ret.concat(offlineRet);
     }
@@ -399,10 +409,11 @@ class DatabaseService implements IDBService {
 
       const users = await this.parent.usersTbl.getAll(...uids).pluck('id', 'status', 'heartbeat').run();
 
-      const userInfo: { [key: string]: { user: string; status: 'offline' | 'in_game' | 'online' } } = { };
+      const userInfo: { [key: string]: { user: string; avatar: string; status: 'offline' | 'in_game' | 'online' } } = { };
       for(const u of users) {
         userInfo[u.id] = {
           user: u.discordName,
+          avatar: u.discordAvatar,
           status: u.status === 'invisible' || u.heartbeat <= (Date.now() - this.parent.heartbeatTimeout) ?
             'offline' : u.status as 'in_game' | 'online'
         };

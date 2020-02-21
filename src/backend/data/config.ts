@@ -9,7 +9,7 @@ export interface Config {
   db_port: number;
   db: string;
 
-  clientID: number;
+  clientID: string;
   clientSecret: string;
   redirectUri: string;
 }
