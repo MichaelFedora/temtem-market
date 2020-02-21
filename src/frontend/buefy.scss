@@ -1,24 +1,40 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 
-$primary: rgb(121, 87, 213);
+$primary: hsl(256, 60%, 59%);
 $primary-invert: findColorInvert($primary);
 
-$colors: (
-    "white": ($white, $black),
-    "black": ($black, $white),
-    "light": ($light, $light-invert),
-    "dark": ($dark, $dark-invert),
-    "primary": ($primary, $primary-invert),
-    "info": ($info, $info-invert),
-    "success": ($success, $success-invert),
-    "warning": ($warning, $warning-invert),
-    "danger": ($danger, $danger-invert),
-);
-
 $link: $primary;
-$link-invert: $primary-invert;
-$link-focus-border: $primary;
+$link-visited: hsl(256, 42%, 42%);
+$link-hover-border: $primary;
+
+$link-hover: $grey-lighter;
+$link-focus: $grey;
+$link-focus: $white-bis;
+$link-active: $white-bis;
+$link-active-border: $grey-light;
+
+$scheme-main: $grey-darker;
+$scheme-main-bis: $grey-dark;
+$scheme-main-ter: $grey;
+
+$scheme-invert: hsl(256, 60%, 59%);
+$scheme-invert-bis: hsl(256, 42%, 42%);
+$scheme-invert-ter: hsl(257, 34%, 38%);
+
+$background: $grey-dark;
+
+$border: $grey-dark;
+$border-hover: $grey;
+
+$border-light: $grey-darker;
+$border-light-hover: $black-ter;
+
+$text: $white-bis;
+$text-light: $grey-light;
+$text-strong: $white;
+
+
 
 // Import Bulma and Buefy styles
 @import "~bulma";
