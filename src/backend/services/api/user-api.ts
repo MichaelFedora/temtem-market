@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, text, json } from 'express';
 import { Logger } from 'log4js';
 import { validateSession, wrapAsync } from './middleware';
 import { Config } from '../../data/config';
@@ -10,7 +10,7 @@ import { User, userStatusType } from '../../data/user';
 export default function createUserApi(logger: Logger, config: Config) {
   const router = Router();
 
-  router.get('/login', (req, res) => {
+  router.get('/login', (_, res) => {
     res.redirect('https://discordapp.com/api/oauth2/authorize'
     + `?client_id=${config.clientID}&scope=identify`
     + `&response_type=code&redirect_uri=${config.redirectUri}`);
@@ -57,15 +57,15 @@ export default function createUserApi(logger: Logger, config: Config) {
       user.discordName = userInfo.username + '#' + userInfo.discriminator;
       await dbService.users.update(user);
     } else {
-      res.redirect('/register'
-      + `?sid=${sid}&name=${userInfo.username}#${userInfo.discriminator}`
-      + `&avatar=https://cdn.discordapp.com/avatars/${userInfo.id}/${userInfo.avatar}`);
+      const encodedName = Buffer.from(`${userInfo.username}#${userInfo.discriminator}`).toString('base64');
+      res.redirect(`/?register=${sid}&name=${encodedName}`
+        + `&avatar=https://cdn.discordapp.com/avatars/${userInfo.id}/${userInfo.avatar}.png`);
       return;
     }
 
     res.redirect(`/?sid=${sid}`);
   }));
-  router.post('/register', wrapAsync(async (req, res) => {
+  router.post('/register', json(), wrapAsync(async (req, res) => {
     if(!req.body.name) throw new MalformedError('No discord name!');
     if(!req.body.temUserName) throw new MalformedError('No Temtem username!');
     if(!req.body.temUserID) throw new MalformedError('No Temtem userID!');
@@ -92,7 +92,8 @@ export default function createUserApi(logger: Logger, config: Config) {
     const listings = (await dbService.listings.getForUser(user.id)).forEach(a => delete a.userID);
     res.json(Object.assign({ }, user, { sessions, listings }));
   }));
-  router.put('/status', validateSession(), wrapAsync(async (req, res) => {
+  router.put('/status', text(), validateSession(), wrapAsync(async (req, res) => {
+    logger.info('put status: ', req.body);
     if(userStatusType.includes(req.body)) {
       const user: User = (req as any).user;
       user.status = req.body;

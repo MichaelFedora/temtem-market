@@ -20,7 +20,7 @@ class Api {
 
     this.router.use('/api/user', createUserApi(this.logger, config), handleError('user'));
     this.router.use('/api/tem', createTemApi(this.logger), handleError('tem'));
-    this.router.get('/api', (_, res) => res.json({ 'message': 'hello world!' }));
+    this.router.use('/api', (_, res) => res.json({ 'message': 'hello world!' }));
     this.router.use('/',
       serveStatic(path.join(__dirname, '..', '..', 'frontend')),
       serveStatic(path.join(__dirname, '..', '..', 'common/static-serve')));

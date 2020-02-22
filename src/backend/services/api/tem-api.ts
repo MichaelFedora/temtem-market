@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, json } from 'express';
 import { Logger } from 'log4js';
 import { validateSession, wrapAsync } from './middleware';
 import dbService from '../db-service';
@@ -46,10 +46,10 @@ export default function createTemApi(logger: Logger) {
   router.get('/my/listings', validateSession(), wrapAsync(async (req, res) => {
     res.json(await dbService.listings.getForUser((req as any).user.id));
   }));
-  router.post('/my/listings', validateSession(), wrapAsync(async (req, res) => {
+  router.post('/my/listings', json(), validateSession(), wrapAsync(async (req, res) => {
     res.json(await dbService.listings.add((req as any).user.id, req.body));
   }));
-  router.put('/my/listings/:id', validateSession(), wrapAsync(async (req, res) => {
+  router.put('/my/listings/:id', json(), validateSession(), wrapAsync(async (req, res) => {
     const listing = await dbService.listings.get(req.params.id);
     if(!listing || listing.userID !== (req as any).user.id)
       throw new NotAllowedError('ID is not owned by user!');
