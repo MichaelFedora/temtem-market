@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { Temtem, Listing, PartialListing, User } from '../data/data';
 import { interval } from 'rxjs';
 
-class TemApi {
+class LocalApi {
 
   private _sid: string;
   public get sid() { return this._sid; }
@@ -15,7 +15,7 @@ class TemApi {
     this._sid = v;
   }
 
-  private async heartbeat() {
+  public async heartbeat() {
     if(!this.sid)
       return;
 
@@ -46,7 +46,7 @@ class TemApi {
   public async register(name: string, avatar: string, temUserName: string, temUserID: string) {
     if(!this.sid)
       throw new Error('No SID!');
-    await axios.post(`${this.userOrigin}/user/register`, {
+    await axios.post(`${this.userOrigin}/register`, {
       name,
       avatar,
       temUserName,
@@ -58,7 +58,7 @@ class TemApi {
     if(!this.sid)
       throw new Error('No SID!');
 
-    await axios.post(`${this.userOrigin}/logout`, this.reqConf);
+    await axios.post(`${this.userOrigin}/logout`, null, this.reqConf);
     if(!keepSID)
       this.sid = undefined;
   }
@@ -88,7 +88,12 @@ class TemApi {
     if(!this.sid)
       throw new Error('No SID!');
 
-    await axios.put(`${this.userOrigin}/status`, status, this.reqConf);
+    const reqConf = this.reqConf;
+    if(!reqConf.headers)
+      reqConf.headers = { };
+    reqConf.headers['Content-Type'] = 'text/plain';
+
+    await axios.put(`${this.userOrigin}/status`, status, reqConf);
   }
 
   // #endregion
@@ -170,4 +175,4 @@ class TemApi {
   // #endregion
 };
 
-export default new TemApi();
+export default new LocalApi();

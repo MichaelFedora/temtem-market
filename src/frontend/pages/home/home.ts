@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { getTemIcon } from 'common/api/util';
 import { Temtem, Listing } from 'frontend/data/data';
-import temApi from 'frontend/services/tem-api';
+import localApi from 'frontend/services/local-api';
 import { debounce } from 'lodash';
 import dataBus from 'frontend/services/data-bus';
 
@@ -22,7 +22,7 @@ export default Vue.component('tem-home', {
   },
   async mounted() {
     this.updateSearch = debounce(this._updateSearch, 300);
-    temApi.getRecentListings().then(
+    localApi.getRecentListings().then(
       d => this.recent = d,
       e => console.error('Error getting recent listings: ', e));
 
@@ -32,7 +32,7 @@ export default Vue.component('tem-home', {
   },
   methods: {
     getTemIcon(temID: number, luma?: boolean): string {
-      return '/assets/' + getTemIcon(temID, luma);
+      return '/assets/sprites/' + getTemIcon(temID, luma);
     },
     getStatusIcon(status: 'online' | 'in_game' | 'offline') {
       switch(status) {
@@ -47,7 +47,7 @@ export default Vue.component('tem-home', {
       this.$router.replace({ path: this.$route.path, query: q ? { q } : { } });
       const qs = q.toLocaleLowerCase().split(/\W/).filter(a => a);
       const scores: { [id: string]: number } = { };
-      this.searchResults = dataBus.temDB
+      this.searchResults = dataBus.state.temDB
         .filter(tem => {
           const n = tem.name.toLocaleLowerCase();
           const qpart = qs.find(qp => n.includes(qp));
@@ -55,7 +55,7 @@ export default Vue.component('tem-home', {
           scores[tem.id] = n.indexOf(qpart);
           return true;
         })
-        .sort((a, b) => scores[a.id] - scores[b.id])
+        .sort((a, b) => scores[a.id] === scores[b.id] ? a.name.localeCompare(b.name) : scores[a.id] - scores[b.id])
         .slice(0, 10);
     }
   }

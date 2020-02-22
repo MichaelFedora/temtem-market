@@ -22,7 +22,7 @@
         <div>
           <div>
             <h3>{{ tem.name }}&nbsp;<img v-for='type of tem.types' :key='type' :src='"/" + type + ".png"'></h3>
-            <span>&nbsp;- <b-icon icon='star' />&nbsp;{{ tem.max_score }}</span>
+            <span>&nbsp;- <b-icon icon='star' />&nbsp;{{ tem.score }}</span>
           </div>
           <div>
             <span v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]' :key='stat'>
@@ -32,7 +32,7 @@
                   "stat-red": tem.stats[stat] < 33,
                   "stat-orange": tem.stats[stat] < 66,
                   "stat-green": tem.stats[stat] < 100,
-                  "stat-blue": tem.statis[stat] >= 100
+                  "stat-blue": tem.stats[stat] >= 100
                 }'>&nbsp;{{ tem.stats[stat] }}</span>
               </span>
           </div>

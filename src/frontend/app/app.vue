@@ -2,7 +2,7 @@
 <div id='app'>
   <nav class='navbar' role='navigation' aria-label='main navigation'>
     <div class='navbar-brand'>
-      <router-link class='navbar-item hover-underline-child' to='/'>
+      <router-link class='navbar-item hover-underline-child' to='/' @click.native='updateShowMenu(false)'>
         <img src='assets/images/icon-48.png' alt='ttm'>
         <span class='title is-5' style='position: relative'>Temtem Market</span>
       </router-link>
@@ -12,7 +12,7 @@
         :class='{ "is-active": showMenu }'
         aria-label='menu'
         aria-expanded='false'
-        @click='showMenu = !showMenu'
+        @click='updateShowMenu(!showMenu)'
       >
         <span aria-hidden='true'></span>
         <span aria-hidden='true'></span>
@@ -41,63 +41,72 @@
           <span>&nbsp;Login</span>
         </a>
         <template v-else>
-          <a class='navbar-item is-hidden-desktop profile-container' style='border-bottom: 2px solid rgba(0,0,0,0.1)'>
-            <figure v-if='avatar'><img :src='avatar'></figure>
-            <div v-else>
-              <span>{{ (name || '?')[0] }}</span>
-            </div>
-            <div>
-              <span>{{ name }}</span>
-              <span title='Tamer ID'>{{ temUserID }}</span>
-            </div>
-          </a>
-
-          <b-dropdown id='settings-dropdown' class='is-hidden-touch' position='is-bottom-left'>
+          <b-dropdown id='settings-dropdown' ref='dropdown' class='is-hidden-touch' position='is-bottom-left' @active-change='dropdownChange($event)'>
             <a slot='trigger' class='navbar-item nav-avatar is-hidden-touch' title='Profile'>
               <figure v-if='avatar' class='avatar'><img :src='avatar'></figure>
-              <div class='avatar'>
+              <div v-else class='avatar'>
                 <span>{{ (name || '?')[0] }}</span>
               </div>
             </a>
 
-            <b-dropdown-item class='profile-container'>
+            <b-dropdown-item class='profile-container' @click='gotoProfile()'>
               <figure v-if='avatar'><img :src='avatar'></figure>
               <div v-else>
                 <span>{{ (name || '?')[0] }}</span>
               </div>
               <div>
                 <span>{{ name }}</span>
-                <span title='Tamer ID'>{{ temUserID }}</span>
+                <span title='Tamer Name &amp; ID'>{{ tamerName }} - {{ tamerID }}</span>
               </div>
             </b-dropdown-item>
             <b-dropdown-item
-              class='status-in-game'
+              class='has-icon status-in-game'
               :class='{ active: status === "in_game" }'
               @click='setStatus("in_game")'
             >
               <b-icon icon='gamepad-variant' />&nbsp;In Game
             </b-dropdown-item>
             <b-dropdown-item
-              class='status-online'
+              class='has-icon status-online'
               :class='{ active: status === "online" }'
               @click='setStatus("online")'
             >
               <b-icon icon='web' />&nbsp;Online (Web)
             </b-dropdown-item>
             <b-dropdown-item
-              class='status-invisible'
+              class='has-icon  status-invisible'
               :class='{ active: status === "invisible" }'
               @click='setStatus("invisible")'
             >
               <b-icon icon='eye-off' />&nbsp;Invisible
             </b-dropdown-item>
-            <b-dropdown-item @click='settings()'><b-icon icon='cog' />Settings</b-dropdown-item>
-            <b-dropdown-item @click='logout()'><b-icon icon='logout-variant' />Logout</b-dropdown-item>
+            <b-dropdown-item class='has-icon' @click='logout()'><b-icon icon='logout-variant' />&nbsp;Logout</b-dropdown-item>
           </b-dropdown>
 
-          <a class='navbar-item flex-item is-hidden-desktop' @click='settings()'>
-            <b-icon icon='settings' />
-            <span style='font-weight:600'>&nbsp;Settings</span>
+          <router-link class='navbar-item is-hidden-desktop profile-container' style='border-bottom: 2px solid rgba(0,0,0,0.1)' to='/me' @click.native='updateShowMenu(false)'>
+            <figure v-if='avatar'><img :src='avatar'></figure>
+            <div v-else>
+              <span>{{ (name || '?')[0] }}</span>
+            </div>
+            <div>
+              <span>{{ name }}</span>
+              <span title='Tamer Name &amp; ID'>{{ tamerName }} - {{ tamerID }}</span>
+            </div>
+          </router-link>
+
+          <a class='navbar-item flex-item is-hidden-desktop status-in-game' :class='{ active: status === "in_game" }' @click='setStatus("in_game")'>
+            <b-icon icon='gamepad-variant' />
+            <span style='font-weight:600'>&nbsp;In Game</span>
+          </a>
+
+          <a class='navbar-item flex-item is-hidden-desktop status-online' :class='{ active: status === "online" }' @click='setStatus("online")'>
+            <b-icon icon='web' />
+            <span style='font-weight:600'>&nbsp;Online (Web)</span>
+          </a>
+
+          <a class='navbar-item flex-item is-hidden-desktop status-invisible' :class='{ active: status === "invisible" }' @click='setStatus("invisible")'>
+            <b-icon icon='eye-off' />
+            <span style='font-weight:600'>&nbsp;Invisible</span>
           </a>
 
           <a class='navbar-item flex-item is-hidden-desktop' @click='logout()'>
@@ -159,9 +168,33 @@
     }
 
     a, span {
-      &.navbar-item.has-icon {
+      &.has-icon {
         display: flex;
         align-items: center;
+      }
+    }
+
+    a {
+      &.status-in-game {
+        color:  hsl(171, 100%, 41%) ;
+        &.active {
+          background-color:  hsl(171, 100%, 41%) ;
+          color: white;
+        }
+      }
+      &.status-online {
+        color:  hsl(217, 71%, 53%) ;
+        &.active {
+          background-color:  hsl(217, 71%, 53%) ;
+          color: white;
+        }
+      }
+      &.status-invisible {
+        color:  hsl(348, 86%, 61%) ;
+        &.active {
+          background-color:  hsl(348, 86%, 61%) ;
+          color: white;
+        }
       }
     }
   }
@@ -182,19 +215,13 @@
     }
   }
 
-  span.status {
-    flex-grow: 1;
-    font-weight: 600;
-    height: 1.25rem;
-  }
-
   > a.nav-avatar {
     display: flex;
     align-items: center;
     padding-right: 1rem;
   }
 
-  > figure.avatar {
+  figure.avatar {
     height: 24px;
     width: 24px;
     display: flex;
@@ -207,7 +234,7 @@
     }
   }
 
-  > div.avatar {
+  div.avatar {
     border-radius: 50%;
     height: 24px;
     width: 24px;

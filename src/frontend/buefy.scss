@@ -40,6 +40,10 @@ $text-strong: $white;
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 
+.modal-background {
+  background-color: rgba($black-ter, 0.86);
+}
+
 .tabs li.disabled a {
   cursor: not-allowed;
   color: rgba(74, 74, 74, 0.5);

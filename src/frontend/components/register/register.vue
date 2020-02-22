@@ -6,16 +6,16 @@
 
   <section class='modal-card-body'>
     <div>
-      <img :src='avatarURL'>
+      <img :src='avatar'>
     </div>
     <b-field>
       <b-input placeholder='Discord Name' :value='name' disabled />
     </b-field>
     <b-field>
-      <b-input placeholder='Tamer Name' />
+      <b-input v-model='tamerName' :disabled='working' placeholder='Tamer Name' />
     </b-field>
     <b-field>
-      <b-input placeholder='Tamer ID' />
+      <b-input v-model='tamerID' :disabled='working' placeholder='Tamer ID' />
     </b-field>
   </section>
 
@@ -32,6 +32,10 @@ div#tem-register {
     display: flex;
     flex-flow: column;
     align-items: stretch;
+    > div:first-child {
+      display: flex;
+      justify-content: center;
+    }
     > :not(:first-child) {
       margin-top: 0.5rem;
     }
