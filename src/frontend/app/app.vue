@@ -50,8 +50,8 @@
             </a>
 
             <b-dropdown-item class='profile-container' @click='gotoProfile()'>
-              <figure v-if='avatar'><img :src='avatar'></figure>
-              <div v-else>
+              <figure v-if='avatar' class='avatar'><img :src='avatar'></figure>
+              <div v-else class='avatar'>
                 <span>{{ (name || '?')[0] }}</span>
               </div>
               <div>
@@ -84,8 +84,8 @@
           </b-dropdown>
 
           <router-link class='navbar-item is-hidden-desktop profile-container' style='border-bottom: 2px solid rgba(0,0,0,0.1)' to='/me' @click.native='updateShowMenu(false)'>
-            <figure v-if='avatar'><img :src='avatar'></figure>
-            <div v-else>
+            <figure v-if='avatar' class='avatar'><img :src='avatar'></figure>
+            <div v-else class='avatar'>
               <span>{{ (name || '?')[0] }}</span>
             </div>
             <div>
