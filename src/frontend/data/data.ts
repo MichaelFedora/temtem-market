@@ -29,6 +29,7 @@ export interface Listing extends PartialListing {
   userID: string;
   status: 'online' | 'in_game' | 'offline';
   user: string; // name
+  avatar: string; // user avatar
 
   price: number; // currentBidder
   created: number;

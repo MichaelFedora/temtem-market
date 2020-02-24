@@ -41,7 +41,13 @@
           <span>&nbsp;Login</span>
         </a>
         <template v-else>
-          <b-dropdown id='settings-dropdown' ref='dropdown' class='is-hidden-touch' position='is-bottom-left' @active-change='dropdownChange($event)'>
+          <b-dropdown
+            id='settings-dropdown'
+            ref='dropdown'
+            class='is-hidden-touch'
+            position='is-bottom-left'
+            @active-change='dropdownChange($event)'
+          >
             <a slot='trigger' class='navbar-item nav-avatar is-hidden-touch' title='Profile'>
               <figure v-if='avatar' class='avatar'><img :src='avatar'></figure>
               <div v-else class='avatar'>
@@ -83,7 +89,12 @@
             <b-dropdown-item class='has-icon' @click='logout()'><b-icon icon='logout-variant' />&nbsp;Logout</b-dropdown-item>
           </b-dropdown>
 
-          <router-link class='navbar-item is-hidden-desktop profile-container' style='border-bottom: 2px solid rgba(0,0,0,0.1)' to='/me' @click.native='updateShowMenu(false)'>
+          <router-link
+            class='navbar-item is-hidden-desktop profile-container'
+            style='border-bottom: 2px solid rgba(0,0,0,0.1)'
+            to='/me'
+            @click.native='updateShowMenu(false)'
+          >
             <figure v-if='avatar' class='avatar'><img :src='avatar'></figure>
             <div v-else class='avatar'>
               <span>{{ (name || '?')[0] }}</span>
@@ -94,17 +105,29 @@
             </div>
           </router-link>
 
-          <a class='navbar-item flex-item is-hidden-desktop status-in-game' :class='{ active: status === "in_game" }' @click='setStatus("in_game")'>
+          <a
+            class='navbar-item flex-item is-hidden-desktop status-in-game'
+            :class='{ active: status === "in_game" }'
+            @click='setStatus("in_game")'
+          >
             <b-icon icon='gamepad-variant' />
             <span style='font-weight:600'>&nbsp;In Game</span>
           </a>
 
-          <a class='navbar-item flex-item is-hidden-desktop status-online' :class='{ active: status === "online" }' @click='setStatus("online")'>
+          <a
+            class='navbar-item flex-item is-hidden-desktop status-online'
+            :class='{ active: status === "online" }'
+            @click='setStatus("online")'
+          >
             <b-icon icon='web' />
             <span style='font-weight:600'>&nbsp;Online (Web)</span>
           </a>
 
-          <a class='navbar-item flex-item is-hidden-desktop status-invisible' :class='{ active: status === "invisible" }' @click='setStatus("invisible")'>
+          <a
+            class='navbar-item flex-item is-hidden-desktop status-invisible'
+            :class='{ active: status === "invisible" }'
+            @click='setStatus("invisible")'
+          >
             <b-icon icon='eye-off' />
             <span style='font-weight:600'>&nbsp;Invisible</span>
           </a>
@@ -219,35 +242,6 @@
     display: flex;
     align-items: center;
     padding-right: 1rem;
-  }
-
-  figure.avatar {
-    height: 24px;
-    width: 24px;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    border-radius: 50%;
-    overflow: hidden;
-    > img {
-      align-self: center;
-    }
-  }
-
-  div.avatar {
-    border-radius: 50%;
-    height: 24px;
-    width: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-    line-height: 1;
-    color: white;
-    background-color: #75fdfd;
-    font-size: 12px;
   }
 
   .profile-container {

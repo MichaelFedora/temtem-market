@@ -16,67 +16,29 @@
   </div>
   <transition>
     <div v-if='search' id='search-body'>
+      <h1 class='title is-4'>
+        <a class='button is-dark' @click='search = ""'>
+          <b-icon icon='arrow-left' />
+        </a>
+        <span>Search</span>
+      </h1>
       <!-- search results --->
-      <router-link v-for='tem of searchResults' :key='tem.id' :to='"/tem/" + tem.id'>
-        <div><img :src='getTemIcon(tem.id)' /></div>
-        <div>
-          <div>
-            <h3>{{ tem.name }}&nbsp;<img v-for='type of tem.types' :key='type' :src='"/" + type + ".png"'></h3>
-            <span>&nbsp;- <b-icon icon='star' />&nbsp;{{ tem.score }}</span>
-          </div>
-          <div>
-            <span v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]' :key='stat'>
-              <span>{{ stat.toUpperCase() }}:</span>
-              <span
-                :class='{
-                  "stat-red": tem.stats[stat] < 33,
-                  "stat-orange": tem.stats[stat] < 66,
-                  "stat-green": tem.stats[stat] < 100,
-                  "stat-blue": tem.stats[stat] >= 100
-                }'>&nbsp;{{ tem.stats[stat] }}</span>
-              </span>
-          </div>
-        </div>
-      </router-link>
+      <div>
+        <tem-card v-for='tem of searchResults' :key='tem.id' :tem='tem' />
+      </div>
     </div>
     <div v-else id='home-body'>
-      <h1>Recent Listings</h1>
-      <ul>
-        <div v-for='list of recent' :key='list.id'>
-          <div><img :src='getTemIcon(list.temID, list.luma)'></div>
-          <div>
-            <h3>{{ list.name }}</h3>
-            <span v-for='badge of list.badges' :key='badge'>{{ badge }}</span>
-          </div>
-          <div>
-            <span>
-              <span><img src='/assets/pansun.png'></span>
-              <span>&nbsp;{{ list.price }}</span>
-            </span>
-            <span>
-              <b-icon icon='star-circle-outline' />
-              <span>&nbsp;{{ list.score }}</span>
-              <span v-if='list.score_evo'>({{ list.score_evo }})</span>
-            </span>
-            <span
-              :class='{
-                "status-offline": list.status === "offline",
-                "status-online": list.status === "online",
-                "status-in-game": list.status === "in_game"
-              }'
-            >
-              <b-icon :icon='getStatusIcon(list.status)' />
-              <span>&nbsp;{{ list.user }}</span>
-            </span>
-          </div>
-        </div>
-      </ul>
+      <h1 class='title is-4'>Recent Listings</h1>
+      <div>
+        <tem-listing-card v-for='list of recent' :key='list.id' :listing='list' />
+      </div>
     </div>
   </transition>
 </div>
 </template>
 <script src='./home.ts'></script>
 <style lang='scss'>
+
 div#tem-home {
   > div#splash {
     position: relative;
@@ -99,10 +61,31 @@ div#tem-home {
     }
   }
   > div#search-body {
+    > h1 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
 
+      > span {
+        margin-left: 1rem;
+      }
+    }
+    > div {
+      display: flex;
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
   > div#home-body {
-
+    > h1 {
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+      margin-left: 1rem;
+    }
+    > div { // list
+      display: flex;
+      flex-wrap: wrap;
+    } // list
   }
 }
 </style>

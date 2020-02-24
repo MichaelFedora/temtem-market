@@ -1,3 +1,4 @@
+import { Listing } from "frontend/data/data";
 
 // from: https://github.com/jfromaniello/url-join/blob/master/lib/url-join.js
 /**
@@ -62,4 +63,51 @@ export function getTemIcon(temID: number, luma = false) {
 
 export function getDiscordAvatar(userID: string, hash: string) {
   return `https://cdn.discordapp.com/avatars/${userID}/${hash}.png`;
+}
+
+
+let it = 1138;
+
+export function makeListing(): Listing {
+  return {
+    id: 'foos-' + it,
+    userID: '' + (123456789 + it),
+    avatar: '',
+    user: 'other user#' + it++,
+    status: ['online', 'in_game', 'offline'][Math.floor(Math.random() * 3)] as any,
+    type: 'sell',
+    created: Date.now() - Math.round(Math.random() * 10000) - 10000,
+
+    price: Math.round(Math.random() * 10000) + 10000,
+
+
+    name: 'Platypet',
+    temID: '7',
+    level: Math.round(Math.random() * 50),
+    sex: Math.round(Math.random()) ? 'm' : 'f',
+    luma: Boolean(Math.round(Math.random())),
+    trait: ['Toxic Affinity', 'Amphibian'][Math.floor(Math.random() * 2)],
+    score: Math.round(Math.random() * 200),
+    score_evo: Math.round(Math.random() * 150) + 100,
+    svs: {
+      hp: Math.round(Math.random() * 50),
+      spd: Math.round(Math.random() * 50),
+      sta: Math.round(Math.random() * 50),
+      atk: Math.round(Math.random() * 50),
+      def: Math.round(Math.random() * 50),
+      spatk: Math.round(Math.random() * 50),
+      spdef: Math.round(Math.random() * 50),
+    },
+    tvs: {
+      hp: Math.round(Math.random() * 500),
+      spd: Math.round(Math.random() * 50),
+      sta: Math.round(Math.random() * 50),
+      atk: Math.round(Math.random() * 200),
+      def: Math.round(Math.random() * 50),
+      spatk: Math.round(Math.random() * 50),
+      spdef: Math.round(Math.random() * 50)
+    },
+    bred_techniques: [],
+    badges: [['clean'], ['prime', 'perfected']][Math.floor(Math.random() * 2)],
+  };
 }

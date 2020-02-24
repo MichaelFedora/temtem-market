@@ -1,11 +1,27 @@
 import Vue from 'vue';
-import { getTemIcon } from 'common/api/util';
+import { getTemIcon, makeListing } from 'common/api/util';
 import { Temtem, Listing } from 'frontend/data/data';
 import localApi from 'frontend/services/local-api';
 import { debounce } from 'lodash';
 import dataBus from 'frontend/services/data-bus';
+import ListingCard from 'frontend/components/listing-card/listing-card';
+import TemCard from 'frontend/components/tem-card/tem-card';
+
+const sampleListings: Listing[] = [
+  makeListing(),
+  makeListing(),
+  makeListing(),
+  makeListing(),
+  makeListing(),
+  makeListing(),
+  makeListing(),
+  makeListing(),
+  makeListing(),
+  makeListing()
+];
 
 export default Vue.component('tem-home', {
+  components: { ListingCard, TemCard },
   data() {
     return {
       show: 'home' as 'home' | 'search',
@@ -23,7 +39,7 @@ export default Vue.component('tem-home', {
   async mounted() {
     this.updateSearch = debounce(this._updateSearch, 300);
     localApi.getRecentListings().then(
-      d => this.recent = d,
+      d => this.recent = d.concat(sampleListings),
       e => console.error('Error getting recent listings: ', e));
 
     this.search = String(this.$route.query.q || '') || '';
@@ -33,14 +49,6 @@ export default Vue.component('tem-home', {
   methods: {
     getTemIcon(temID: number, luma?: boolean): string {
       return '/assets/sprites/' + getTemIcon(temID, luma);
-    },
-    getStatusIcon(status: 'online' | 'in_game' | 'offline') {
-      switch(status) {
-        case 'online': return 'web';
-        case 'in_game': return 'gamepad-variant';
-        case 'offline': return 'sleep';
-        default: return 'help';
-      }
     },
     updateSearch(q: string) { },
     _updateSearch(q: string) {

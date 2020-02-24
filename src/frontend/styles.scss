@@ -61,3 +61,32 @@ button.fab {
     right: 1rem;
   }
 }
+
+figure.avatar {
+  height: 24px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  > img {
+    align-self: center;
+  }
+}
+
+div.avatar {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+  line-height: 1;
+  color: white;
+  background-color: hsl(256, 60%, 59%);
+  font-size: 12px;
+}
