@@ -3,7 +3,7 @@
   <nav class='navbar' role='navigation' aria-label='main navigation'>
     <div class='navbar-brand'>
       <router-link class='navbar-item hover-underline-child' to='/' @click.native='updateShowMenu(false)'>
-        <img src='assets/images/icon-48.png' alt='ttm'>
+        <img src='assets/images/logo-32.png' alt='ttm'>
         <span class='title is-5' style='position: relative'>Temtem Market</span>
       </router-link>
       <a
@@ -227,9 +227,10 @@
     align-items: center;
 
     > img {
-      height: 1.5em;
-      width: 1.5em;
+      height: 32px;
+      width: 32px;
       margin-right: 0.5em;
+      max-height: 32px;
     }
     > h4 {
       line-height: 1;
