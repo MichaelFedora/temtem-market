@@ -57,14 +57,22 @@ export default Vue.component('tem-home', {
       const scores: { [id: string]: number } = { };
       this.searchResults = dataBus.state.temDB
         .filter(tem => {
-          const n = tem.name.toLocaleLowerCase();
-          const qpart = qs.find(qp => n.includes(qp));
-          if(!qpart) return false;
-          scores[tem.id] = n.indexOf(qpart);
-          return true;
+          const strs = tem.type.map(a => a.toLocaleLowerCase());
+          strs.unshift(tem.name.toLocaleLowerCase());
+
+          for(const qp of qs) {
+            for(let i = 0, s = strs[i]; i < strs.length; i++, s = strs[i]) {
+              const loc = s.indexOf(qp);
+              if(loc >= 0) {
+                scores[tem.id] = i * 100 + loc;
+                return true;
+              }
+            }
+          }
+          return false;
         })
-        .sort((a, b) => scores[a.id] === scores[b.id] ? a.name.localeCompare(b.name) : scores[a.id] - scores[b.id])
-        .slice(0, 10);
+        .sort((a, b) => scores[a.id] === scores[b.id] ? a.name.localeCompare(b.name) : scores[a.id] - scores[b.id]);
+      // .slice(0, 10);
     }
   }
 });
