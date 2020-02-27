@@ -127,13 +127,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4"
-     inkscape:cx="142.70957"
-     inkscape:cy="135.38362"
+     inkscape:cx="141.70957"
+     inkscape:cy="125.13362"
      inkscape:document-units="px"
      inkscape:current-layer="g5214"
      showgrid="false"
      units="px"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      inkscape:measure-start="56,104"
      inkscape:measure-end="200,104"
@@ -160,6 +160,20 @@
        type="xygrid"
        id="grid4533"
        empspacing="8" />
+    <sodipodi:guide
+       position="48,48"
+       orientation="1,0"
+       id="guide5289"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,0,255)" />
+    <sodipodi:guide
+       position="208,208"
+       orientation="1,0"
+       id="guide5291"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(0,0,255)" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
