@@ -25,6 +25,7 @@
       <!-- search results --->
       <div>
         <tem-card v-for='tem of searchResults' :key='tem.id' :tem='tem' />
+        <span v-if='searchResults.length <= 0' style='width: 100%; text-align: center'>Nothing found!</span>
       </div>
     </div>
     <div v-else id='home-body'>
