@@ -124,6 +124,8 @@ class LocalApi {
   }
 
   public async getListingsForTem(id: string, options?: { start?: number; limit?: number; type?: 'sell' }) {
+    options = Object.assign({ }, options);
+
     const reqConf: AxiosRequestConfig = { params: { id: id } };
 
     if(options.limit)
@@ -133,11 +135,11 @@ class LocalApi {
     if(options.type)
       reqConf.params.type = options.type;
 
-    return axios.get<Listing[]>(`${this.temOrigin}/tem/${id}`).then(r => r.data);
+    return axios.get<Listing[]>(`${this.temOrigin}/listings/tem/${id}`).then(r => r.data);
   }
 
   public async getListingsForUser(id: string) {
-    return axios.get<Listing[]>(`${this.temOrigin}/user/${id}`).then(r => r.data);
+    return axios.get<Listing[]>(`${this.temOrigin}/listings/user/${id}`).then(r => r.data);
   }
 
   public async getRecentListings() {
