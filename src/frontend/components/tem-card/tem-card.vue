@@ -109,7 +109,7 @@ a.tem-tem-card {
         background-color: hsl(0, 0%, 14%);
         padding: 0.15rem 0.3rem;
         border-radius: 3px;
-        width: 2em;
+        width: 2.5em;
         text-align: center;
 
         &.stat-red { color: hsl(348, 86%, 61%); }

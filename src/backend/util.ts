@@ -25,11 +25,11 @@ export const stat_0: Stats = {
 };
 
 export function calcScore(base: Stats, svs: Stats, tvs: Stats) {
-  return Math.round(
+  return Math.max(Math.round(
     Math.sqrt(
       stat_keys.map(
         k => (Math.pow(svs[k] / 50, 2) + tvs[k] / 500) * Math.pow(base[k], 2))
         .reduce((acc, v) => acc + v, 0)
     )
-  );
+  ) - 100, 0);
 }
