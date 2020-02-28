@@ -21,7 +21,7 @@
           </template>
         </div>
         <div>
-          <h3 class='title is-5'>Max Score: <b-icon icon='star-circle-outline' />&nbsp;{{ tem.score }}</h3>
+          <h3 class='title is-5'>50SV Score: <b-icon icon='star-circle-outline' />&nbsp;{{ tem.score }}</h3>
           <div>
             <span v-for='trait of tem.traits' :key='trait' title='Trait'>
               <b-icon icon='star-face' />&nbsp;{{ trait }}
@@ -36,9 +36,9 @@
       </div>
     </div>
     <!-- evolvution -->
-    <router-link v-if='evoTem' :to='"/tem/" + evoTem.id'>
+    <div v-if='evoTem'>
       <b-icon icon='chevron-double-right' size='is-large' />
-      <div>
+      <router-link :to='"/tem/" + evoTem.id'>
         <figure><img :alt='evoTem.name' :src='evoTemIcon'></figure>
         <div>
           <h1 class='title is-5'>{{ evoTem.name }}</h1>
@@ -53,8 +53,8 @@
             <span :key='stat + "-num"' :class='[getStatClass(evoTem.stats[stat])]'>{{ evoTem.stats[stat] }}</span>
           </template>
         </div>
-      </div>
-    </router-link>
+      </router-link>
+    </div>
   </div>
   <div id='body'>
     <h1 class='title is-4'>Listings</h1>
@@ -75,12 +75,13 @@ div#tem-tem {
     background-color: hsl(0, 0%, 14%);
     padding: 0.5rem;
     box-shadow: inset 0 1px 5px rgba(0,0,0,0.33);
+    justify-content: center;
 
     // image
     > figure:first-child {
       // image
-      height: 256px;
-      width: 256px;
+      height: 192px;
+      width: 192px;
       margin-top: 1rem;
       margin-left: 1rem;
       border: 0.7rem solid hsl(0, 0%, 29%);
@@ -94,8 +95,6 @@ div#tem-tem {
 
       display: flex;
       flex-flow: column;
-
-      margin-left: 1rem;
 
       > div:first-child { // name, types
         display: flex;
@@ -186,17 +185,20 @@ div#tem-tem {
       }
     }
 
-    > a:nth-child(3) {
+    > div:nth-child(3) {
       margin-left: 1rem;
       display: flex;
       align-items: center;
-      color: inherit;
 
-      > div:nth-child(2) {
+      > a:nth-child(2) {
         display: flex;
         align-items: center;
         flex-flow: column;
         margin-left: 1rem;
+        color: inherit;
+        &:hover > div:nth-child(2) > h1 {
+          text-decoration: underline;
+        }
 
         > figure {
           // image
@@ -214,6 +216,7 @@ div#tem-tem {
 
           > h1 {
             margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
           }
 
           figure {
@@ -229,6 +232,7 @@ div#tem-tem {
         > div:last-child {
           display: grid;
           grid-template-columns: auto auto auto;
+          font-size: 0.75em;
           gap: 0.25em;
           align-items: center;
 
