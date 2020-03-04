@@ -151,6 +151,9 @@ div#tem-tem {
             display: block;
             height: 4px;
             background-color: currentColor;
+            &.stat-blue {
+              background-color: hsl(204, 71%, 53%);;
+            }
           }
           > span:nth-child(3n + 3) {
             padding: 0.15rem 0.3rem;
@@ -256,6 +259,9 @@ div#tem-tem {
             display: block;
             height: 4px;
             background-color: currentColor;
+            &.stat-blue {
+              background-color: hsl(204, 71%, 53%);
+            }
           }
           > span:nth-child(3n + 3) {
             padding: 0.15rem 0.3rem;
