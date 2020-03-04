@@ -13,7 +13,7 @@ export interface Stats {
 export interface PartialListing {
   type: 'sell'; // | 'buy' | 'auction'
 
-  temID: string;
+  temID: number;
 
   luma: boolean;
   level: number;
@@ -22,6 +22,7 @@ export interface PartialListing {
   tvs: Stats;
   trait: string;
   bred_techniques: string[];
+  price: number; // currentBidder ??
 }
 
 export interface Listing extends PartialListing {
@@ -31,7 +32,6 @@ export interface Listing extends PartialListing {
   user: string; // name
   avatar: string; // user avatar
 
-  price: number; // currentBidder
   created: number;
 
   name: string; // tem name

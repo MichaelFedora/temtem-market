@@ -31,7 +31,7 @@
     <div v-else id='home-body'>
       <h1 class='title is-4'>Recent Listings</h1>
       <div>
-        <tem-listing-card v-for='list of recent' :key='list.id' :listing='list' />
+        <tem-listing-card v-for='list of recent' :key='list.id' :listing='list' @click='click(list)' />
       </div>
     </div>
   </transition>

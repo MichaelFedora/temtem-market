@@ -30,7 +30,7 @@ export default function createTemApi(logger: Logger) {
       opts.limit = Math.max(0, Math.min(100, Number(req.query.limit) || 100));
     if(req.query.type && listing_types.includes(req.query.type))
       opts.type = req.query.type;
-    res.json(await dbService.listings.getForTem(req.params.temID, opts));
+    res.json(await dbService.listings.getForTem(Number(req.params.temID), opts));
   }));
   router.get('/listings/user/:id', wrapAsync(async (req, res) => {
     res.json(await dbService.listings.getForUser(req.params.id));

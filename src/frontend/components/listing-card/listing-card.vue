@@ -50,7 +50,7 @@
         <img :src='listing.avatar'>
       </figure>
       <div v-else class='avatar'>
-        <span>{{ (listing.user || '/')[0] }}</span>
+        <span>{{ (listing.user || '?')[0] }}</span>
       </div>
       <span>&nbsp;{{ listing.user }}</span>
     </div>

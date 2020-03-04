@@ -272,12 +272,6 @@
     }
   }
 
-  .small-icon-text {
-    line-height: 1;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-  }
-
   .flex-item {
     display: flex;
     align-items: center;

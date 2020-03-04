@@ -1,0 +1,157 @@
+<template>
+<table id='tem-listing-table'>
+  <thead>
+    <th></th> <!-- user avatar -->
+    <th></th> <!-- user -->
+    <th></th> <!-- luma -->
+    <th></th> <!-- gender -->
+    <th></th> <!-- level -->
+    <th></th> <!-- trait -->
+    <th></th> <!-- score -->
+    <th v-if='hasEvo'></th> <!-- evo score -->
+    <th class='is-hidden-touch'></th> <!-- sv -->
+    <th class='is-hidden-touch'></th> <!-- sv -->
+    <th class='is-hidden-touch'></th> <!-- sv -->
+    <th class='is-hidden-touch'></th> <!-- sv -->
+    <th class='is-hidden-touch'></th> <!-- sv -->
+    <th class='is-hidden-touch'></th> <!-- sv -->
+    <th class='is-hidden-touch'></th> <!-- sv -->
+    <th></th> <!-- status -->
+  </thead>
+  <tbody>
+    <tr
+      v-for='listing of listings'
+      :key='listing.id'
+      @click='$emit("click", listing)'
+      :class='{
+        "status-online": listing.status === "online",
+        "status-in-game": listing.status === "in_game",
+        "status-offline": listing.status === "offline",
+        "hover": hover === listing.id,
+      }'
+      @mouseenter='hover = listing.id'
+      @mouseleave='hover = hover === listing.id ? "" : hover'
+    >
+      <td>
+        <figure v-if='listing.avatar' class='avatar'>
+          <img :src='listing.avatar'>
+        </figure>
+        <div v-else class='avatar'>
+          <span>{{ (listing.user || '?')[0] }}</span>
+        </div>
+      </td>
+      <td>{{ listing.user }}</td>
+      <td>
+        <figure v-if='listing.luma'><img src='/assets/luma.png'></figure>
+      </td>
+      <td>
+        <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
+      </td>
+      <td><span style='font-size: 0.7rem; font-weight: bold;'>Lv</span><span>{{ listing.level }}</span></td>
+      <td>
+        <div style='display: flex;'><b-icon icon='star-face' />&nbsp;{{ listing.trait }}</div>
+      </td>
+      <td><div style='display: flex;'><b-icon icon='star-circle-outline' />&nbsp;{{ listing.score }}</div></td>
+      <td v-if='hasEvo'>({{ listing.score_evo }})</td>
+      <td
+        v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]'
+        :key='stat'
+        :class='{
+          "stat-red": listing.svs[stat] < 20,
+          "stat-orange": listing.svs[stat] >= 20 && listing.svs[stat] < 35,
+          "stat-green": listing.svs[stat] >= 35 && listing.svs[stat] < 50,
+          "stat-blue": listing.svs[stat] >= 50
+        }'
+        class='is-hidden-touch stat'
+        :title='stat'><span>{{ listing.svs[stat] }}</span>
+      </td>
+      <td>
+        <div style='display: flex;'>
+          <figure><img src='/assets/pansun.png'></figure>
+          <span>{{ listing.price.toLocaleString() }}</span>
+        </div>
+      </td>
+      <td :title='listing.status'>
+        <b-icon :icon='getStatusIcon(listing.status)' />
+      </td>
+    </tr>
+  </tbody>
+</table>
+</template>
+<script src='./listing-table.ts'></script>
+<style lang='scss'>
+@import '~colors.scss';
+
+table#tem-listing-table {
+
+  border-radius: 3px;
+  overflow: hidden;
+
+  > tbody > tr {
+    position: relative;
+    transition: box-shadow, background-color, top, 0.15s;
+    box-shadow: 0 0 0 rgba(0,0,0,0.33);
+    background-color: $grey-dark;
+    top: 0;
+
+    user-select: none;
+    cursor: pointer;
+
+    figure {
+      height: 1.5em;
+      width: 1.5em;
+      overflow: hidden;
+    }
+
+    > td {
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+      padding: 0.5em;
+
+      &.stat {
+
+        padding: 0.25em;
+        vertical-align: middle;
+
+        &.stat-red > span { color: hsl(348, 86%, 61%); }
+        &.stat-orange > span { color: hsl(24, 80%, 61%); }
+        &.stat-green > span { color: hsl(141, 53%, 53%); }
+        &.stat-blue > span { background-color: hsl(204, 71%, 53%); color: #47ff47; }
+
+        > span {
+          display: block;
+          background-color: hsl(0, 0%, 14%);
+          padding: 0.15rem 0.3rem;
+          border-radius: 3px;
+          width: 2.25em;
+          text-align: center;
+        }
+      }
+    }
+
+    &.hover {
+      box-shadow: 0 3px 8px rgba(0,0,0,0.33);
+      background-color: $grey;
+      top: -2px;
+      z-index: 1;
+    }
+
+    &.status-online {
+      > td:last-child {
+        color: $blue;
+      }
+    }
+    &.status-in-game {
+      > td:last-child {
+        color: $turquoise;
+      }
+    }
+    &.status-offline {
+      > td:last-child {
+        color: $red;
+      }
+    }
+  }
+}
+</style>

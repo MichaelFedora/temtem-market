@@ -1,16 +1,22 @@
 import Vue from 'vue';
-import { getTemIcon } from 'common/api/util';
+import { getTemIcon, makeListing } from 'common/api/util';
 import dataBus from 'frontend/services/data-bus';
-import { Temtem } from 'frontend/data/data';
+import { Temtem, Listing } from 'frontend/data/data';
 import localApi from 'frontend/services/local-api';
+import ListingTableComponent from 'frontend/components/listing-table/listing-table';
+import ListingModalComponent from 'frontend/components/listing-modal/listing-modal';
 
 export default Vue.component('tem-tem', {
+  components: { ListingTableComponent },
   data() {
     return {
       listings: [],
+      more: false,
+      state: dataBus.state,
     }
   },
   computed: {
+    loggedIn(): boolean { return Boolean(localApi.sid && this.state.user.id); },
     tem(): Temtem {
       return dataBus.state.temDB
         .find(a => a.id === Number(this.$route.params.id));
@@ -31,12 +37,33 @@ export default Vue.component('tem-tem', {
       return this.evoTem ? this.getTemIcon(this.evoTem.id) : '';
     }
   },
+  watch: {
+    tem(n) {
+      if(n)
+        this.init();
+      else {
+        this.listings = [];
+        this.more = false;
+      }
+    }
+  },
   mounted() {
-    localApi.getListingsForTem(this.$route.params.id)
-      .then(v => this.listings = v,
-        e => console.error('Error getting listings for tem: ', e.message || e));
+    this.init();
   },
   methods: {
+    async init() {
+      console.log('Inited tem page for tem: ' + this.tem.name);
+      let listings: Listing[] = [];
+      try {
+        listings = await localApi.getListingsForTem(this.$route.params.id, { limit: 10 })
+      } catch(e) {
+        console.error('Error getting listings for tem: ', e.message || e);
+      }
+
+      this.more === listings.length >= 10;
+      listings.push(makeListing(), makeListing(), makeListing());
+      this.listings = listings;
+    },
     getTemIcon(temID: number, luma?: boolean): string {
       return '/assets/sprites/' + getTemIcon(temID, luma);
     },
@@ -45,6 +72,44 @@ export default Vue.component('tem-tem', {
       if(stat < 66) return 'stat-orange';
       if(stat < 100) return 'stat-green';
       return 'stat-blue';
+    },
+    click(listing: Listing) {
+      console.log('Clicked listing: ' + listing.id + ' from user ' + listing.user);
+      const m = this.$buefy.modal.open({
+        hasModalCard: true,
+        props: { listing },
+        component: ListingModalComponent,
+        parent: this,
+        trapFocus: true,
+        canCancel: ['x', 'escape'],
+        events: {
+          cancel: () => { m.close(); }
+        }
+      });
+    },
+    fetchMore() {
+      localApi.getListingsForTem(this.$route.params.id, { start: this.listings.length, limit: 10 })
+      .then(v => {
+        if(v.length < 10)
+          this.more = false;
+
+        this.listings.push(...v);
+      },
+        e => console.error('Error getting listings for tem: ', e.message || e));
+    },
+    addListing() {
+      if(!this.tem) return;
+      const m = this.$buefy.modal.open({
+        hasModalCard: true,
+        props: { temID: this.tem.id },
+        component: ListingModalComponent,
+        parent: this,
+        trapFocus: true,
+        canCancel: ['x', 'escape'],
+        events: {
+          cancel: () => { m.close(); }
+        }
+      });
     }
   }
 });

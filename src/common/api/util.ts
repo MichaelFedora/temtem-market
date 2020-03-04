@@ -68,6 +68,50 @@ export function getDiscordAvatar(userID: string, hash: string) {
 
 let it = 1138;
 
+export function makeMySampleListing(): Listing {
+  return {
+    id: 'bars-' + it,
+    userID: '125676857545719808',
+    avatar: 'https://cdn.discordapp.com/avatars/125676857545719808/fd08aa464797f33875948b851cef8d38',
+    user: 'Michael Fedora#3269',
+    status: 'online',
+    type: 'sell',
+    created: Date.now(),
+
+    price: Math.round(Math.random() * 10000) + 10000,
+
+
+    name: 'Anahir',
+    temID: 161,
+    level: Math.round(Math.random() * 50),
+    sex: Math.round(Math.random()) ? 'm' : 'f',
+    luma: Boolean(Math.round(Math.random())),
+    trait: ['Trauma', 'Flawed Crystal'][Math.floor(Math.random() * 2)],
+    score: Math.round(Math.random() * 75),
+    score_evo: 0,
+    svs: {
+      hp: Math.round(Math.random() * 50),
+      spd: Math.round(Math.random() * 50),
+      sta: Math.round(Math.random() * 50),
+      atk: Math.round(Math.random() * 50),
+      def: Math.round(Math.random() * 50),
+      spatk: Math.round(Math.random() * 50),
+      spdef: Math.round(Math.random() * 50),
+    },
+    tvs: {
+      hp: Math.round(Math.random() * 50),
+      spd: Math.round(Math.random() * 50),
+      sta: Math.round(Math.random() * 50),
+      atk: Math.round(Math.random() * 50),
+      def: Math.round(Math.random() * 200),
+      spatk: Math.round(Math.random() * 50),
+      spdef: Math.round(Math.random() * 500)
+    },
+    bred_techniques: [],
+    badges: [['clean'], ['prime', 'perfected']][Math.floor(Math.random() * 2)],
+  }
+}
+
 export function makeListing(): Listing {
   return {
     id: 'foos-' + it,
@@ -82,13 +126,13 @@ export function makeListing(): Listing {
 
 
     name: 'Platypet',
-    temID: '7',
+    temID: 7,
     level: Math.round(Math.random() * 50),
     sex: Math.round(Math.random()) ? 'm' : 'f',
     luma: Boolean(Math.round(Math.random())),
     trait: ['Toxic Affinity', 'Amphibian'][Math.floor(Math.random() * 2)],
-    score: Math.round(Math.random() * 200),
-    score_evo: Math.round(Math.random() * 150) + 100,
+    score: Math.round(Math.random() * 50),
+    score_evo: Math.round(Math.random() * 50) + 50,
     svs: {
       hp: Math.round(Math.random() * 50),
       spd: Math.round(Math.random() * 50),

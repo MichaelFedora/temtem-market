@@ -1,0 +1,338 @@
+<template>
+<div id='tem-listing-modal' class='modal-card' style='width: auto'>
+  <header class='modal-card-head'>
+    <p class='modal-card-title'>{{ title }}</p>
+  </header>
+
+  <!-- form -->
+  <section v-if='editing' class='modal-card-body form'>
+    <div>
+      <!-- icon, type, trait -->
+      <div>
+        <figure><img :src='temIcon'></figure>
+        <div>
+          <div>
+            <h1 class='title is-4'>{{ tem.name }}</h1>
+            <figure v-for='type of tem.type' :key='type' style='height: 2em'>
+              <img :alt='type' :src='"/assets/types/" + type + ".png"'>
+            </figure>
+          </div>
+          <div class='field'>
+            <b-select placeholder='Trait' icon='star-face' v-model='partial.trait'>
+              <option v-for='trait of tem.traits' :key='trait' :value='trait'>{{ trait }}</option>
+            </b-select>
+          </div>
+        </div>
+      </div>
+      <!-- luma, sex, level -->
+      <div>
+        <div class='field'>
+          <b-checkbox v-model='partial.luma'><figure><img src='/assets/luma.png'></figure></b-checkbox>
+        </div>
+        <div class='field'>
+          <b-icon icon='gender-male' />
+          <b-switch style='margin-left: 0.5em' false-value='m' true-value='f' :rounded='true' v-model='partial.sex' />
+          <b-icon icon='gender-female' />
+        </div>
+        <div class='field' style='width: 6em'>
+          <span>Lv</span>
+          <b-input type='number' min='1' v-model.number='partial.level' />
+        </div>
+      </div>
+      <!-- stats -->
+      <div>
+        <!-- svs -->
+        <div>
+          <h3 class='title is-5'>SVs</h3>
+          <div>
+            <template v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]'>
+              <span :key='stat + "-label"'>{{ stat.toUpperCase() }}</span>
+              <b-input
+                :key='stat + "-input"'
+                type='number'
+                min='1'
+                max='50'
+                v-model.number='partial.svs[stat]'
+              />
+            </template>
+          </div>
+        </div>
+        <!-- tvs -->
+        <div>
+          <h3 class='title is-5'>TVs</h3>
+          <div>
+            <template v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]'>
+              <span :key='stat + "-label"'>{{ stat.toUpperCase() }}</span>
+              <b-input
+                :key='stat + "-input"'
+                type='number'
+                min='0'
+                max='500'
+                v-model.number='partial.tvs[stat]'
+              />
+            </template>
+          </div>
+        </div>
+      </div>
+      <!-- bred techniques -->
+      <div v-if='tem.bred_techniques.length'>
+        <h3 class='title is-5'><b-icon icon='egg-easter' />&nbsp;Bred Techniques</h3>
+        <b-checkbox
+          v-for='tech of tem.bred_techniques'
+         :key='tech'
+         v-model='partial.bred_techniques'
+         :native-value='tech'
+        >
+          {{ tech }}
+        </b-checkbox>
+      </div>
+      <!-- price -->
+      <div>
+        <figure><img src='/assets/pansun.png'></figure>
+        <b-input type='number' min='0' v-model.number='partial.price' />
+      </div>
+    </div>
+  </section>
+  <!-- detail -->
+  <section v-else class='modal-card-body detail'>
+    <div>
+      <!-- image, name, types, trait -->
+      <div>
+        <figure><img :src='temIcon'></figure>
+        <div>
+          <div>
+            <h1 class='title is-4'>{{ tem.name }}</h1>
+            <figure v-for='type of tem.type' :key='type' style='height: 2em'>
+              <img :alt='type' :src='"/assets/types/" + type + ".png"'>
+            </figure>
+          </div>
+          <div>
+            <b-select placeholder='Trait' icon='star-face' v-model='partial.trait'>
+              <option v-for='trait of tem.traits' :key='trait' :value='trait'>{{ trait }}</option>
+            </b-select>
+          </div>
+        </div>
+      </div>
+      <div>
+        <figure><img src='/assets/pansun.png'></figure>
+        <span>&nbsp;{{ listing.price.toLocaleString() }}</span>
+      </div>
+      <!-- user row -->
+      <div v-if='!owned'>
+        <figure v-if='listing.avatar' class='avatar'>
+          <img :src='listing.avatar'>
+        </figure>
+        <div v-else class='avatar'>
+          <span>{{ (listing.user || '?')[0] }}</span>
+        </div>
+        <span>&nbsp;{{ listing.user }}</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class='modal-card-foot'>
+    <button class='button' :disabled='working' @click='cancel()'>{{ editing ? "Cancel" : "Close " }}</button>
+    <template v-if='owned'>
+      <button v-if='!editing' class='button is-primary' :class='{ "is-loading": working }' :disabled='working' @click='edit()'>Edit</button>
+      <button v-else class='button is-primary' :class='{ "is-loading": working }' :disabled='!valid || working' @click='save()'>Save</button>
+    </template>
+  </footer>
+</div>
+</template>
+<script src='./listing-modal.ts'></script>
+<style lang='scss'>
+div#tem-listing-modal {
+
+  figure {
+    height: 1.5em;
+    width: 1.5em;
+    overflow: hidden;
+  }
+
+  section.modal-card-body.form {
+    display: flex;
+    justify-content: center;
+
+    > div {
+      display: flex;
+      flex-flow: column;
+      justify-content: stretch;
+
+      > :not(:first-child) {
+        margin-top: 0.5rem;
+      }
+
+      // image, name, types, trait
+      > div:first-child {
+
+        display: flex;
+
+        // image
+        > figure {
+          height: 96px;
+          width: 96px;
+          border: 0.4rem solid hsl(0, 0%, 29%);
+          background-color: rgba(0, 0, 0, 0.33);
+          border-radius: 50%;
+          overflow: hidden;
+          flex-shrink: 0;
+          margin-right: 1em;
+        }
+
+        > div {
+          display: flex;
+          flex-flow: column;
+          overflow: hidden;
+
+          > div:first-child {
+            // name, types
+            display: flex;
+            align-items: flex-start;
+
+            > h1 {
+              margin-right: 0.5rem;
+            }
+
+            > figure {
+              height: 2em;
+              width: auto;
+              overflow: hidden;
+              > img {
+                width: auto;
+                max-height: 100%;
+              }
+            }
+          }
+        }
+      }
+      // luma, sex, level
+      > div:nth-child(2) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > div {
+          display: flex;
+          align-items: center;
+          &:not(:last-child) {
+            margin-right: 1em;
+          }
+          margin-bottom: 0;
+        }
+      }
+      // stats
+      > div:nth-child(3) {
+        display: flex;
+        flex-wrap: wrap;
+
+        > div {
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+          &:not(:last-child) {
+            margin-right: 2rem;
+          }
+
+          > div {
+            display: grid;
+            grid-template-columns: auto auto;
+            align-items: center;
+            grid-gap: 0.25em;
+
+            > h3 {
+              margin-right: 1rem;
+              text-align: center;
+            }
+            > div {
+              max-width: 6em;
+            }
+          }
+        }
+      }
+      // bred techniques
+      > div:nth-child(4):not(:last-child) {
+        display: flex;
+        flex-flow: column;
+        margin-bottom: 1rem;
+        > h3 {
+          margin-bottom: 0.5rem;
+        }
+        > *:not(:first-child) {
+          margin: 0;
+          margin-top: 0.5rem;
+        }
+      }
+      // price
+      > div:last-child{
+        display: flex;
+        align-items: center;
+        padding-bottom: 1rem;
+
+        > figure {
+          height: 2em;
+          width: 2em;
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+
+  section.modal-card-body.detail {
+    display: flex;
+    justify-content: center;
+
+    > div {
+      display: flex;
+      flex-flow: column;
+      justify-content: stretch;
+
+      > :not(:first-child) {
+        margin-top: 0.5rem;
+      }
+
+      // image, name, types, trait
+      > div:first-child {
+
+        display: flex;
+
+        // image
+        > figure {
+          height: 96px;
+          width: 96px;
+          border: 0.4rem solid hsl(0, 0%, 29%);
+          background-color: rgba(0, 0, 0, 0.33);
+          border-radius: 50%;
+          overflow: hidden;
+          flex-shrink: 0;
+          margin-right: 1em;
+        }
+
+        > div {
+          display: flex;
+          flex-flow: column;
+          overflow: hidden;
+
+          > div:first-child {
+            // name, types
+            display: flex;
+            align-items: flex-start;
+
+            > h1 {
+              margin-right: 0.5rem;
+            }
+
+            > figure {
+              height: 2em;
+              width: auto;
+              overflow: hidden;
+              > img {
+                width: auto;
+                max-height: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</style>

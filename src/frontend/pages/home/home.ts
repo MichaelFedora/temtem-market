@@ -1,14 +1,15 @@
 import Vue from 'vue';
-import { getTemIcon, makeListing } from 'common/api/util';
+import { getTemIcon, makeListing, makeMySampleListing } from 'common/api/util';
 import { Temtem, Listing } from 'frontend/data/data';
 import localApi from 'frontend/services/local-api';
 import { debounce } from 'lodash';
 import dataBus from 'frontend/services/data-bus';
 import ListingCard from 'frontend/components/listing-card/listing-card';
 import TemCard from 'frontend/components/tem-card/tem-card';
+import ListingModalComponent from 'frontend/components/listing-modal/listing-modal';
 
 const sampleListings: Listing[] = [
-  makeListing(),
+  makeMySampleListing(),
   makeListing(),
   makeListing(),
   makeListing(),
@@ -49,6 +50,20 @@ export default Vue.component('tem-home', {
   methods: {
     getTemIcon(temID: number, luma?: boolean): string {
       return '/assets/sprites/' + getTemIcon(temID, luma);
+    },
+    click(listing: Listing) {
+      console.log('Clicked listing: ' + listing.id + ' from user ' + listing.user);
+      const m = this.$buefy.modal.open({
+        hasModalCard: true,
+        props: { listing },
+        component: ListingModalComponent,
+        parent: this,
+        trapFocus: true,
+        canCancel: ['x', 'escape'],
+        events: {
+          cancel: () => { m.close(); }
+        }
+      });
     },
     updateSearch(q: string) { },
     _updateSearch(q: string) {

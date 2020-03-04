@@ -57,10 +57,15 @@
     </div>
   </div>
   <div id='body'>
-    <h1 class='title is-4'>Listings</h1>
     <div>
-      <span v-if='listings.length <= 0' style='width: 100%; text-align: center'>Nothing found!</span>
+      <h1 class='title is-4'>Listings</h1>
+      <b-button v-if='loggedIn' type='is-primary' icon-left='plus' @click='addListing()'>Add</b-button>
     </div>
+    <p v-if='listings.length <= 0' style='margin: 0; text-align: center'>Nothing found!</p>
+    <template v-else>
+      <tem-listing-table :listings='listings' @click='click($event)' />
+      <button v-if='more' class='button is-dark' @click='fetchMore()'><b-icon icon='chevron-down' /></button>
+    </template>
   </div>
 </div>
 </template>
@@ -82,8 +87,7 @@ div#tem-tem {
       // image
       height: 192px;
       width: 192px;
-      margin-top: 1rem;
-      margin-left: 1rem;
+      margin: 1rem;
       border: 0.7rem solid hsl(0, 0%, 29%);
       background-color: rgba(0, 0, 0, 0.33);
       border-radius: 50%;
@@ -118,7 +122,6 @@ div#tem-tem {
       // stats etc
       > div:last-child {
         display: flex;
-        margin-left: 1rem;
         flex-wrap: wrap;
         align-items: flex-start;
 
@@ -186,7 +189,6 @@ div#tem-tem {
     }
 
     > div:nth-child(3) {
-      margin-left: 1rem;
       display: flex;
       align-items: center;
 
@@ -267,14 +269,25 @@ div#tem-tem {
   }
 
   > div#body {
-    > h1 {
-      margin-top: 0.5rem;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    margin: 0.5rem 1rem;
+
+    > div:first-child {
+      width: 100%;
+      margin-top: 0;
       margin-bottom: 1rem;
-      margin-left: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    > div {
-      display: flex;
+    > button {
+      width: calc(100% - 1rem);
+      margin-top: 1rem;
     }
   }
 }

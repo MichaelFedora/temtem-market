@@ -269,6 +269,8 @@ class DatabaseService implements IDBService {
 
       listing.bred_techniques = listing.bred_techniques.filter(a => tem.bred_techniques.includes(a));
 
+      listing.price = Math.floor(Math.max(0, listing.price));
+
       // generate score
 
       let score = calcScore(tem.stats, listing.svs, listing.tvs);
@@ -362,7 +364,7 @@ class DatabaseService implements IDBService {
         .then(all => all.map(l => Listing.deserialize(Object.assign(l, { user: u.discordName, avatar: u.discordAvatar, status }))));
     }
 
-    public async getForTem(temID: string, opts?: { limit?: number; start?: number; type?: 'sell' }) {
+    public async getForTem(temID: number, opts?: { limit?: number; start?: number; type?: 'sell' }) {
       opts = Object.assign({ limit: 100, start: 0, type: 'sell' }, opts);
 
       const tems = this.table.getAll(temID, { index: 'temID' }).filter(doc => doc('type').eq(opts.type).and(doc('price').ge(0)));

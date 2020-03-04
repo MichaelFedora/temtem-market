@@ -7,7 +7,7 @@ export interface SerializedListing {
   price: number;
   created: number;
 
-  temID: string;
+  temID: number;
   name: string;
 
   luma: boolean;
@@ -27,7 +27,7 @@ export interface SerializedListing {
 export interface PartialListing {
   type: 'sell';
 
-  temID: string;
+  temID: number;
 
   luma: boolean;
   level: number;
@@ -36,6 +36,7 @@ export interface PartialListing {
   tvs: Stats;
   trait: string;
   bred_techniques: string[];
+  price: number;
 }
 
 export class Listing implements SerializedListing, PartialListing {
@@ -49,7 +50,7 @@ export class Listing implements SerializedListing, PartialListing {
   price: number; // currentBidder
   created: number;
 
-  temID: string;
+  temID: number;
   name: string;
 
   luma: boolean;
@@ -83,7 +84,7 @@ export class Listing implements SerializedListing, PartialListing {
     this.created = Number(listing.created || 0);
     this.type = listing.type;
 
-    this.temID = String(listing.temID || '');
+    this.temID = Number(listing.temID) || 0;
     this.name = String(listing.name || '');
     this.luma = Boolean(listing.luma || false);
 
