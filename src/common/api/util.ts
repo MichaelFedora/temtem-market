@@ -125,8 +125,8 @@ export function makeListing(): Listing {
     price: Math.round(Math.random() * 10000) + 10000,
 
 
-    name: 'Platypet',
-    temID: 7,
+    name: 'Adoroboros',
+    temID: 129,
     level: Math.round(Math.random() * 50),
     sex: Math.round(Math.random()) ? 'm' : 'f',
     luma: Boolean(Math.round(Math.random())),
@@ -151,7 +151,7 @@ export function makeListing(): Listing {
       spatk: Math.round(Math.random() * 50),
       spdef: Math.round(Math.random() * 50)
     },
-    bred_techniques: [],
-    badges: [['clean'], ['prime', 'perfected']][Math.floor(Math.random() * 2)],
+    bred_techniques: ['Tsunami', 'Water Blade'],
+    badges: [['prime'], ['clean', 'perfected']][Math.floor(Math.random() * 2)],
   };
 }

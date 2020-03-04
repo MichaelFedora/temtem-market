@@ -94,10 +94,10 @@
     </div>
   </section>
   <!-- detail -->
-  <section v-else class='modal-card-body detail'>
+  <section v-else-if='listing' class='modal-card-body detail'>
     <div>
-      <!-- image, name, types, trait -->
-      <div>
+      <!-- image, name, types, luma, sex, level, trait -->
+      <div class='header'>
         <figure><img :src='temIcon'></figure>
         <div>
           <div>
@@ -107,27 +107,86 @@
             </figure>
           </div>
           <div>
-            <b-select placeholder='Trait' icon='star-face' v-model='partial.trait'>
-              <option v-for='trait of tem.traits' :key='trait' :value='trait'>{{ trait }}</option>
-            </b-select>
+            <figure v-if='listing.luma'><img src='assets/luma.png'></figure>
+            <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
+            <div>
+              <span style='font-size: 0.7rem; font-weight: bold;'>Lv</span>
+              <span>{{ listing.level }}</span>
+            </div>
+          </div>
+          <div>
+            <b-icon icon='star-face' />
+            <span>{{ listing.trait }}</span>
           </div>
         </div>
       </div>
-      <div>
+      <!-- stats -->
+      <div class='stats'>
+        <!-- svs -->
+        <div>
+          <h3 class='title is-5'>SVs</h3>
+          <div>
+            <template v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]'>
+              <span :key='stat + "-label"'>{{ stat.toUpperCase() }}</span>
+              <span
+                :key='stat + "-value"'
+                :class='{
+                  "stat-red": listing.svs[stat] < 20,
+                  "stat-orange": listing.svs[stat] >= 20 && listing.svs[stat] < 35,
+                  "stat-green": listing.svs[stat] >= 35 && listing.svs[stat] < 50,
+                  "stat-blue": listing.svs[stat] >= 50
+                }'
+              >{{ listing.svs[stat] }}</span>
+            </template>
+          </div>
+        </div>
+        <div>
+          <h3 class='title is-5'>TVs</h3>
+          <div>
+            <template v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]'>
+              <span :key='stat + "-label"'>{{ stat.toUpperCase() }}</span>
+              <span
+                :key='stat + "-value"'
+                :class='{
+                  "stat-red": listing.tvs[stat] < 50,
+                  "stat-orange": listing.tvs[stat] >= 50 && listing.tvs[stat] < 200,
+                  "stat-green": listing.tvs[stat] >= 200 && listing.tvs[stat] < 500,
+                  "stat-blue": listing.tvs[stat] >= 500
+                }'
+              >{{ listing.tvs[stat] }}</span>
+            </template>
+          </div>
+        </div>
+      </div>
+      <!--  bred techniques -->
+      <div v-if='listing.bred_techniques.length' class='bred-techniques'>
+        <h3 class='title is-5'><b-icon icon='egg-easter' />&nbsp;Bred Techniques</h3>
+        <div>
+          <div v-for='tech of listing.bred_techniques' :key='tech'>
+            <b-icon icon='egg-easter' />
+            <span>{{ tech }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- price -->
+      <div class='price'>
         <figure><img src='/assets/pansun.png'></figure>
-        <span>&nbsp;{{ listing.price.toLocaleString() }}</span>
+        <span>{{ listing.price.toLocaleString() }}</span>
       </div>
       <!-- user row -->
-      <div v-if='!owned'>
+      <div v-if='!owned' class='user'>
         <figure v-if='listing.avatar' class='avatar'>
           <img :src='listing.avatar'>
         </figure>
         <div v-else class='avatar'>
           <span>{{ (listing.user || '?')[0] }}</span>
         </div>
-        <span>&nbsp;{{ listing.user }}</span>
+        <span>{{ listing.user }}</span>
       </div>
     </div>
+  </section>
+  <section v-else class='modal-card-body'>
+    <!-- error -->
   </section>
 
   <footer class='modal-card-foot'>
@@ -147,6 +206,10 @@ div#tem-listing-modal {
     height: 1.5em;
     width: 1.5em;
     overflow: hidden;
+  }
+
+  section.modal-card-body {
+    min-width: 24rem;
   }
 
   section.modal-card-body.form {
@@ -318,6 +381,7 @@ div#tem-listing-modal {
 
             > h1 {
               margin-right: 0.5rem;
+              margin-bottom: 0.5rem;
             }
 
             > figure {
@@ -330,7 +394,86 @@ div#tem-listing-modal {
               }
             }
           }
+          > div:nth-child(2) {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            > :not(:last-child) {
+              margin-right: 1rem;
+            }
+            > div {
+              display: flex;
+              align-items: baseline;
+            }
+          }
+          > div:last-child {
+            display: flex;
+            > span:last-child {
+              margin-left: 0.5rem;
+            }
+          }
         }
+      }
+
+      > div.stats {
+        display: flex;
+        flex-flow: column;
+        > div {
+          > h3 {
+            margin-bottom: 1rem;
+            margin-top: 0;
+          }
+          > div {
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-gap: 0.25em;
+
+            > span:nth-child(2n + 2) {
+
+              &.stat-red { color: hsl(348, 86%, 61%); }
+              &.stat-orange { color: hsl(24, 80%, 61%); }
+              &.stat-green { color: hsl(141, 53%, 53%); }
+              &.stat-blue { background-color: hsl(204, 71%, 53%); color: #47ff47; }
+
+              display: block;
+              background-color: hsl(0, 0%, 14%);
+              padding: 0.15rem 0.3rem;
+              border-radius: 3px;
+              width: 2.25em;
+              text-align: center;
+            }
+          }
+        }
+      }
+      > div.bred-techniques {
+        > div {
+          display: flex;
+          flex-wrap: wrap;
+          > :not(:last-child) {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+      > div.price {
+        display: flex;
+        align-items: center;
+
+        > figure {
+          height: 2em;
+          width: 2em;
+          margin-right: 0.5rem;
+        }
+      }
+      > div.user {
+        display: flex;
+        > :first-child {
+          margin-right: 0.5rem;
+        }
+      }
+      > div:last-child {
+        padding-bottom: 1rem;
       }
     }
   }
