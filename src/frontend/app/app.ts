@@ -70,7 +70,9 @@ export default Vue.extend({
         localApi.sid = '';
         dataBus.setUser(null);
       } catch(e) {
-        console.error('Error logging out: ', e);
+        const message = 'Error logging out: ' + e.message || String(e);
+        this.$buefy.notification.open({ type: 'is-danger', hasIcon: true, message });
+        console.error(message);
       }
 
       this.updateShowMenu(false);
@@ -84,7 +86,9 @@ export default Vue.extend({
         await localApi.changeStatus(status);
         this.state.user.status = status;
       } catch(e) {
-        console.error('Erorr setting status: ', e);
+        const message = 'Error setting status: ' + e.message || String(e);
+        this.$buefy.notification.open({ type: 'is-danger', hasIcon: true, message });
+        console.error(message);
       }
 
       this.updateShowMenu(false);
@@ -109,8 +113,9 @@ export default Vue.extend({
         await localApi.register(this.registerName, this.registerAvatar,tamerName, tamerID);
       } catch(e) {
         localApi.sid = '';
-        alert('Error registering: ' + String(e.message || e));
-        console.error('Error registering: ', e.message || e);
+        const message = 'Error registering: ' + e.message || String(e);
+        this.$buefy.dialog.alert({ type: 'is-danger', hasIcon: true, message });
+        console.error(message);
       }
 
       await this.$router.replace(this.$route.path).catch(e => { });

@@ -190,11 +190,17 @@
   </section>
 
   <footer class='modal-card-foot'>
-    <button class='button' :disabled='working' @click='cancel()'>{{ editing ? "Cancel" : "Close " }}</button>
-    <template v-if='owned'>
-      <button v-if='!editing' class='button is-primary' :class='{ "is-loading": working }' :disabled='working' @click='edit()'>Edit</button>
-      <button v-else class='button is-primary' :class='{ "is-loading": working }' :disabled='!valid || working' @click='save()'>Save</button>
-    </template>
+    <div v-show='error && editing'>{{ error }}</div>
+    <div>
+      <button class='button' :disabled='working' @click='cancel()'>{{ editing ? "Cancel" : "Close " }}</button>
+      <template v-if='owned'>
+        <template v-if='!editing'>
+          <button class='button is-primary' :class='{ "is-loading": working }' :disabled='working' @click='edit()'>Edit</button>
+          <button class='button is-danger' :class='{ "is-loading": working }' :disabled='working' @click='del()'>Delete</button>
+        </template>
+        <button v-else class='button is-primary' :class='{ "is-loading": working }' :disabled='!valid || working' @click='save()'>Save</button>
+      </template>
+    </div>
   </footer>
 </div>
 </template>
@@ -353,7 +359,7 @@ div#tem-listing-modal {
       }
 
       // image, name, types, trait
-      > div:first-child {
+      > div.header {
 
         display: flex;
 
@@ -417,17 +423,21 @@ div#tem-listing-modal {
 
       > div.stats {
         display: flex;
-        flex-flow: column;
+        flex-wrap: wrap;
+        margin-top: 0;
+
         > div {
+          margin: 1em;
           > h3 {
             margin-bottom: 1rem;
             margin-top: 0;
           }
           > div {
-            margin-bottom: 1rem;
             display: grid;
             grid-template-columns: auto auto;
             grid-gap: 0.25em;
+            align-items: center;
+            justify-items: center;
 
             > span:nth-child(2n + 2) {
 
@@ -475,6 +485,22 @@ div#tem-listing-modal {
       > div:last-child {
         padding-bottom: 1rem;
       }
+    }
+  }
+
+  > footer {
+    display: flex;
+    flex-flow: column;
+    justify-content: unset;
+    align-items: flex-end;
+
+    > div:first-child {
+      color: hsl(348, 86%, 61%);
+      margin-bottom: 0.5em;
+    }
+    > div:last-child {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { getTemIcon, makeListing } from 'common/api/util';
+import { getTemIcon } from 'common/api/util';
 import dataBus from 'frontend/services/data-bus';
 import { Temtem, Listing } from 'frontend/data/data';
 import localApi from 'frontend/services/local-api';
@@ -40,7 +40,7 @@ export default Vue.component('tem-tem', {
   watch: {
     tem(n) {
       if(n)
-        this.init();
+        this.refresh();
       else {
         this.listings = [];
         this.more = false;
@@ -48,20 +48,20 @@ export default Vue.component('tem-tem', {
     }
   },
   mounted() {
-    this.init();
+    this.refresh();
   },
   methods: {
-    async init() {
-      console.log('Inited tem page for tem: ' + this.tem.name);
+    async refresh() {
       let listings: Listing[] = [];
       try {
         listings = await localApi.getListingsForTem(this.$route.params.id, { limit: 10 })
       } catch(e) {
-        console.error('Error getting listings for tem: ', e.message || e);
+        const message = 'Error getting listings: ' + e.message || String(e);
+        this.$buefy.notification.open({ type: 'is-danger', hasIcon: true, message });
+        console.error(message);
       }
 
       this.more === listings.length >= 10;
-      listings.push(makeListing(), makeListing(), makeListing());
       this.listings = listings;
     },
     getTemIcon(temID: number, luma?: boolean): string {
@@ -83,7 +83,7 @@ export default Vue.component('tem-tem', {
         trapFocus: true,
         canCancel: ['x', 'escape'],
         events: {
-          cancel: () => { m.close(); }
+          cancel: () => { m.close(); this.refresh(); }
         }
       });
     },
@@ -107,7 +107,7 @@ export default Vue.component('tem-tem', {
         trapFocus: true,
         canCancel: ['x', 'escape'],
         events: {
-          cancel: () => { m.close(); }
+          cancel: () => { m.close(); this.refresh(); }
         }
       });
     }

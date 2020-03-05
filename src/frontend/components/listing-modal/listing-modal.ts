@@ -3,6 +3,7 @@ import { PropValidator } from 'vue/types/options';
 import { Listing, PartialListing, Temtem } from 'frontend/data/data';
 import dataBus from 'frontend/services/data-bus';
 import { getTemIcon } from 'common/api/util';
+import localApi from 'frontend/services/local-api';
 
 const NULL_PARTIAL_LISTING = Object.freeze({
   temID: 0,
@@ -55,12 +56,12 @@ export default Vue.component('tem-listing-modal', {
     },
     error(): string {
       if(!this.partial.trait) return 'No trait!';
-      if(this.partial.level <= 0) return 'Level is <= 0!';
+      if(!this.partial.level || this.partial.level <= 0) return 'Level is less than 1!';
       if(!this.partial.type) return 'No listing type!';
-      if(Object.values(this.partial.svs).find(a => !a || a <= 0 || a > 50)) return 'Some SVs are missing or out of bounds!'
-      if(Object.values(this.partial.tvs).find(a => !a || a < 0 || a > 500)) return 'Some TVs are out of bounds!';
-      if(Object.values(this.partial.tvs).reduce((acc, c) => acc + c, 0) > 1000) return 'TVs sum to over 1000!';
-      if(this.partial.price <= 0) return 'Price is <= 0!';
+      if(Object.values(this.partial.svs).findIndex(a => a == undefined || a === '' || a < 1 || a > 50) >= 0) return 'Some SVs are missing or out of bounds!'
+      if(Object.values(this.partial.tvs).findIndex(a => a == undefined || a === '' || a < 0 || a > 500) >= 0) return 'Some TVs are missing or out of bounds!';
+      if(Object.values(this.partial.tvs).reduce((acc, c) => acc + (Number(c) || 0), 0) > 1000) return 'Sum of all TVs is over 1,000!';
+      if(!this.partial.price || this.partial.price <= 0) return 'Price is less than 1!';
     },
     valid(): boolean {
       if(this.error)
@@ -75,6 +76,8 @@ export default Vue.component('tem-listing-modal', {
   mounted() {
     if(!this.listing)
       this.editing = true;
+
+    this.partial.temID = this.tem.id;
   },
   methods: {
     getTemIcon(temID: number, luma?: boolean): string {
@@ -94,18 +97,58 @@ export default Vue.component('tem-listing-modal', {
         price: listing.price
       } as PartialListing)
     },
+    async del() {
+      if(!this.listing || !this.owned) return;
+      if(this.working) return;
+      this.working = true;
+
+      try {
+        const choice = await new Promise(res => {
+          const m = this.$buefy.dialog.confirm({
+            message: 'Are you sure you want to delete this listing?',
+            type: 'is-danger',
+            confirmText: 'Yes',
+            cancelText: 'No',
+            onCancel() { res(false); },
+            onConfirm() { res(true); }
+          });
+        });
+        if(choice)
+          await localApi.deleteListing(this.listing.id);
+        this.$emit('cancel');
+      } catch(e) {
+        const message = 'Error deleting listing: ' + e.message || String(e);
+        this.$buefy.notification.open({ type: 'is-danger', hasIcon: true, message });
+        console.error(message);
+      }
+
+      this.working = false;
+    },
     edit() {
+      if(this.working) return;
       if(this.owned) {
         this.partial = this.makePartial(this.listing);
         this.editing = true;
       }
     },
-    save() {
-      if(this.listing) {
-        // put the old one
-      } else if(this.temID) {
-        // post the new one
+    async save() {
+      if(this.working) return;
+      this.working = true;
+      try {
+        if(this.listing) {
+          // put the old one
+          await localApi.updateListing(this.listing.id, this.partial);
+        } else if(this.temID) {
+          // post the new one
+          await localApi.addListing(this.partial);
+        }
+        this.$emit('cancel');
+      } catch(e) {
+        const message = 'Error saving listing: ' + e.message || String(e);
+        this.$buefy.notification.open({ type: 'is-danger', hasIcon: true, message });
+        console.error(message);
       }
+      this.working = false;
     },
     cancel() {
       if(this.editing && this.listing)

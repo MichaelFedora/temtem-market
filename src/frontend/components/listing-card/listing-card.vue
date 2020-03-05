@@ -114,6 +114,7 @@ button.tem-listing-card {
     > div:first-child { // name, badges
       display: flex;
       align-items: center;
+      white-space: nowrap;
 
       > h3 {
         margin: 0;

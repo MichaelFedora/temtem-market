@@ -261,7 +261,7 @@ class DatabaseService implements IDBService {
 
       for(const k of ['hp', 'sta', 'spd', 'atk', 'def', 'spatk', 'spdef']) {
         listing.svs[k] = listing.svs[k] ? Math.round(Math.max(0, Math.min(50, listing.svs[k]))) : 0;
-        listing.tvs[k] = listing.tvs[k] ? Math.round(Math.max(0, Math.min(50, listing.tvs[k]))) : 0;
+        listing.tvs[k] = listing.tvs[k] ? Math.round(Math.max(0, Math.min(500, listing.tvs[k]))) : 0;
       }
 
       if(!tem.traits.includes(listing.trait))
@@ -277,7 +277,7 @@ class DatabaseService implements IDBService {
 
       let score_evo = 0;
       const evo_id = tem.evolution.length ? tem.evolution[tem.evolution.length - 1] : null;
-      if(evo_id) {
+      if(evo_id && evo_id !== tem.id) {
         const tem_evo = await this.parent.temdataTbl.get(evo_id).run();
 
         score_evo = calcScore(tem_evo.stats, listing.svs, listing.tvs);
@@ -301,7 +301,7 @@ class DatabaseService implements IDBService {
           score_evo += 20;
       }
 
-      const topTwo = Object.entries(tem.stats).sort(([k, v], [k2, v2]) => v - v2).slice(0, 2).map(([k, v]) => k);
+      const topTwo = Object.entries(tem.stats).sort(([k, v], [k2, v2]) => v2 - v).slice(0, 2).map(([k, v]) => k);
       if(!(listing.tvs[topTwo[0]] < 500 || listing.tvs[topTwo[1]] < 500)) {
         badges.push('perfected');
         score += 5;
@@ -409,7 +409,7 @@ class DatabaseService implements IDBService {
       for(const l of listings)
         if(!uids.includes(l.userID)) uids.push(l.userID);
 
-      const users = await this.parent.usersTbl.getAll(...uids).pluck('id', 'status', 'heartbeat').run();
+      const users = await this.parent.usersTbl.getAll(...uids).pluck('id', 'discordName', 'discordAvatar', 'status', 'heartbeat').run();
 
       const userInfo: { [key: string]: { user: string; avatar: string; status: 'offline' | 'in_game' | 'online' } } = { };
       for(const u of users) {

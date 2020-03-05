@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { getTemIcon, makeListing, makeMySampleListing } from 'common/api/util';
+import { getTemIcon } from 'common/api/util';
 import { Temtem, Listing } from 'frontend/data/data';
 import localApi from 'frontend/services/local-api';
 import { debounce } from 'lodash';
@@ -7,19 +7,6 @@ import dataBus from 'frontend/services/data-bus';
 import ListingCard from 'frontend/components/listing-card/listing-card';
 import TemCard from 'frontend/components/tem-card/tem-card';
 import ListingModalComponent from 'frontend/components/listing-modal/listing-modal';
-
-const sampleListings: Listing[] = [
-  makeMySampleListing(),
-  makeListing(),
-  makeListing(),
-  makeListing(),
-  makeListing(),
-  makeListing(),
-  makeListing(),
-  makeListing(),
-  makeListing(),
-  makeListing()
-];
 
 export default Vue.component('tem-home', {
   components: { ListingCard, TemCard },
@@ -39,9 +26,7 @@ export default Vue.component('tem-home', {
   },
   async mounted() {
     this.updateSearch = debounce(this._updateSearch, 300);
-    localApi.getRecentListings().then(
-      d => this.recent = d.concat(sampleListings),
-      e => console.error('Error getting recent listings: ', e));
+    this.refresh();
 
     this.search = String(this.$route.query.q || '') || '';
     if(this.search)
@@ -50,6 +35,11 @@ export default Vue.component('tem-home', {
   methods: {
     getTemIcon(temID: number, luma?: boolean): string {
       return '/assets/sprites/' + getTemIcon(temID, luma);
+    },
+    async refresh() {
+      return localApi.getRecentListings().then(
+        d => this.recent = d,
+        e => console.error('Error getting recent listings: ', e));
     },
     click(listing: Listing) {
       console.log('Clicked listing: ' + listing.id + ' from user ' + listing.user);
@@ -61,7 +51,7 @@ export default Vue.component('tem-home', {
         trapFocus: true,
         canCancel: ['x', 'escape'],
         events: {
-          cancel: () => { m.close(); }
+          cancel: () => { m.close(); this.refresh(); }
         }
       });
     },
