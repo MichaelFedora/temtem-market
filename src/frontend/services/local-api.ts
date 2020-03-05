@@ -19,6 +19,8 @@ class LocalApi {
     if(!this.sid)
       return;
 
+    console.debug('heartbeat - ', new Date().toISOString());
+
     await axios.post(`${this.userOrigin}/heartbeat`, null, this.reqConf)
       .catch((e: AxiosError) => console.error('Failed to update heartbeat: ', e));
   }
@@ -26,7 +28,7 @@ class LocalApi {
   constructor() {
     this.sid = localStorage.getItem('sid') || '';
 
-    interval(40000).subscribe(this.heartbeat);
+    interval(40000).subscribe(() => this.heartbeat());
   }
 
   private get reqConf(): AxiosRequestConfig {
