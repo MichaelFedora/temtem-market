@@ -19,7 +19,6 @@
         <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
         <span style='font-size: 0.7rem; font-weight: bold;'>Lv</span><span>{{ listing.level }}</span>
       </h3>
-      <span v-if='listing.badges.length' style='margin-left: 0.5em'></span>
       <span v-for='badge of listing.badges' :key='badge' class='badge' :class='[badge]'>{{ badge }}</span>
       <span style='flex-grow: 1;'></span>
       <b-icon

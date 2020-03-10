@@ -72,6 +72,13 @@ class LocalApi {
     return axios.get<User>(`${this.userOrigin}/`, this.reqConf).then(r => r.data);
   }
 
+  public async updateTemInfo(info: Partial<{ temUserName: string, temUserID: string }>) {
+    if(!this.sid)
+      throw new Error('No SID!');
+
+    return axios.put(`${this.userOrigin}/tem-info`, info, this.reqConf);
+  }
+
   public async deleteSelf() {
     if(!this.sid)
       throw new Error('No SID!');

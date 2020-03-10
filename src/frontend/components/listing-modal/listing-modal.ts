@@ -35,9 +35,10 @@ export default Vue.component('tem-listing-modal', {
   computed: {
     tem(): Temtem {
       if(this.listing)
-        return this.state.temDB.find(a => a.id === this.listing.temID)
+        return this.state.temDB.find(a => a.id === this.listing.temID);
       else if(this.temID)
-        return this.state.temDB.find(a => a.id === this.temID)
+        return this.state.temDB.find(a => a.id === this.temID);
+      else return null;
     },
     temIcon(): string {
       return this.tem ? this.getTemIcon(this.tem.id, this.editing ? this.partial.luma : this.listing ? this.listing.luma : false) : '';
@@ -58,26 +59,34 @@ export default Vue.component('tem-listing-modal', {
       if(!this.partial.trait) return 'No trait!';
       if(!this.partial.level || this.partial.level <= 0) return 'Level is less than 1!';
       if(!this.partial.type) return 'No listing type!';
-      if(Object.values(this.partial.svs).findIndex(a => a == undefined || a === '' || a < 1 || a > 50) >= 0) return 'Some SVs are missing or out of bounds!'
-      if(Object.values(this.partial.tvs).findIndex(a => a == undefined || a === '' || a < 0 || a > 500) >= 0) return 'Some TVs are missing or out of bounds!';
+      if(Object.values(this.partial.svs).findIndex(a => a == null || a === '' || a < 1 || a > 50) >= 0)
+        return 'Some SVs are missing or out of bounds!';
+      if(Object.values(this.partial.tvs).findIndex(a => a == null || a === '' || a < 0 || a > 500) >= 0)
+        return 'Some TVs are missing or out of bounds!';
       if(Object.values(this.partial.tvs).reduce((acc, c) => acc + (Number(c) || 0), 0) > 1000) return 'Sum of all TVs is over 1,000!';
       if(!this.partial.price || this.partial.price <= 0) return 'Price is less than 1!';
+      return '';
     },
     valid(): boolean {
       if(this.error)
         return false;
 
       if(this.listing)
-        return JSON.stringify(this.partial) !== JSON.stringify(this.makePartial(this.listing))
+        return JSON.stringify(this.partial) !== JSON.stringify(this.makePartial(this.listing));
 
       return true;
     }
   },
   mounted() {
+
     if(!this.listing)
       this.editing = true;
 
     this.partial.temID = this.tem.id;
+    for(const stat in NULL_PARTIAL_LISTING.svs) { // eslint-disable-line guard-for-in
+      this.partial.svs[stat] = undefined;
+      this.partial.tvs[stat] = undefined;
+    }
   },
   methods: {
     getTemIcon(temID: number, luma?: boolean): string {
@@ -95,7 +104,7 @@ export default Vue.component('tem-listing-modal', {
         trait: listing.trait,
         bred_techniques: listing.bred_techniques.slice(),
         price: listing.price
-      } as PartialListing)
+      } as PartialListing);
     },
     async del() {
       if(!this.listing || !this.owned) return;
@@ -109,8 +118,8 @@ export default Vue.component('tem-listing-modal', {
             type: 'is-danger',
             confirmText: 'Yes',
             cancelText: 'No',
-            onCancel() { res(false); },
-            onConfirm() { res(true); }
+            onCancel() { res(false); m.close(); },
+            onConfirm() { res(true); m.close(); }
           });
         });
         if(choice)
@@ -157,4 +166,4 @@ export default Vue.component('tem-listing-modal', {
         this.$emit('cancel');
     }
   }
-})
+});

@@ -59,7 +59,7 @@
   <div id='body'>
     <div>
       <h1 class='title is-4'>Listings</h1>
-      <b-button v-if='loggedIn' type='is-primary' icon-left='plus' @click='addListing()'>Add</b-button>
+      <b-button v-if='loggedIn' class='is-hidden-desktop' type='is-primary' icon-left='plus' @click='addListing()'>Add</b-button>
     </div>
     <p v-if='listings.length <= 0' style='margin: 0; text-align: center'>Nothing found!</p>
     <template v-else>

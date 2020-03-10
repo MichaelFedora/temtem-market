@@ -15,7 +15,8 @@ export default Vue.component('tem-home', {
       show: 'home' as 'home' | 'search',
       search: '',
       searchResults: [] as Temtem[],
-      recent: [] as Listing[]
+      recent: [] as Listing[],
+      working: false,
     };
   },
   watch: {
@@ -37,9 +38,12 @@ export default Vue.component('tem-home', {
       return '/assets/sprites/' + getTemIcon(temID, luma);
     },
     async refresh() {
-      return localApi.getRecentListings().then(
+      if(this.working) return;
+      this.working = true;
+      await localApi.getRecentListings().then(
         d => this.recent = d,
         e => console.error('Error getting recent listings: ', e));
+      this.working = false;
     },
     click(listing: Listing) {
       console.log('Clicked listing: ' + listing.id + ' from user ' + listing.user);

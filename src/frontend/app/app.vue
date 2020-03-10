@@ -1,5 +1,6 @@
 <template>
 <div id='app'>
+  <tem-add-fab class='is-hidden-touch' />
   <nav class='navbar' role='navigation' aria-label='main navigation'>
     <div class='navbar-brand'>
       <router-link class='navbar-item hover-underline-child' to='/' @click.native='updateShowMenu(false)'>
@@ -130,6 +131,11 @@
           >
             <b-icon icon='eye-off' />
             <span style='font-weight:600'>&nbsp;Invisible</span>
+          </a>
+
+          <a class='navbar-item flex-item is-hidden-desktop' @click='addListing()'>
+            <b-icon icon='plus' />
+            <span style='font-weight:600'>&nbsp;Add Listing</span>
           </a>
 
           <a class='navbar-item flex-item is-hidden-desktop' @click='logout()'>

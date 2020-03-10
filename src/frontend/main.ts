@@ -4,6 +4,7 @@ import Buefy from 'buefy';
 
 import AppComponent from './app/app';
 import LoadingComponent from './components/loading/loading';
+import AddFabComponent from './components/add-fab/add-fab';
 
 import '@mdi/font/css/materialdesignicons.css';
 import './buefy.scss';
@@ -20,7 +21,7 @@ Vue.use(Buefy);
 const v = new Vue({
   router,
   el: '#app',
-  components: { AppComponent, ValidationProvider },
+  components: { AppComponent, ValidationProvider, AddFabComponent },
   data: { loaded: false },
   render(h) {
     if(this.loaded) {

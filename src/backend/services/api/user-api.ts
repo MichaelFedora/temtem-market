@@ -82,6 +82,19 @@ export default function createUserApi(logger: Logger, config: Config) {
   router.get('/', validateSession(), wrapAsync(async (req, res) => {
     res.json((req as any).user);
   }));
+  router.put('/tem-info', validateSession(), json(), wrapAsync(async (req, res) => {
+    if(!req.body.temUserName && !req.body.temUserID) {
+      res.sendStatus(400);
+      return;
+    }
+
+    const user: User = (req as any).user;
+    await dbService.users.updateTemInfo(
+      user.id,
+      req.body.temUserName || user.temUserName,
+      req.body.temUserID || user.temUserID);
+    res.sendStatus(204);
+  }))
   router.delete('/', validateSession(), wrapAsync(async (req, res) => {
     await dbService.users.delete((req as any).user.id);
     res.sendStatus(204);

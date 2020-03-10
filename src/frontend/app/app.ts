@@ -5,6 +5,8 @@ import localApi from 'frontend/services/local-api';
 import dataBus from 'frontend/services/data-bus';
 
 import RegisterComponent from '../components/register/register';
+import AutofillComponent from '../components/autofill-modal/autofill-modal';
+import ListingModalComponent from '../components/listing-modal/listing-modal';
 
 export default Vue.extend({
   components: { RegisterComponent },
@@ -145,6 +147,37 @@ export default Vue.extend({
       this.dropdownVisible = v;
       if(this.isDesktop())
         this.showMenu = v;
+    },
+    addListing() {
+      if(this.$route.params.id) {
+        this.add(Number(this.$route.params.id));
+      } else {
+        const m = this.$buefy.modal.open({
+          hasModalCard: true,
+          component: AutofillComponent,
+          parent: this,
+          trapFocus: true,
+          canCancel: ['x', 'escape'],
+          events: {
+            confirm: (tem) => { this.add(tem.id); m.close(); },
+            cancel: () => { m.close(); }
+          }
+        });
+      }
+      this.updateShowMenu(false);
+    },
+    add(temID: number) {
+      const m = this.$buefy.modal.open({
+        hasModalCard: true,
+        props: { temID },
+        component: ListingModalComponent,
+        parent: this,
+        trapFocus: true,
+        canCancel: ['x', 'escape'],
+        events: {
+          cancel: () => { m.close(); }
+        }
+      });
     }
   }
 });

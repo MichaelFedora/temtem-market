@@ -125,6 +125,10 @@ class DatabaseService implements IDBService {
       return this.table.get(user.id).update(user.serialize(true)).run();
     }
 
+    public async updateTemInfo(id: string, temUserName: string, temUserID: string) {
+      return this.table.get(id).update({ temUserName, temUserID }).run();
+    }
+
   }(this, this.logger);
   public get users() { return this._users; }
 

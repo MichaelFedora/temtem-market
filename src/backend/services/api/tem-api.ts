@@ -63,6 +63,7 @@ export default function createTemApi(logger: Logger) {
       throw new NotAllowedError('ID is not owned by user!');
 
     await dbService.listings.delete(req.params.id);
+    res.sendStatus(204);
   }));
 
   return router;

@@ -6,7 +6,7 @@
       <b-field>
         <b-input
           v-model='search'
-          placeholder='Search'
+          placeholder='Search (name, type)...'
           type='search'
           icon='magnify'
         />
@@ -29,7 +29,10 @@
       </div>
     </div>
     <div v-else id='home-body'>
-      <h1 class='title is-4'>Recent Listings</h1>
+      <h1 class='title is-4'>
+        <span>Recent Listings</span>
+        <button class='button is-dark' :class='{ "is-loading": working }' @click='refresh()'><b-icon icon='refresh' /></button>
+      </h1>
       <div>
         <tem-listing-card v-for='list of recent' :key='list.id' :listing='list' @click='click(list)' />
       </div>
@@ -79,9 +82,14 @@ div#tem-home {
   }
   > div#home-body {
     > h1 {
+      display: flex;
+      align-items: center;
       margin-bottom: 1rem;
-      margin-top: 0.5rem;
-      margin-left: 1rem;
+
+      > span {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
     }
     > div { // list
       display: flex;

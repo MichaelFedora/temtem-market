@@ -49,10 +49,10 @@
               <span :key='stat + "-label"'>{{ stat.toUpperCase() }}</span>
               <b-input
                 :key='stat + "-input"'
+                v-model.number='partial.svs[stat]'
                 type='number'
                 min='1'
                 max='50'
-                v-model.number='partial.svs[stat]'
               />
             </template>
           </div>
@@ -65,10 +65,10 @@
               <span :key='stat + "-label"'>{{ stat.toUpperCase() }}</span>
               <b-input
                 :key='stat + "-input"'
+                v-model.number='partial.tvs[stat]'
                 type='number'
                 min='0'
                 max='500'
-                v-model.number='partial.tvs[stat]'
               />
             </template>
           </div>
