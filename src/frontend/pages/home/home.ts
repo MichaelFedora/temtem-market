@@ -23,6 +23,10 @@ export default Vue.component('tem-home', {
     search(n, o) {
       if(n !== o)
         this.updateSearch(n);
+    },
+    $route(n) {
+      if(!this.$route.query.q && this.search)
+        this.search = '';
     }
   },
   async mounted() {
@@ -66,19 +70,25 @@ export default Vue.component('tem-home', {
       const scores: { [id: string]: number } = { };
       this.searchResults = dataBus.state.temDB
         .filter(tem => {
-          const strs = tem.type.map(a => a.toLocaleLowerCase());
-          strs.unshift(tem.name.toLocaleLowerCase());
+          const types = tem.type.map(a => a.toLocaleLowerCase());
+          const name = tem.name.toLocaleLowerCase();
 
-          for(const qp of qs) {
-            for(let i = 0, s = strs[i]; i < strs.length; i++, s = strs[i]) {
-              const loc = s.indexOf(qp);
-              if(loc >= 0) {
-                scores[tem.id] = i * 100 + loc;
-                return true;
-              }
-            }
+          if(qs.length > 1 && !qs.find(a => types.includes(a)))
+            return false;
+
+          for(let i = 0, qp = qs[0]; i < qs.length; i++, qp = qs[i]) {
+            const nameLoc = name.indexOf(qp);
+            if(nameLoc >= 0) {
+              scores[tem.id] = nameLoc;
+            } else if(types.includes(qp)) {
+              const score = 100 * i + 50 * types.indexOf(qp);
+              if(!scores[tem.id] || scores[tem.id] > score)
+                scores[tem.id] = score;
+
+            } else
+              return false;
           }
-          return false;
+          return true;
         })
         .sort((a, b) => scores[a.id] === scores[b.id] ? a.name.localeCompare(b.name) : scores[a.id] - scores[b.id]);
       // .slice(0, 10);

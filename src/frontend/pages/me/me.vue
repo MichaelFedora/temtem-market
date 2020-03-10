@@ -26,7 +26,8 @@
         <button v-if='!editing' style='align-self: flex-end' class='button is-primary is-small' @click='edit()'>Edit</button>
         <template v-else>
           <button class='button is-small' style='align-self: flex-end' :disabled='working' @click='cancel()'>Cancel</button>
-          <button class='button is-primary is-small' style='align-self: flex-end' :class='{ "is-loading": working }' :disabled='working' @click='save()'>Save</button>
+          <button class='button is-primary is-small' :class='{ "is-loading": working }' :disabled='working' @click='save()'>Save</button>
+          <button class='button is-danger is-small' :class='{ "is-loading": working }' :disabled='working' @click='del()'>Delete Account</button>
         </template>
       </div>
     </div>

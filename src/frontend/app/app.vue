@@ -87,6 +87,7 @@
             >
               <b-icon icon='eye-off' />&nbsp;Invisible
             </b-dropdown-item>
+            <b-dropdown-item class='has-icon' @click='gdpr()'><b-icon icon='information-outline' />&nbsp;gdpr</b-dropdown-item>
             <b-dropdown-item class='has-icon' @click='logout()'><b-icon icon='logout-variant' />&nbsp;Logout</b-dropdown-item>
           </b-dropdown>
 
@@ -138,6 +139,11 @@
             <span style='font-weight:600'>&nbsp;Add Listing</span>
           </a>
 
+          <a class='navbar-item flex-item is-hidden-desktop' @click='gdpr()'>
+            <b-icon icon='information-outline' />
+            <span style='font-weight:600'>&nbsp;gdpr</span>
+          </a>
+
           <a class='navbar-item flex-item is-hidden-desktop' @click='logout()'>
             <b-icon icon='logout-variant' />
             <span style='font-weight:600'>&nbsp;Logout</span>
@@ -149,18 +155,32 @@
 
   <div id='body'>
     <router-view />
-  </div>
 
-  <div id='footer'>
-    <div>
-      <h3>Disclaimer</h3>
-      <span>
-        Crema, Temtem and the logo Temtem are registered trademarks. All rights are
-        reserved worldwide. This site has no official link with Crema or Temtem. All
-        artwork, screenshots, characters or other recognizable features of the
-        intellectual property relating to these trademarks are likewise the intellectual
-        property of Crema.
-      </span>
+    <div id='footer'>
+      <div>
+        <h3 class='title is-5'>Connect</h3>
+        <div>
+          <a>Support Server</a>
+          <a>Official Server</a>
+        </div>
+      </div>
+      <div>
+        <h3 class='title is-5'>Support</h3>
+        <div>
+          <a>Patreon</a>
+          <a>Ko-Fi</a>
+        </div>
+      </div>
+      <div style='max-width: 25rem'>
+        <h3 class='title is-5'>Disclaimer</h3>
+        <span>
+          Crema, Temtem and the logo Temtem are registered trademarks. All rights are
+          reserved worldwide. This site has no official link with Crema or Temtem. All
+          artwork, screenshots, characters or other recognizable features of the
+          intellectual property relating to these trademarks are likewise the intellectual
+          property of Crema.
+        </span>
+      </div>
     </div>
   </div>
 </div>
@@ -173,6 +193,7 @@
   flex-flow: column;
   min-height: 100vh;
   align-items: center;
+  max-height: 100vh;
 
   > nav {
     width: 100%;
@@ -299,25 +320,47 @@
     flex-grow: 1;
     align-self: stretch;
     overflow: auto;
-    // margin: 16px;
-    //margin-top: 8px;
+    display: flex;
+    flex-flow: column;
+
     > * {
-      position: absolute;
-      top: 0;
-      left: 0;
       min-width: 100%;
-      min-height: 100%;
     }
-  }
 
-  > div#footer {
-    display: none; // flex
-    align-items: center;
-    flex-direction: column;
+    > div:not(#footer) {
+      flex-grow: 1;
+    }
 
-    padding: 1em;
-    font-size: 12px;
-    width: 100%;
+    > div#footer {
+      display: flex;
+      flex-wrap: wrap;
+
+      background-color: hsl(0, 0%, 14%);
+      border-top: 2px solid rgba(0, 0, 0, 0.1);
+
+      padding: 1em;
+      font-size: 12px;
+      width: 100%;
+
+      > * {
+        margin: 0.5rem;
+        > h3 {
+          margin-bottom: 0.5rem;
+        }
+        > span {
+          color: hsl(0, 0%, 48%);
+        }
+        > div {
+          display: flex;
+          flex-flow: column;
+          > * {
+            &:not(:last-child) {
+              margin-bottom: 0.33rem;
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>

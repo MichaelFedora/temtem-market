@@ -61,8 +61,24 @@ export default Vue.extend({
         }
       });
     }
+
+    if(!localStorage.getItem('warned')) {
+      const note = this.$buefy.notification.open({
+        indefinite: true,
+        message: 'Please note: temtemm.market is a fan site that is not associated with Crema in any way',
+        type: 'is-info',
+        hasIcon: true,
+        queue: false
+      });
+      (note as any).$on('close', () => localStorage.setItem('warned', 'yes'));
+    }
   },
   methods: {
+    error(e: Error, msg?: string): void {
+      const message = (msg || 'Error') + ' :' + e.message || String(e);
+      this.$buefy.notification.open({ type: 'is-danger', hasIcon: true, message });
+      console.error(message);
+    },
     async logout() {
       if(this.working) return;
       this.working = true;
@@ -178,6 +194,20 @@ export default Vue.extend({
           cancel: () => { m.close(); }
         }
       });
+    },
+    async gdpr() {
+      if(this.working) return;
+      this.working = true;
+      try {
+        const gdpr = localApi.gdpr();
+        const m = this.$buefy.dialog.alert({
+          message: `<pre>${JSON.stringify(gdpr, null, 2)}</pre>`
+        });
+      } catch(e) {
+        this.error(e, 'Error getting gdpr');
+      }
+
+      this.working = false;
     }
   }
 });

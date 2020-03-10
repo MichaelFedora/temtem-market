@@ -60,7 +60,7 @@ export default Vue.component('tem-me', {
       this.working = true;
       await localApi.getMyListings().then(
         d => this.listings = d,
-        e => this.error(e, 'Error getting recent listings: '));
+        e => this.error(e, 'Error getting recent listings'));
       this.working = false;
     },
     click(listing: Listing) {
@@ -85,6 +85,21 @@ export default Vue.component('tem-me', {
     cancel() {
       if(this.working) return;
       this.editing = false;
+    },
+    async del() {
+      if(this.working) return;
+      this.working = true;
+
+      try {
+        await localApi.deleteSelf();
+
+        localApi.sid = '';
+        dataBus.setUser(null);
+      } catch(e) {
+        this.error(e, 'Error deleting self');
+      }
+
+      this.working = false;
     },
     async save() {
       if(this.working) return;
