@@ -91,10 +91,25 @@ export default Vue.component('tem-me', {
       this.working = true;
 
       try {
-        await localApi.deleteSelf();
 
-        localApi.sid = '';
-        dataBus.setUser(null);
+        const choice = await new Promise(res => {
+          const m = this.$buefy.dialog.confirm({
+            message: 'Are you sure you want to delete this listing?',
+            type: 'is-danger',
+            confirmText: 'Yes',
+            cancelText: 'No',
+            onCancel() { res(false); m.close(); },
+            onConfirm() { res(true); m.close(); }
+          });
+        });
+
+        if(choice) {
+
+          await localApi.deleteSelf();
+
+          localApi.sid = '';
+          dataBus.setUser(null);
+        }
       } catch(e) {
         this.error(e, 'Error deleting self');
       }

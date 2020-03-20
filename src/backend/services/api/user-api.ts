@@ -101,8 +101,19 @@ export default function createUserApi(logger: Logger, config: Config) {
   }));
   router.get('/gdpr', validateSession(), wrapAsync(async (req, res) => {
     const user: User = (req as any).user;
-    const sessions = (await dbService.sessions.getAllForUser(user.id)).forEach(a => delete a.userID);
-    const listings = (await dbService.listings.getForUser(user.id)).forEach(a => delete a.userID);
+    const sessions = (await dbService.sessions.getAllForUser(user.id));
+    const listings = (await dbService.listings.getForUser(user.id));
+    for(const sess of sessions) delete sess.userID;
+    for(const list of listings) {
+      delete list.userID;
+
+      if(list.user)
+        delete list.user;
+      if(list.avatar)
+        delete list.avatar;
+      if(list.status)
+        delete list.status;
+    }
     res.json(Object.assign({ }, user, { sessions, listings }));
   }));
   router.put('/status', text(), validateSession(), wrapAsync(async (req, res) => {

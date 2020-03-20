@@ -32,7 +32,8 @@ export default Vue.extend({
     tamerID(): string { return this.state.user ? this.state.user.temUserID : ''; },
     status(): string { return this.state.user ? this.state.user.status : ''; },
     discordLoginURL(): string { return localApi.discordLoginURL; },
-    showSearch(): boolean { return this.$route.path && this.$route.path !== '/'; }
+    showSearch(): boolean { return this.$route.path && this.$route.path !== '/'; },
+    gdprLink(): string { return localApi.gdprLink; }
   },
   watch: {
     search(n, o) {
@@ -199,7 +200,7 @@ export default Vue.extend({
       if(this.working) return;
       this.working = true;
       try {
-        const gdpr = localApi.gdpr();
+        const gdpr = await localApi.gdpr();
         const m = this.$buefy.dialog.alert({
           message: `<pre>${JSON.stringify(gdpr, null, 2)}</pre>`
         });

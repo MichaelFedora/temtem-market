@@ -93,6 +93,12 @@ class LocalApi {
     return axios.get(`${this.userOrigin}/gdpr`, this.reqConf).then(r => r.data);
   }
 
+  public get gdprLink(): string {
+    if(!this.sid)
+      return '';
+    return `${this.userOrigin}/gdpr?sid=${this.sid}`;
+  }
+
   public async changeStatus(status: 'in_game' | 'online' | 'invisible') {
     if(!this.sid)
       throw new Error('No SID!');

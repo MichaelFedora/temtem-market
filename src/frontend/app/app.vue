@@ -160,15 +160,22 @@
       <div>
         <h3 class='title is-5'>Connect</h3>
         <div>
-          <a>Support Server</a>
-          <a>Official Server</a>
+          <a href='https://discord.gg/9CbZB8B'>Support Discord</a>
+          <a href='https://discord.gg/GPW7nxK'>Official Discord</a>
         </div>
       </div>
       <div>
         <h3 class='title is-5'>Support</h3>
         <div>
-          <a>Patreon</a>
-          <a>Ko-Fi</a>
+          <a href='https://patreon.com/michaelfedora'>Patreon</a>
+          <a href='https://ko-fi.com/michaelfedora'>Ko-Fi</a>
+        </div>
+      </div>
+      <div>
+        <h3 class='title is-5'>Privacy</h3>
+        <div>
+          <router-link to='/privacy'>Policy</router-link>
+          <a :href='gdprLink' target='_blank' rel='noopener noreferrer'>GDPR data</a>
         </div>
       </div>
       <div style='max-width: 25rem'>
