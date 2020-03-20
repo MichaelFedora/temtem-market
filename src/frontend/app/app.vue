@@ -87,7 +87,7 @@
             >
               <b-icon icon='eye-off' />&nbsp;Invisible
             </b-dropdown-item>
-            <b-dropdown-item class='has-icon' @click='gdpr()'><b-icon icon='information-outline' />&nbsp;gdpr</b-dropdown-item>
+            <!-- b-dropdown-item class='has-icon' @click='gdpr()'><b-icon icon='information-outline' />&nbsp;gdpr</b-dropdown-item -->
             <b-dropdown-item class='has-icon' @click='logout()'><b-icon icon='logout-variant' />&nbsp;Logout</b-dropdown-item>
           </b-dropdown>
 
@@ -139,10 +139,10 @@
             <span style='font-weight:600'>&nbsp;Add Listing</span>
           </a>
 
-          <a class='navbar-item flex-item is-hidden-desktop' @click='gdpr()'>
+          <!-- a class='navbar-item flex-item is-hidden-desktop' @click='gdpr()'>
             <b-icon icon='information-outline' />
             <span style='font-weight:600'>&nbsp;gdpr</span>
-          </a>
+          </a -->
 
           <a class='navbar-item flex-item is-hidden-desktop' @click='logout()'>
             <b-icon icon='logout-variant' />
