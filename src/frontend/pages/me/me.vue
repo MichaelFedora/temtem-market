@@ -12,7 +12,9 @@
     <div>
       <!-- discord name, status, <>, edit button -->
       <div class='discord'>
-        <h1 class='title is-3'>{{ me.discordName }}<b-icon style='margin-left: 1rem' :icon='getStatusIcon(me.status)' size='is-medium' /></h1>
+        <h1 class='title is-3'>
+          {{ me.discordName }}<b-icon style='margin-left: 1rem' :icon='getStatusIcon(me.status)' size='is-medium' />
+        </h1>
       </div>
       <!-- tamer name & id -->
       <div class='temtem'>
@@ -27,7 +29,9 @@
         <template v-else>
           <button class='button is-small' style='align-self: flex-end' :disabled='working' @click='cancel()'>Cancel</button>
           <button class='button is-primary is-small' :class='{ "is-loading": working }' :disabled='working' @click='save()'>Save</button>
-          <button class='button is-danger is-small' :class='{ "is-loading": working }' :disabled='working' @click='del()'>Delete Account</button>
+          <button class='button is-danger is-small' :class='{ "is-loading": working }' :disabled='working' @click='del()'>
+            Delete Account
+          </button>
         </template>
       </div>
     </div>

@@ -13,7 +13,7 @@ export default Vue.component('tem-tem', {
       listings: [],
       more: false,
       state: dataBus.state,
-    }
+    };
   },
   computed: {
     loggedIn(): boolean { return Boolean(localApi.sid && this.state.user.id); },
@@ -54,14 +54,14 @@ export default Vue.component('tem-tem', {
     async refresh() {
       let listings: Listing[] = [];
       try {
-        listings = await localApi.getListingsForTem(this.$route.params.id, { limit: 10 })
+        listings = await localApi.getListingsForTem(this.$route.params.id, { limit: 10 });
       } catch(e) {
         const message = 'Error getting listings: ' + e.message || String(e);
         this.$buefy.notification.open({ type: 'is-danger', hasIcon: true, message });
         console.error(message);
       }
 
-      this.more === listings.length >= 10;
+      this.more = listings.length >= 10;
       this.listings = listings;
     },
     getTemIcon(temID: number, luma?: boolean): string {
@@ -89,12 +89,12 @@ export default Vue.component('tem-tem', {
     },
     fetchMore() {
       localApi.getListingsForTem(this.$route.params.id, { start: this.listings.length, limit: 10 })
-      .then(v => {
-        if(v.length < 10)
-          this.more = false;
+        .then(v => {
+          if(v.length < 10)
+            this.more = false;
 
-        this.listings.push(...v);
-      },
+          this.listings.push(...v);
+        },
         e => console.error('Error getting listings for tem: ', e.message || e));
     },
     addListing() {

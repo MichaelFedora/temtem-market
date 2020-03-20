@@ -18,8 +18,10 @@
             </figure>
           </div>
           <div class='field'>
-            <b-select placeholder='Trait' icon='star-face' v-model='partial.trait'>
-              <option v-for='trait of tem.traits' :key='trait' :value='trait'>{{ trait }}</option>
+            <b-select v-model='partial.trait' placeholder='Trait' icon='star-face'>
+              <option v-for='trait of tem.traits' :key='trait' :value='trait'>
+                {{ trait }}
+              </option>
             </b-select>
           </div>
         </div>
@@ -31,12 +33,12 @@
         </div>
         <div class='field'>
           <b-icon icon='gender-male' />
-          <b-switch style='margin-left: 0.5em' false-value='m' true-value='f' :rounded='true' v-model='partial.sex' />
+          <b-switch v-model='partial.sex' style='margin-left: 0.5em' false-value='m' true-value='f' :rounded='true' />
           <b-icon icon='gender-female' />
         </div>
         <div class='field' style='width: 6em'>
           <span>Lv</span>
-          <b-input type='number' min='1' v-model.number='partial.level' />
+          <b-input v-model.number='partial.level' type='number' min='1' />
         </div>
       </div>
       <!-- stats -->
@@ -79,9 +81,9 @@
         <h3 class='title is-5'><b-icon icon='egg-easter' />&nbsp;Bred Techniques</h3>
         <b-checkbox
           v-for='tech of tem.bred_techniques'
-         :key='tech'
-         v-model='partial.bred_techniques'
-         :native-value='tech'
+          :key='tech'
+          v-model='partial.bred_techniques'
+          :native-value='tech'
         >
           {{ tech }}
         </b-checkbox>
@@ -89,7 +91,7 @@
       <!-- price -->
       <div>
         <figure><img src='/assets/pansun.png'></figure>
-        <b-input type='number' min='0' v-model.number='partial.price' />
+        <b-input v-model.number='partial.price' type='number' min='0' />
       </div>
     </div>
   </section>
@@ -107,7 +109,9 @@
             </figure>
           </div>
           <div>
-            <figure v-if='listing.luma'><img src='assets/luma.png'></figure>
+            <figure v-if='listing.luma'>
+              <img src='assets/luma.png'>
+            </figure>
             <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
             <div>
               <span style='font-size: 0.7rem; font-weight: bold;'>Lv</span>
@@ -190,7 +194,9 @@
   </section>
 
   <footer class='modal-card-foot'>
-    <div v-show='error && editing'>{{ error }}</div>
+    <div v-show='error && editing'>
+      {{ error }}
+    </div>
     <div>
       <button class='button' :disabled='working' @click='cancel()'>{{ editing ? "Cancel" : "Close " }}</button>
       <template v-if='owned'>
@@ -198,7 +204,9 @@
           <button class='button is-primary' :class='{ "is-loading": working }' :disabled='working' @click='edit()'>Edit</button>
           <button class='button is-danger' :class='{ "is-loading": working }' :disabled='working' @click='del()'>Delete</button>
         </template>
-        <button v-else class='button is-primary' :class='{ "is-loading": working }' :disabled='!valid || working' @click='save()'>Save</button>
+        <button v-else class='button is-primary' :class='{ "is-loading": working }' :disabled='!valid || working' @click='save()'>
+          Save
+        </button>
       </template>
     </div>
   </footer>

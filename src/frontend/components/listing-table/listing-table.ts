@@ -10,7 +10,7 @@ export default Vue.component('tem-listing-table', {
   data() {
     return {
       hover: '',
-    }
+    };
   },
   computed: {
     hasEvo(): boolean { return Boolean(this.listings.find(l => l.score_evo)); }

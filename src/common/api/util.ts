@@ -1,4 +1,4 @@
-import { Listing } from "frontend/data/data";
+import { Listing } from 'frontend/data/data';
 
 // from: https://github.com/jfromaniello/url-join/blob/master/lib/url-join.js
 /**
@@ -109,7 +109,7 @@ export function makeMySampleListing(): Listing {
     },
     bred_techniques: [],
     badges: [['clean'], ['prime', 'perfected']][Math.floor(Math.random() * 2)],
-  }
+  };
 }
 
 export function makeListing(): Listing {

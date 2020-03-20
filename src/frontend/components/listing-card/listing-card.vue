@@ -6,7 +6,7 @@
     "status-online": listing.status === "online",
     "status-in-game": listing.status === "in_game"
   }'
-  @click='$emit("click")'
+  @click='() => $emit("click")'
 >
   <div><img :src='getTemIcon(listing.temID, listing.luma)'></div>
   <div>

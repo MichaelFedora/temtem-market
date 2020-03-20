@@ -94,7 +94,7 @@ export default function createUserApi(logger: Logger, config: Config) {
       req.body.temUserName || user.temUserName,
       req.body.temUserID || user.temUserID);
     res.sendStatus(204);
-  }))
+  }));
   router.delete('/', validateSession(), wrapAsync(async (req, res) => {
     await dbService.users.delete((req as any).user.id);
     res.sendStatus(204);

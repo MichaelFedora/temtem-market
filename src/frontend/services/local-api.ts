@@ -19,7 +19,7 @@ class LocalApi {
     if(!this.sid)
       return;
 
-    console.debug('heartbeat - ', new Date().toISOString());
+    // console.debug('heartbeat - ', new Date().toISOString());
 
     await axios.post(`${this.userOrigin}/heartbeat`, null, this.reqConf)
       .catch((e: AxiosError) => console.error('Failed to update heartbeat: ', e));
@@ -72,7 +72,7 @@ class LocalApi {
     return axios.get<User>(`${this.userOrigin}/`, this.reqConf).then(r => r.data);
   }
 
-  public async updateTemInfo(info: Partial<{ temUserName: string, temUserID: string }>) {
+  public async updateTemInfo(info: Partial<{ temUserName: string; temUserID: string }>) {
     if(!this.sid)
       throw new Error('No SID!');
 

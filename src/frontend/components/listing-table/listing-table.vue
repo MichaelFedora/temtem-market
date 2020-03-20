@@ -22,13 +22,13 @@
     <tr
       v-for='listing of listings'
       :key='listing.id'
-      @click='$emit("click", listing)'
       :class='{
         "status-online": listing.status === "online",
         "status-in-game": listing.status === "in_game",
         "status-offline": listing.status === "offline",
         "hover": hover === listing.id,
       }'
+      @click='$emit("click", listing)'
       @mouseenter='hover = listing.id'
       @mouseleave='hover = hover === listing.id ? "" : hover'
     >
@@ -40,19 +40,31 @@
           <span>{{ (listing.user || '?')[0] }}</span>
         </div>
       </td>
-      <td>{{ listing.user }}</td>
+      <td :title='listing.user' class='user'>
+        {{ listing.user }}
+      </td>
       <td>
-        <figure v-if='listing.luma'><img src='/assets/luma.png'></figure>
+        <figure v-if='listing.luma'>
+          <img src='/assets/luma.png'>
+        </figure>
       </td>
       <td>
         <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
       </td>
       <td><span style='font-size: 0.7rem; font-weight: bold;'>Lv</span><span>{{ listing.level }}</span></td>
       <td>
-        <div style='display: flex;'><b-icon icon='star-face' />&nbsp;{{ listing.trait }}</div>
+        <div style='display: flex; white-space: nowrap'>
+          <b-icon icon='star-face' />&nbsp;{{ listing.trait }}
+        </div>
       </td>
-      <td><div style='display: flex;'><b-icon icon='star-circle-outline' />&nbsp;{{ listing.score }}</div></td>
-      <td v-if='hasEvo'>({{ listing.score_evo }})</td>
+      <td>
+        <div style='display: flex;'>
+          <b-icon icon='star-circle-outline' />&nbsp;{{ listing.score }}
+        </div>
+      </td>
+      <td v-if='hasEvo'>
+        ({{ listing.score_evo }})
+      </td>
       <td
         v-for='stat of ["hp", "sta", "spd", "atk", "def", "spatk", "spdef"]'
         :key='stat'
@@ -63,7 +75,9 @@
           "stat-blue": listing.svs[stat] >= 50
         }'
         class='is-hidden-touch stat'
-        :title='stat'><span>{{ listing.svs[stat] }}</span>
+        :title='stat'
+      >
+        <span>{{ listing.svs[stat] }}</span>
       </td>
       <td>
         <div style='display: flex;'>
@@ -108,6 +122,13 @@ table#tem-listing-table {
         margin-right: 1rem;
       }
       padding: 0.5em;
+
+      &.user {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 10em;
+      }
 
       &.stat {
 
