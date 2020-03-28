@@ -360,6 +360,7 @@ class DatabaseService implements IDBService {
 
     public async getForUser(userID: string) {
       const u = await this.parent.usersTbl.get(userID).run();
+      if(!u) return [];
       const status: 'online' | 'in_game' | 'offline' =
         u.status === 'invisible' || (u.heartbeat < (Date.now() - this.parent.heartbeatTimeout)) ?
           'offline' :
