@@ -18,7 +18,21 @@
       </div>
       <!-- tamer name & id -->
       <div class='temtem'>
-        <span title='Tamer Info' class='title is-5'>{{ user.temUserName }} - {{ user.temUserID }}</span>
+        <span v-if='!editing || !self' title='Tamer Info' class='title is-5'>{{ user.temUserName }} - {{ user.temUserID }}</span>
+        <template v-else>
+          <b-input v-model='tamerName' size='is-small' :disabled='working' placeholder='Tamer Name' />
+          <b-input v-model='tamerID' size='is-small' :disabled='working' placeholder='Tamer ID' />
+        </template>
+      </div>
+      <div v-if='self' class='btns'>
+        <button v-if='!editing' style='align-self: flex-end' class='button is-primary is-small' @click='edit()'>Edit</button>
+        <template v-else>
+          <button class='button is-small' style='align-self: flex-end' :disabled='working' @click='cancel()'>Cancel</button>
+          <button class='button is-primary is-small' :class='{ "is-loading": working }' :disabled='working' @click='save()'>Save</button>
+          <button class='button is-danger is-small' :class='{ "is-loading": working }' :disabled='working' @click='del()'>
+            Delete Account
+          </button>
+        </template>
       </div>
     </div>
   </div>

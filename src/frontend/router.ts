@@ -3,10 +3,11 @@ import VueRouter from 'vue-router';
 
 import HomePage from './pages/home/home';
 import TemPage from './pages/tem/tem';
-import MePage from './pages/me/me';
 import UserPage from './pages/user/user';
 import PrivacyPage from './pages/privacy/privacy';
 import NotFoundPage from './pages/not-found/not-found';
+import dataBus from './services/data-bus';
+import localApi from './services/local-api';
 
 Vue.use(VueRouter);
 
@@ -15,7 +16,11 @@ const router = new VueRouter({
   routes: [
     { path: '/', component: HomePage }, // recent listings, search tem
     { path: '/tem/:id', component: TemPage }, // tem listings, popup for listing details
-    { path: '/me', component: MePage }, // own listings
+    { path: '/me', redirect: () => {
+      if(dataBus.state.user && dataBus.state.user.id && localApi.sid)
+        return '/user/' + dataBus.state.user.id;
+      else return '/';
+    } },
     { path: '/user/:id', component: UserPage }, // other user's listings
     { path: '/privacy', component: PrivacyPage },
     { path: '**', component: NotFoundPage }

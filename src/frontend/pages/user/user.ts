@@ -14,8 +14,15 @@ export default Vue.component('tem-user', {
       listings: [] as Listing[],
       user: { } as PublicUser,
 
+      tamerName: '',
+      tamerID: '',
+
+      editing: false,
       working: false,
     };
+  },
+  computed: {
+    self(): boolean { return Boolean(localApi.sid && this.state.user.id && this.state.user.id === this.user.id); }
   },
   watch: {
     $route() {
@@ -44,6 +51,8 @@ export default Vue.component('tem-user', {
       if(this.working) return;
       this.working = true;
 
+      this.editing = false;
+
       await Promise.all([
         localApi.getUser(this.$route.params.id).then(u => {
           this.user = u;
@@ -68,6 +77,65 @@ export default Vue.component('tem-user', {
           cancel: () => { m.close(); this.refresh(); }
         }
       });
+    },
+
+    edit() {
+      if(!this.self) return;
+      this.tamerName = this.user.temUserName;
+      this.tamerID = this.user.temUserID;
+      this.editing = true;
+    },
+    cancel() {
+      if(this.working) return;
+      this.editing = false;
+    },
+    async del() {
+      if(this.working || !this.self) return;
+      this.working = true;
+
+      try {
+
+        const choice = await new Promise(res => {
+          const m = this.$buefy.dialog.confirm({
+            message: 'Are you sure you want to delete your account?',
+            type: 'is-danger',
+            confirmText: 'Yes',
+            cancelText: 'No',
+            onCancel() { res(false); m.close(); },
+            onConfirm() { res(true); m.close(); }
+          });
+        });
+
+        if(choice) {
+
+          await localApi.deleteSelf();
+
+          localApi.sid = '';
+          dataBus.setUser(null);
+        }
+      } catch(e) {
+        this.error(e, 'Error deleting self');
+      }
+
+      this.working = false;
+    },
+    async save() {
+      if(this.working || !this.self) return;
+      this.working = true;
+
+      try {
+        await localApi.updateTemInfo({
+          temUserName: this.tamerName,
+          temUserID: this.tamerID
+        });
+      } catch(e) {
+        this.error(e);
+      }
+
+      this.editing = false;
+      this.working = false;
+
+      return this.refresh();
     }
   }
 });
