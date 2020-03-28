@@ -102,12 +102,12 @@
       <div class='header'>
         <figure><img :src='temIcon'></figure>
         <div>
-          <div>
+          <router-link :to='"/tem/" + tem.id' class='hover-underline' @click.native='cancel()'>
             <h1 class='title is-4'>{{ tem.name }}</h1>
             <figure v-for='type of tem.type' :key='type' style='height: 2em'>
               <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
             </figure>
-          </div>
+          </router-link>
           <div>
             <figure v-if='listing.luma'>
               <img src='assets/luma.png'>
@@ -178,7 +178,7 @@
         <span>{{ listing.price.toLocaleString() }}</span>
       </div>
       <!-- user row -->
-      <div v-if='!owned' class='user'>
+      <router-link v-if='!owned' :to='"/user/" + listing.userID' class='user' @click.native='cancel()'>
         <figure v-if='listing.avatar' class='avatar'>
           <img :src='listing.avatar'>
         </figure>
@@ -186,7 +186,7 @@
           <span>{{ (listing.user || '?')[0] }}</span>
         </div>
         <span>{{ listing.user }}</span>
-      </div>
+      </router-link>
     </div>
   </section>
   <section v-else class='modal-card-body'>
@@ -388,14 +388,16 @@ div#tem-listing-modal {
           flex-flow: column;
           overflow: hidden;
 
-          > div:first-child {
+          > a:first-child {
             // name, types
             display: flex;
             align-items: flex-start;
+            position: relative;
+            margin-bottom: 0.5rem;
 
             > h1 {
               margin-right: 0.5rem;
-              margin-bottom: 0.5rem;
+              margin-bottom: 0;
             }
 
             > figure {
@@ -484,13 +486,19 @@ div#tem-listing-modal {
           margin-right: 0.5rem;
         }
       }
-      > div.user {
+      > a.user {
         display: flex;
+        color: inherit;
+
+        &:hover {
+          color: hsl(256, 60%, 59%);
+        }
+
         > :first-child {
           margin-right: 0.5rem;
         }
       }
-      > div:last-child {
+      > a:last-child, > div:last-child {
         padding-bottom: 1rem;
       }
     }
