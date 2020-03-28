@@ -72,3 +72,15 @@ export interface User {
   status: 'online' | 'in_game' | 'invisible';
   heartbeat: number;
 }
+
+export interface PublicUser {
+  id: string;
+
+  discordAvatar: string;
+  discordName: string;
+
+  temUserID: string;
+  temUserName: string;
+
+  status: 'online' | 'in_game' | 'invisible';
+}

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { Temtem, Listing, PartialListing, User } from '../data/data';
+import { Temtem, Listing, PartialListing, User, PublicUser } from '../data/data';
 import { interval } from 'rxjs';
 
 class LocalApi {
@@ -109,6 +109,10 @@ class LocalApi {
     reqConf.headers['Content-Type'] = 'text/plain';
 
     await axios.put(`${this.userOrigin}/status`, status, reqConf);
+  }
+
+  public async getUser(id: string) {
+    return axios.get<PublicUser>(`${this.userOrigin}/${id}`).then(res => res.data);
   }
 
   // #endregion

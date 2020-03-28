@@ -132,6 +132,18 @@ export default function createUserApi(logger: Logger, config: Config) {
     await dbService.users.update(user);
     res.sendStatus(204);
   }));
+  router.get('/:id', wrapAsync(async (req, res) => {
+    res.json(await dbService.users.get(req.params.id).then(u => (u ? {
+      id: u.id,
+      discordAvatar: u.discordAvatar,
+      discordName: u.discordName,
+
+      temUserID: u.temUserID,
+      temUserName: u.temUserName,
+
+      status: u.status === 'invisible' ? 'offline' : u.status,
+    } : null)));
+  }));
 
   return router;
 }
