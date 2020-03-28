@@ -13,6 +13,8 @@ export default Vue.component('tem-tem', {
       listings: [],
       more: false,
       state: dataBus.state,
+
+      working: false,
     };
   },
   computed: {
@@ -52,6 +54,9 @@ export default Vue.component('tem-tem', {
   },
   methods: {
     async refresh() {
+      if(this.working) return;
+      this.working = true;
+
       let listings: Listing[] = [];
       try {
         listings = await localApi.getListingsForTem(this.$route.params.id, { limit: 10 });
@@ -63,6 +68,8 @@ export default Vue.component('tem-tem', {
 
       this.more = listings.length >= 10;
       this.listings = listings;
+
+      this.working = false;
     },
     getTemIcon(temID: number, luma?: boolean): string {
       return '/assets/sprites/' + getTemIcon(temID, luma);

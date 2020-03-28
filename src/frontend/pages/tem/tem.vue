@@ -58,16 +58,21 @@
   </div>
   <div id='body'>
     <div>
-      <h1 class='title is-4'>Listings</h1>
+      <h1 class='title is-4'>
+        <span>Listings</span>
+        <button class='button is-dark' :class='{ "is-loading": working }' @click='refresh()'><b-icon icon='refresh' /></button>
+      </h1>
       <b-button v-if='loggedIn' class='is-hidden-desktop' type='is-primary' icon-left='plus' @click='addListing()'>
         Add
       </b-button>
     </div>
-    <p v-if='listings.length <= 0' style='margin: 0; text-align: center'>Nothing found!</p>
-    <template v-else>
-      <tem-listing-table :listings='listings' @click='click($event)' />
-      <button v-if='more' class='button is-dark' @click='fetchMore()'><b-icon icon='chevron-down' /></button>
-    </template>
+    <div>
+      <p v-if='listings.length <= 0' style='margin: 0; text-align: center'>Nothing found!</p>
+      <template v-else>
+        <tem-listing-table :listings='listings' @click='click($event)' />
+        <button v-if='more' class='button is-dark' @click='fetchMore()'><b-icon icon='chevron-down' /></button>
+      </template>
+    </div>
   </div>
 </div>
 </template>
@@ -282,7 +287,7 @@ div#tem-tem {
     flex-flow: column;
     align-items: center;
 
-    margin: 0.5rem 1rem;
+    margin-bottom: 1rem;
 
     > div:first-child {
       width: 100%;
@@ -291,11 +296,28 @@ div#tem-tem {
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      > h1 {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        > span {
+          margin-left: 1rem;
+          margin-right: 1rem;
+        }
+      }
     }
 
-    > button {
-      width: calc(100% - 1rem);
-      margin-top: 1rem;
+    > div:last-child {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      margin-bottom: 1rem;
+
+      > button {
+        width: calc(100% - 1rem);
+        margin-top: 1rem;
+      }
     }
   }
 }
