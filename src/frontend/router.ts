@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import HomePage from './pages/home/home';
 import TemPage from './pages/tem/tem';
 import MePage from './pages/me/me';
+import UserPage from './pages/user/user';
 import PrivacyPage from './pages/privacy/privacy';
 import NotFoundPage from './pages/not-found/not-found';
 
@@ -15,7 +16,7 @@ const router = new VueRouter({
     { path: '/', component: HomePage }, // recent listings, search tem
     { path: '/tem/:id', component: TemPage }, // tem listings, popup for listing details
     { path: '/me', component: MePage }, // own listings
-    // { path: '/u/:id', component UserPage }, // other user's listings
+    { path: '/user/:id', component: UserPage }, // other user's listings
     { path: '/privacy', component: PrivacyPage },
     { path: '**', component: NotFoundPage }
   ]
