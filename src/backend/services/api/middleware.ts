@@ -35,26 +35,29 @@ export function handleError(action: string) {
 
     if(err instanceof NotFoundError) {
       res.sendStatus(404);
+      return;
     } else if(err instanceof NotAllowedError) {
       res.status(403).json({ message: err.message });
+      return;
     } else if(err instanceof MalformedError) {
       res.status(400).json({ message: err.message });
+      return;
     } else if(err.type) {
       switch(err.type) {
         case 'not_found_error':
           res.sendStatus(404);
-          break;
+          return;
         case 'not_allowed_error':
           res.sendStatus(403).json({ message: err.message });
-          break;
+          return;
         case 'malformed_error':
           res.status(400).json({ message: err.message });
-          break;
+          return;
       }
-    } else {
-      logger.error(`Error performing ${action}: `, err);
-      res.status(500).json({ message: `Failed to perform ${action}.` });
     }
+
+    logger.error(`Error performing ${action}: `, err);
+    res.status(500).json({ message: `Failed to perform ${action}.` });
   };
 }
 
