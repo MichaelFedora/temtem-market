@@ -9,7 +9,7 @@
     "clean-backend": "trash build/{backend,common/util,common/static-serve}/*",
     "clean-backend:prod": "trash build-prod/{backend,common/util,common/static-serve}/*",
     "tsc-backend": "tsc -p tsconfig.backend.json",
-    "tsc-backend:prod": "tsc -p tsconfig.backend.json --outDir ./build-prod",
+    "tsc-backend:prod": "tsc -p tsconfig.backend.json --outDir ./build-prod/backend",
     "cp-backend": "node scripts/copy-backend.js",
     "cp-backend:prod": "node scripts/copy-backend.js production",
     "build": "npm-run-all \"build:*\"",
