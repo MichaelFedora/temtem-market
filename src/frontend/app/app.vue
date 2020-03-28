@@ -1,6 +1,6 @@
 <template>
 <div id='app'>
-  <tem-add-fab class='is-hidden-touch' />
+  <tem-add-fab v-if='loggedIn' class='is-hidden-touch' />
   <nav class='navbar' role='navigation' aria-label='main navigation'>
     <div class='navbar-brand'>
       <router-link class='navbar-item hover-underline-child' to='/' @click.native='updateShowMenu(false)'>
@@ -175,7 +175,7 @@
         <h3 class='title is-5'>Privacy</h3>
         <div>
           <router-link to='/privacy'>Policy</router-link>
-          <a :href='gdprLink' target='_blank' rel='noopener noreferrer'>GDPR data</a>
+          <a v-if='loggedIn' :href='gdprLink' target='_blank' rel='noopener noreferrer'>GDPR data</a>
         </div>
       </div>
       <div style='max-width: 25rem'>
