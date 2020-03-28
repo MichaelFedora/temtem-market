@@ -60,7 +60,7 @@ export default Vue.component('tem-me', {
       this.working = true;
       await localApi.getMyListings().then(
         d => this.listings = d,
-        e => this.error(e, 'Error getting recent listings'));
+        e => this.error(e, 'Error getting "my" listings'));
       this.working = false;
     },
     click(listing: Listing) {
@@ -94,7 +94,7 @@ export default Vue.component('tem-me', {
 
         const choice = await new Promise(res => {
           const m = this.$buefy.dialog.confirm({
-            message: 'Are you sure you want to delete this listing?',
+            message: 'Are you sure you want to delete your account?',
             type: 'is-danger',
             confirmText: 'Yes',
             cancelText: 'No',
