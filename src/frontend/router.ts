@@ -21,7 +21,7 @@ const router = new VueRouter({
         return '/user/' + dataBus.state.user.id;
       else return '/';
     } },
-    { path: '/user/:id', component: UserPage }, // other user's listings
+    { path: '/user/:uid', component: UserPage }, // other user's listings
     { path: '/privacy', component: PrivacyPage },
     { path: '**', component: NotFoundPage }
   ]

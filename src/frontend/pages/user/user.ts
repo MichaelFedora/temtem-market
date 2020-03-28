@@ -26,7 +26,7 @@ export default Vue.component('tem-user', {
   },
   watch: {
     $route() {
-      if(!this.user.id || this.$route.params.id !== this.user.id)
+      if(!this.user.id || this.$route.params.uid !== this.user.id)
         this.refresh();
     }
   },
@@ -54,10 +54,10 @@ export default Vue.component('tem-user', {
       this.editing = false;
 
       await Promise.all([
-        localApi.getUser(this.$route.params.id).then(u => {
+        localApi.getUser(this.$route.params.uid).then(u => {
           this.user = u;
         }, e => this.error(e, 'Error getting user')),
-        localApi.getListingsForUser(this.$route.params.id).then(
+        localApi.getListingsForUser(this.$route.params.uid).then(
           d => this.listings = d,
           e => this.error(e, 'Error getting listings for user'))
       ]);
