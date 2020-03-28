@@ -14,7 +14,7 @@
           <div>
             <h1 class='title is-4'>{{ tem.name }}</h1>
             <figure v-for='type of tem.type' :key='type' style='height: 2em'>
-              <img :alt='type' :src='"/assets/types/" + type + ".png"'>
+              <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
             </figure>
           </div>
           <div class='field'>
@@ -105,7 +105,7 @@
           <div>
             <h1 class='title is-4'>{{ tem.name }}</h1>
             <figure v-for='type of tem.type' :key='type' style='height: 2em'>
-              <img :alt='type' :src='"/assets/types/" + type + ".png"'>
+              <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
             </figure>
           </div>
           <div>
