@@ -76,6 +76,7 @@
     "log4js": "^6.3.0",
     "luxon": "^1.25.0",
     "pm2-intercom": "^1.0.0",
+    "querystring": "^0.2.0",
     "rethinkdb-ts": "^2.4.5",
     "rxjs": "^6.6.3",
     "source-map-support": "^0.5.19",

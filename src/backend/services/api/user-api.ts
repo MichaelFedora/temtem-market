@@ -5,26 +5,35 @@ import { Config } from '../../data/config';
 import dbService from '../db-service';
 import { AuthError, MalformedError } from '../../data/errors';
 import axios, { AxiosError } from 'axios';
+import { stringify as qstringify } from 'querystring';
 import { User, userStatusType } from '../../data/user';
 
 export default function createUserApi(logger: Logger, config: Config) {
   const router = Router();
 
   router.get('/login', (_, res) => {
-    res.redirect('https://discordapp.com/api/oauth2/authorize'
+    res.redirect('https://discord.com/api/v8/oauth2/authorize'
     + `?client_id=${config.clientID}&scope=identify`
     + `&response_type=code&redirect_uri=${config.redirectUri}`);
   });
   router.get('/discord_auth', wrapAsync(async (req, res) => {
-    if(!req.query.code) throw new AuthError('No code given!');
-    const creds = Buffer.from(`${config.clientID}:${config.clientSecret}`).toString('base64');
+    if(!req.query.code)
+      throw new AuthError('No code given!');
+
     let authInfoRes: any;
     try {
-      authInfoRes = await axios.post('https://discordapp.com/api/oauth2/token'
-        + `?grant_type=authorization_code&code=${req.query.code}`
-        + `&redirect_uri=${config.redirectUri}&scope=identify`, null, { headers: { Authorization: `Basic ${creds}` } });
+      authInfoRes = await axios.post('https://discord.com/api/v8/oauth2/token', qstringify({
+        client_id: config.clientID,
+        client_secret:config.clientSecret,
+        grant_type: 'authorization_code',
+        code: String(req.query.code),
+        redirect_uri: config.redirectUri,
+        scope: 'identify'
+      }));
     } catch(e) {
       console.error('Error posting auth code for token: ', e.message || e);
+      if((e as AxiosError).response)
+        console.error((e as AxiosError).response.data);
       res.sendStatus(500);
       return;
     }
@@ -34,7 +43,7 @@ export default function createUserApi(logger: Logger, config: Config) {
 
     let userInfoRes: any;
     try {
-      userInfoRes = await axios.get('https://discordapp.com/api/users/@me', { headers: { Authorization: 'Bearer ' + token } });
+      userInfoRes = await axios.get('https://discord.com/api/v8/users/@me', { headers: { Authorization: 'Bearer ' + token } });
     } catch(e) {
       console.error('Error getting @me: ', e.message || e);
       res.sendStatus(500);
