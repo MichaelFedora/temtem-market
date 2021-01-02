@@ -381,7 +381,8 @@ class DatabaseService implements IDBService {
 
       let ret = await ingameTems.orderBy('price', 'score', 'created').skip(opts.start).limit(opts.limit).run()
         .then(all => all.map(l =>
-          Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'in_game' }))));
+          Listing.deserialize(Object.assign(l.left,
+            { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'in_game' as 'in_game' }))));
       if(ret.length === opts.limit)
         return ret;
 
@@ -391,7 +392,8 @@ class DatabaseService implements IDBService {
       const onlineRet = await onlineTems.orderBy('price', 'score', 'created')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
         .then(all => all.map(l =>
-          Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'online' }))));
+          Listing.deserialize(Object.assign(l.left,
+            { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'online' as 'online' }))));
       ret = ret.concat(onlineRet);
       if(ret.length === opts.limit)
         return ret;
@@ -402,7 +404,8 @@ class DatabaseService implements IDBService {
       const offlineRet = await offlineTems.orderBy('price', 'score', 'created')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
         .then(all => all.map(l =>
-          Listing.deserialize(Object.assign(l.left, { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'offline' }))));
+          Listing.deserialize(Object.assign(l.left,
+            { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'offline' as 'offline' }))));
 
       return ret.concat(offlineRet);
     }

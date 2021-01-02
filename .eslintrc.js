@@ -42,7 +42,7 @@ module.exports = {
             "normal": "never",
           }
         }],
-        "@typescript-eslint/class-name-casing": "warn",
+        "vue/component-definition-name-casing": ["warn", "kebab-case"],
         "@typescript-eslint/consistent-type-definitions": "warn",
         "@typescript-eslint/explicit-member-accessibility": [
             "off",

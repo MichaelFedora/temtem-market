@@ -3,10 +3,8 @@ const ForkTsCheckWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 const TerserJsPlugin = require('terser-webpack-plugin')
 
 module.exports = (env, argv) => {
@@ -16,11 +14,12 @@ module.exports = (env, argv) => {
 return {
   mode: production ? 'production' : 'development',
   entry: {
-    'temtem-market-frontend': path.resolve(__dirname, '..', 'src', 'frontend', 'main.ts'),
+    'temtem-market-frontend': path.resolve(__dirname, 'src', 'frontend', 'main.ts'),
   },
 
   output: {
-    path: path.resolve(__dirname, '..', production ? 'build-prod' : 'build', 'frontend'),
+    path: path.resolve(__dirname, production ? 'build-prod' : 'build', 'frontend'),
+    publicPath: '',
     filename: '[name].[contenthash].js',
   },
 
@@ -38,21 +37,16 @@ return {
       {
         test: /\.scss$/,
         use: [
-          !production ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: () => [ autoprefixer() ]
-            }
-          },
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { importLoaders: 2, url: false } },
+          'postcss-loader',
           'sass-loader'
         ]
       },
       {
         test: /\.css$/,
         use: [
-          !production ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           'css-loader'
         ]
       },
@@ -69,39 +63,21 @@ return {
     plugins: [new TsConfigPathsPlugin()]
   },
 
-  devtool: production ? '' : 'inline-source-map',
+  devtool: production ? undefined : 'inline-source-map',
 
   optimization: {
     splitChunks: {
       chunks: 'all'
     },
-    minimizer: [ new TerserJsPlugin({ terserOptions: { mangle: { reserved: [
-                'Buffer',
-                'BigInteger',
-                'Point',
-                'ECPubKey',
-                'ECKey',
-                'sha512_asm',
-                'asm',
-                'ECPair',
-                'HDNode'
-            ] } } }) ]
+    minimizer: [ new TerserJsPlugin({
+      terserOptions: { sourceMap: production ? true : false  }
+    }) ]
   },
 
   plugins: [
     new CleanWebpackPlugin(),
-    /*new CleanWebpackPlugin({
-      dry: false, // geeeze
-      verbose: true,
-      cleanOnceBeforeBuildPatterns: [
-        '.',
-        '../common/static-serve'
-      ],
-      // this is both sad and dumb that I have to do this
-      dangerouslyAllowCleanPatternsOutsideProject: true
-    }),*/
     new VueLoaderPlugin(),
-    // new ForkTsCheckWebpackPlugin(),
+    new ForkTsCheckWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css'
     }),

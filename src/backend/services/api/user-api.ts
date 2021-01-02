@@ -70,13 +70,13 @@ export default function createUserApi(logger: Logger, config: Config) {
     if(!req.body.temUserName) throw new MalformedError('No Temtem username!');
     if(!req.body.temUserID) throw new MalformedError('No Temtem userID!');
 
-    const sess = await dbService.sessions.get(req.query.sid);
+    const sess = await dbService.sessions.get(req.query.sid as string);
 
     await dbService.users.register(sess.userID, req.body.avatar, req.body.name, req.body.temUserName, req.body.temUserID);
     res.sendStatus(204);
   }));
   router.post('/logout', validateSession(), wrapAsync(async (req, res) => {
-    await dbService.sessions.delete(req.query.sid);
+    await dbService.sessions.delete(req.query.sid as string);
     res.sendStatus(204);
   }));
   router.get('/', validateSession(), wrapAsync(async (req, res) => {
@@ -141,7 +141,7 @@ export default function createUserApi(logger: Logger, config: Config) {
       temUserID: u.temUserID,
       temUserName: u.temUserName,
 
-      status: u.status === 'invisible' ? 'offline' : u.status,
+      status: u.status === 'invisible' || (u.heartbeat < (Date.now() - dbService.heartbeatTimeout)) ? 'offline' : u.status,
     } : null)));
   }));
 

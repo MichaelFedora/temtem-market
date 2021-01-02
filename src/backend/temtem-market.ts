@@ -41,11 +41,15 @@ db.init(config).then(async () => {
 
   app.use(helmet.contentSecurityPolicy({
     directives: production ? {
+      defaultSrc: ['\'self\''],
       styleSrc: ['\'self\''],
-      scriptSrc: ['\'self\'']
+      scriptSrc: ['\'self\''],
+      imgSrc: ['\'self\'', 'https://cdn.discordapp.com/']
     } : {
+      defaultSrc: ['\'self\''],
       styleSrc: ['\'self\'', '\'unsafe-inline\''],
-      scriptSrc: ['\'self\'', '\'unsafe-eval\'']
+      scriptSrc: ['\'self\'', '\'unsafe-eval\''],
+      imgSrc: ['\'self\'', 'https://cdn.discordapp.com/']
     }
   }));
 

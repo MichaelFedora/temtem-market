@@ -19,7 +19,7 @@ export default function createTemApi(logger: Logger) {
   router.get('/search', wrapAsync(async (req, res) => {
     const limit = (req.query.limit && Number(req.query.limit)) || undefined;
     const start = (req.query.start && Number(req.query.start)) || undefined;
-    res.json(await dbService.temdata.search(req.query.q, limit, start));
+    res.json(await dbService.temdata.search(String(req.query.q), limit, start));
   }));
 
   router.get('/listings/tem/:temID', wrapAsync(async (req, res) => {
@@ -28,7 +28,7 @@ export default function createTemApi(logger: Logger) {
       opts.start = Math.max(0, Number(req.query.start) || 0);
     if(req.query.limit)
       opts.limit = Math.max(0, Math.min(100, Number(req.query.limit) || 100));
-    if(req.query.type && listing_types.includes(req.query.type))
+    if(req.query.type && listing_types.includes(String(req.query.type) as 'sell'))
       opts.type = req.query.type;
     res.json(await dbService.listings.getForTem(Number(req.params.temID), opts));
   }));

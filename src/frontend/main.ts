@@ -1,18 +1,23 @@
 import Vue from 'vue';
 import { ValidationProvider } from 'vee-validate';
+
+// @ts-ignore
+import('@mdi/font/css/materialdesignicons.css');
+
 import Buefy from 'buefy';
+import './buefy.scss';
+
+import './styles.scss';
+
+import { makeInitializerComponent } from './services/render-util';
+import localApi from './services/local-api';
+import dataBus from './services/data-bus';
 
 import AppComponent from './app/app';
 import LoadingComponent from './components/loading/loading';
 import AddFabComponent from './components/add-fab/add-fab';
 
-import '@mdi/font/css/materialdesignicons.css';
-import './buefy.scss';
-import './styles.scss';
 import router from './router';
-import { makeInitializerComponent } from './services/render-util';
-import localApi from './services/local-api';
-import dataBus from './services/data-bus';
 
 console.log('Environment:', process.env.NODE_ENV);
 

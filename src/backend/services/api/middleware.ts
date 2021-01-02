@@ -64,7 +64,7 @@ export function handleError(action: string) {
 export function validateSession() {
   return wrapAsync(async function(req: Request, res: Response, next: NextFunction) {
     try {
-      const session = await db.sessions.get(req.query.sid || '');
+      const session = await db.sessions.get(req.query.sid as string || '');
       if(!session)
         throw new AuthError('No session found!');
 

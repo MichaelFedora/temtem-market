@@ -118,7 +118,7 @@ export class Listing implements SerializedListing, PartialListing {
     return l;
   }
 
-  public static deserialize(obj: SerializedListing & { user: string; avatar: string; status: string }): Listing {
+  public static deserialize(obj: SerializedListing & { user: string; avatar: string; status: Listing['status'] }): Listing {
     return new Listing(obj);
   }
 }
