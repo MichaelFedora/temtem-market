@@ -44,12 +44,12 @@ db.init(config).then(async () => {
       defaultSrc: ['\'self\''],
       styleSrc: ['\'self\''],
       scriptSrc: ['\'self\''],
-      imgSrc: ['\'self\'', 'https://cdn.discordapp.com/']
+      imgSrc: ['\'self\'', 'data:', 'https://cdn.discordapp.com/']
     } : {
       defaultSrc: ['\'self\''],
       styleSrc: ['\'self\'', '\'unsafe-inline\''],
       scriptSrc: ['\'self\'', '\'unsafe-eval\''],
-      imgSrc: ['\'self\'', 'https://cdn.discordapp.com/']
+      imgSrc: ['\'self\'', 'data:', 'https://cdn.discordapp.com/']
     }
   }));
 
