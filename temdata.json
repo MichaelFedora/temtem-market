@@ -1,11 +1,45 @@
 [
   {
+    "id": 2,
+    "name": "Oree",
+    "type": ["Digital"],
+    "stats": {
+      "hp": 61,
+      "sta": 74,
+      "spd": 35,
+      "atk": 65,
+      "def": 44,
+      "spatk": 32,
+      "spdef": 31
+    },
+    "traits": ["Attack T"],
+    "bred_techniques": [],
+    "evolution": [2, 3]
+  },
+  {
+    "id": 3,
+    "name": "Zaobian",
+    "type": ["Digital"],
+    "stats": {
+      "hp": 75,
+      "sta": 90,
+      "spd": 51,
+      "atk": 84,
+      "def": 50,
+      "spatk": 42,
+      "spdef": 44
+    },
+    "traits": ["Attack T"],
+    "bred_techniques": [],
+    "evolution": [2, 3]
+  },
+  {
     "id": 7,
     "name": "Platypet",
     "type": ["Water", "Toxic"],
     "stats": {
       "hp": 55,
-      "sta": 65,
+      "sta": 39,
       "spd": 65,
       "atk": 45,
       "def": 31,
@@ -33,7 +67,7 @@
       "spd": 74,
       "atk": 50,
       "def": 35,
-      "spatk": 75,
+      "spatk": 76,
       "spdef": 63
     },
     "traits": ["Resistant", "Resilient"],
@@ -116,10 +150,10 @@
     "name": "Tateru",
     "type": ["Nature", "Wind"],
     "stats": {
-      "hp": 70,
-      "sta": 90,
+      "hp": 79,
+      "sta": 85,
       "spd": 60,
-      "atk": 68,
+      "atk": 78,
       "def": 66,
       "spatk": 54,
       "spdef": 66
@@ -221,7 +255,7 @@
       "spd": 95,
       "atk": 60,
       "def": 42,
-      "spatk": 75,
+      "spatk": 80,
       "spdef": 50
     },
     "traits": ["Receptive", "Resistant"],
@@ -264,8 +298,8 @@
       "spd": 45,
       "atk": 50,
       "def": 45,
-      "spatk": 78,
-      "spdef": 78
+      "spatk": 85,
+      "spdef": 89
     },
     "traits": ["Toxic Farewell", "Resilient"],
     "bred_techniques": [
@@ -360,6 +394,57 @@
     "evolution": [27, 28]
   },
   {
+    "id": 29,
+    "name": "Goty",
+    "type": ["Neutral"],
+    "stats": {
+      "hp": 51,
+      "sta": 48,
+      "spd": 31,
+      "atk": 55,
+      "def": 48,
+      "spatk": 58,
+      "spdef": 37
+    },
+    "traits": ["Rested", "Plethoric"],
+    "bred_techniques": [],
+    "evolution": [29, 30]
+  },
+  {
+    "id": 30,
+    "name": "Mouflank",
+    "type": ["Neutral"],
+    "stats": {
+      "hp": 79,
+      "sta": 75,
+      "spd": 72,
+      "atk": 65,
+      "def": 79,
+      "spatk": 72,
+      "spdef": 41
+    },
+    "traits": ["Hurry-wart", "Unnoticed"],
+    "bred_techniques": [],
+    "evolution": [29, 30]
+  },
+  {
+    "id": 31,
+    "name": "Rhoulder",
+    "type": ["Neutral", "Earth"],
+    "stats": {
+      "hp": 90,
+      "sta": 37,
+      "spd": 42,
+      "atk": 84,
+      "def": 83,
+      "spatk": 22,
+      "spdef": 40
+    },
+    "traits": ["Tardy Rush"],
+    "bred_techniques": ["Toughen"],
+    "evolution": []
+  },
+  {
     "id": 32,
     "name": "Houchic",
     "type": ["Mental"],
@@ -373,8 +458,8 @@
       "spdef": 52
     },
     "traits": ["Mental Alliance", "Soft Touch"],
-    "bred_techniques": [],
-    "evolution": [32, 33]
+    "bred_techniques": ["Strangle"],
+    "evolution": [32, 33, 34]
   },
   {
     "id": 33,
@@ -390,8 +475,25 @@
       "spdef": 62
     },
     "traits": ["Water Affinity", "Avenger"],
-    "bred_techniques": [],
-    "evolution": [32, 33]
+    "bred_techniques": ["Strangle"],
+    "evolution": [32, 33, 34]
+  },
+  {
+    "id": 34,
+    "name": "Nagaise",
+    "type": ["Water", "Mental"],
+    "stats": {
+      "hp": 47,
+      "sta": 52,
+      "spd": 81,
+      "atk": 49,
+      "def": 55,
+      "spatk": 92,
+      "spdef": 76
+    },
+    "traits": ["Water Custodian", "Deceit Aura"],
+    "bred_techniques": ["Strangle"],
+    "evolution": [32, 33, 34]
   },
   {
     "id": 35,
@@ -806,12 +908,75 @@
       "spatk": 65,
       "spdef": 37
     },
-    "traits": ["Patient", "Energy Reserve"],
+    "traits": ["Patient", "Energy Reserves"],
     "bred_techniques": [
       "High-pressure Water",
       "Flood"
     ],
     "evolution": [60, 61]
+  },
+  {
+    "id": 66,
+    "name": "Osuchi",
+    "type": ["Earth"],
+    "stats": {
+      "hp": 52,
+      "sta": 37,
+      "spd": 38,
+      "atk": 65,
+      "def": 51,
+      "spatk": 24,
+      "spdef": 25
+    },
+    "traits": ["Caffeinated", "Brawny"],
+    "bred_techniques": [
+      "Martial Strike",
+      "Footwork",
+      "Dust Vortex"
+    ],
+    "evolution": [66, 67, 68]
+  },
+  {
+    "id": 66,
+    "name": "Osukan",
+    "type": ["Earth", "Melee"],
+    "stats": {
+      "hp": 60,
+      "sta": 41,
+      "spd": 41,
+      "atk": 78,
+      "def": 69,
+      "spatk": 26,
+      "spdef": 27
+    },
+    "traits": ["Furor", "Parrier"],
+    "bred_techniques": [
+      "Martial Strike",
+      "Footwork",
+      "Dust Vortex"
+    ],
+    "evolution": [66, 67, 68]
+  },
+  {
+    "id": 68,
+    "name": "Osukai",
+    "type": ["Earth", "Melee"],
+    "stats": {
+      "hp": 71,
+      "sta": 48,
+      "spd": 58,
+      "atk": 93,
+      "def": 85,
+      "spatk": 31,
+      "spdef": 33
+    },
+    "traits": ["Sensei", "Body Stretch"],
+    "bred_techniques": [
+      "Martial Strike",
+      "Footwork",
+      "Dust Vortex"
+    ],
+    "evolution": [66, 67, 68]
   },
   {
     "id": 69,
@@ -834,6 +999,44 @@
     "evolution": []
   },
   {
+    "id": 70,
+    "name": "Pycko",
+    "type": ["Fire", "Earth"],
+    "stats": {
+      "hp": 49,
+      "sta": 52,
+      "spd": 39,
+      "atk": 55,
+      "def": 40,
+      "spatk": 44,
+      "spdef": 41
+    },
+    "traits": ["Furor", "Tireless"],
+    "bred_techniques": [
+      "Mud Shower"
+    ],
+    "evolution": [70, 71]
+  },
+  {
+    "id": 70,
+    "name": "Drakash",
+    "type": ["Fire", "Earth"],
+    "stats": {
+      "hp": 64,
+      "sta": 60,
+      "spd": 79,
+      "atk": 57,
+      "def": 45,
+      "spatk": 83,
+      "spdef": 72
+    },
+    "traits": ["Heat Discharge", "Sentinel"],
+    "bred_techniques": [
+      "Mud Shower"
+    ],
+    "evolution": [70, 71]
+  },
+  {
     "id": 72,
     "name": "Crystle",
     "type": ["Crystal"],
@@ -847,8 +1050,8 @@
       "spdef": 42
     },
     "traits": ["Amphibian", "Rested"],
-    "bred_techniques": [],
-    "evolution": [72, 73]
+    "bred_techniques": ["Antitoxins"],
+    "evolution": [72, 73, 74]
   },
   {
     "id": 73,
@@ -864,8 +1067,59 @@
       "spdef": 48
     },
     "traits": ["Mirroring", "Provident"],
+    "bred_techniques": ["Antitoxins"],
+    "evolution": [72, 73, 74]
+  },
+  {
+    "id": 74,
+    "name": "Tortenite",
+    "type": ["Crystal", "Toxic"],
+    "stats": {
+      "hp": 74,
+      "sta": 52,
+      "spd": 52,
+      "atk": 45,
+      "def": 76,
+      "spatk": 89,
+      "spdef": 60
+    },
+    "traits": ["Confined", "Efficient"],
+    "bred_techniques": ["Antitoxins"],
+    "evolution": [72, 73, 74]
+  },
+  {
+    "id": 79,
+    "name": "Hocus",
+    "type": ["Mental"],
+    "stats": {
+      "hp": 49,
+      "sta": 61,
+      "spd": 65,
+      "atk": 55,
+      "def": 34,
+      "spatk": 55,
+      "spdef": 34
+    },
+    "traits": ["Mirroring"],
     "bred_techniques": [],
-    "evolution": [72, 73]
+    "evolution": [79, 80]
+  },
+  {
+    "id": 79,
+    "name": "Pocus",
+    "type": ["Mental"],
+    "stats": {
+      "hp": 60,
+      "sta": 73,
+      "spd": 78,
+      "atk": 69,
+      "def": 36,
+      "spatk": 77,
+      "spdef": 38
+    },
+    "traits": ["Dreaded Alarm"],
+    "bred_techniques": [],
+    "evolution": [79, 80]
   },
   {
     "id": 82,
@@ -991,6 +1245,23 @@
     "evolution": [88, 89]
   },
   {
+    "id": 91,
+    "name": "Raignet",
+    "type": ["Electric"],
+    "stats": {
+      "hp": 68,
+      "sta": 57,
+      "spd": 54,
+      "atk": 81,
+      "def": 69,
+      "spatk": 58,
+      "spdef": 50
+    },
+    "traits": ["Kinetic Transfer"],
+    "bred_techniques": [],
+    "evolution": []
+  },
+  {
     "id": 92,
     "name": "Smazee",
     "type": ["Melee"],
@@ -1005,9 +1276,10 @@
     },
     "traits": ["Fever Rush", "Friendship"],
     "bred_techniques": [
-      "Earth Wave"
+      "Earth Wave",
+      "Dim Mak"
     ],
-    "evolution": [92, 93]
+    "evolution": [92, 93, 94]
   },
   {
     "id": 93,
@@ -1024,9 +1296,100 @@
     },
     "traits": ["Brawny", "Warm-Blooded"],
     "bred_techniques": [
-      "Earth Wave"
+      "Earth Wave",
+      "Dim Mak"
     ],
-    "evolution": [92, 93]
+    "evolution": [92, 93, 94]
+  },
+  {
+    "id": 94,
+    "name": "Seismunch",
+    "type": ["Melee", "Earth"],
+    "stats": {
+      "hp": 70,
+      "sta": 65,
+      "spd": 85,
+      "atk": 89,
+      "def": 54,
+      "spatk": 43,
+      "spdef": 43
+    },
+    "traits": ["Self-Esteem", "Earthbound"],
+    "bred_techniques": [
+      "Earth Wave",
+      "Dim Mak"
+    ],
+    "evolution": [92, 93, 94]
+  },
+  {
+    "id": 95,
+    "name": "Zizare",
+    "type": ["Earth"],
+    "stats": {
+      "hp": 60,
+      "sta": 75,
+      "spd": 30,
+      "atk": 70,
+      "def": 90,
+      "spatk": 40,
+      "spdef": 45
+    },
+    "traits": ["Rested", "Electric Synthesize"],
+    "bred_techniques": [
+      "Burrow"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 99,
+    "name": "Momo",
+    "type": ["Neutral"],
+    "stats": {
+      "hp": 75,
+      "sta": 64,
+      "spd": 89,
+      "atk": 46,
+      "def": 49,
+      "spatk": 79,
+      "spdef": 75
+    },
+    "traits": ["Stabmaster", "Snowstorm"],
+    "bred_techniques": [],
+    "evolution": []
+  },
+  {
+    "id": 100,
+    "name": "Kuri",
+    "type": ["Earth"],
+    "stats": {
+      "hp": 52,
+      "sta": 30,
+      "spd": 52,
+      "atk": 60,
+      "def": 58,
+      "spatk": 35,
+      "spdef": 31
+    },
+    "traits": ["Camaraderie", "Callosity"],
+    "bred_techniques": [],
+    "evolution": [100, 101]
+  },
+  {
+    "id": 101,
+    "name": "Kauren",
+    "type": ["Earth"],
+    "stats": {
+      "hp": 81,
+      "sta": 39,
+      "spd": 65,
+      "atk": 81,
+      "def": 74,
+      "spatk": 52,
+      "spdef": 51
+    },
+    "traits": ["Scavenger", "Skull Helmet"],
+    "bred_techniques": [],
+    "evolution": [100, 101]
   },
   {
     "id": 102,
@@ -1195,6 +1558,40 @@
     "evolution": [109, 110]
   },
   {
+    "id": 111,
+    "name": "Grumvel",
+    "type": ["Earth"],
+    "stats": {
+      "hp": 70,
+      "sta": 36,
+      "spd": 55,
+      "atk": 50,
+      "def": 65,
+      "spatk": 48,
+      "spdef": 60
+    },
+    "traits": ["Energy Reserves", "Settling"],
+    "bred_techniques": [],
+    "evolution": [111, 112]
+  },
+  {
+    "id": 111,
+    "name": "Grumper",
+    "type": ["Earth", "Electric"],
+    "stats": {
+      "hp": 75,
+      "sta": 41,
+      "spd": 50,
+      "atk": 56,
+      "def": 75,
+      "spatk": 81,
+      "spdef": 67
+    },
+    "traits": ["Inductor", "Cowards Rest"],
+    "bred_techniques": [],
+    "evolution": [111, 112]
+  },
+  {
     "id": 113,
     "name": "Ganki",
     "type": ["Electric", "Wind"],
@@ -1244,6 +1641,57 @@
     "traits": ["Hydrologist", "Mithridatism"],
     "bred_techniques": [],
     "evolution": []
+  },
+  {
+    "id": 116,
+    "name": "Yowlar",
+    "type": ["Neutral"],
+    "stats": {
+      "hp": 96,
+      "sta": 71,
+      "spd": 40,
+      "atk": 80,
+      "def": 86,
+      "spatk": 50,
+      "spdef": 74
+    },
+    "traits": ["Comebacker"],
+    "bred_techniques": ["Toughen", "Ice Cubes"],
+    "evolution": []
+  },
+  {
+    "id": 117,
+    "name": "Droply",
+    "type": ["Water", "Earth"],
+    "stats": {
+      "hp": 60,
+      "sta": 60,
+      "spd": 25,
+      "atk": 65,
+      "def": 60,
+      "spatk": 39,
+      "spdef": 54
+    },
+    "traits": ["Water Affinity", "Amphibian"],
+    "bred_techniques": [],
+    "evolution": [117, 118]
+  },
+  {
+    "id": 118,
+    "name": "Garyo",
+    "type": ["Water", "Earth"],
+    "stats": {
+      "hp": 74,
+      "sta": 65,
+      "spd": 38,
+      "atk": 78,
+      "def": 68,
+      "spatk": 56,
+      "spdef": 66
+    },
+    "traits": ["Autonomy", "Marathonist"],
+    "bred_techniques": [],
+    "evolution": [117, 118]
   },
   {
     "id": 122,
@@ -1357,7 +1805,24 @@
     },
     "traits": ["Spoilsport", "Resilient"],
     "bred_techniques": [],
-    "evolution": [130, 133]
+    "evolution": [130, 131, 133, 134]
+  },
+  {
+    "id": 131,
+    "name": "Tukai",
+    "type": ["Wind", "Water"],
+    "stats": {
+      "hp": 75,
+      "sta": 68,
+      "spd": 65,
+      "atk": 53,
+      "def": 49,
+      "spatk": 74,
+      "spdef": 78
+    },
+    "traits": ["Spreader"],
+    "bred_techniques": [],
+    "evolution": [130, 131]
   },
   {
     "id": 133,
@@ -1375,6 +1840,23 @@
     "traits": ["Receptive", "Determined"],
     "bred_techniques": [],
     "evolution": [130, 133]
+  },
+  {
+    "id": 134,
+    "name": "Turoc",
+    "type": ["Wind", "Earth"],
+    "stats": {
+      "hp": 101,
+      "sta": 48,
+      "spd": 60,
+      "atk": 75,
+      "def": 68,
+      "spatk": 74,
+      "spdef": 45
+    },
+    "traits": ["Escapist", "Tactical Strike"],
+    "bred_techniques": [],
+    "evolution": [130, 134]
   },
   {
     "id": 137,
@@ -1463,6 +1945,60 @@
       "Head Charge",
       "Hypnosis"
     ],
+    "evolution": []
+  },
+  {
+    "id": 142,
+    "name": "Akranox",
+    "type": ["Earth", "Toxic"],
+    "stats": {
+      "hp": 61,
+      "sta": 52,
+      "spd": 71,
+      "atk": 71,
+      "def": 64,
+      "spatk": 71,
+      "spdef": 64
+    },
+    "traits": ["Book Lungs", "Cobweb"],
+    "bred_techniques": [
+      "Toughen",
+      "Earth Wave"
+    ],
+    "evolution": []
+  },
+  {
+    "id": 143,
+    "name": "Koish",
+    "type": ["Water"],
+    "stats": {
+      "hp": 51,
+      "sta": 55,
+      "spd": 66,
+      "atk": 83,
+      "def": 68,
+      "spatk": 70,
+      "spdef": 54
+    },
+    "traits": ["Synergy  Master", "Iridescence"],
+    "bred_techniques": [],
+    "evolution": []
+  },
+  {
+    "id": 144,
+    "name": "Vulffy",
+    "type": ["Nature", "Earth"],
+    "stats": {
+      "hp": 54,
+      "sta": 70,
+      "spd": 60,
+      "atk": 39,
+      "def": 55,
+      "spatk": 76,
+      "spdef": 85
+    },
+    "traits": ["Burglar", "Team Elusive"],
+    "bred_techniques": [],
     "evolution": []
   },
   {
