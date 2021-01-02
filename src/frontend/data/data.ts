@@ -34,7 +34,8 @@ export interface Listing extends PartialListing {
 
   created: number;
 
-  name: string; // tem name
+  temName: string; // tem name
+  temType: string[]; // tem types
 
   score: number; // sqrt(sum( ((sv/50)^2 + (tv/500)) * base^2 )).toFixed(2)
   score_evo: number; // same as above but use final evolution. if no evolution, make 0
@@ -57,7 +58,7 @@ export interface Temtem {
 
   evolution: number[];
 
-  max_score: number;
+  score: number;
 }
 
 export interface User {

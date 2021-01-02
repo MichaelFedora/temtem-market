@@ -20,5 +20,5 @@ export interface Temtem {
 
   evolution: number[];
 
-  max_score: number;
+  score: number;
 }

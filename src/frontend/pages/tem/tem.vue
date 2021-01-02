@@ -8,7 +8,7 @@
         <!-- name, type -->
         <h1 class='title is-3'>{{ tem.name }}</h1>
         <figure v-for='type of tem.type' :key='type'>
-          <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
+          <img :alt='type' :title='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
         </figure>
       </div>
       <!-- stats, traits & score -->
@@ -43,7 +43,7 @@
         <div>
           <h1 class='title is-5'>{{ evoTem.name }}</h1>
           <figure v-for='type of evoTem.type' :key='type'>
-            <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
+            <img :alt='type' :title='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
           </figure>
         </div>
         <div class='stats'>

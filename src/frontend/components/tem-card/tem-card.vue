@@ -5,7 +5,7 @@
     <div>
       <h3 class='title is-5'>{{ tem.name }}&nbsp;</h3>
       <figure v-for='type of tem.type' :key='type'>
-        <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
+        <img :alt='type' :title='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
       </figure>
       <span style='flex-grow: 1'></span>
       <span title='Score'>

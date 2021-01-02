@@ -14,7 +14,7 @@
           <div>
             <h1 class='title is-4'>{{ tem.name }}</h1>
             <figure v-for='type of tem.type' :key='type' style='height: 2em'>
-              <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
+              <img :alt='type' :title='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
             </figure>
           </div>
           <div class='field'>
@@ -105,7 +105,7 @@
           <router-link :to='"/tem/" + tem.id' class='hover-underline' @click.native='cancel()'>
             <h1 class='title is-4'>{{ tem.name }}</h1>
             <figure v-for='type of tem.type' :key='type' style='height: 2em'>
-              <img :alt='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
+              <img :alt='type' :title='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
             </figure>
           </router-link>
           <div>
@@ -180,7 +180,7 @@
       <!-- user row -->
       <router-link v-if='!owned' :to='"/user/" + listing.userID' class='user' @click.native='cancel()'>
         <figure v-if='listing.avatar' class='avatar'>
-          <img :src='listing.avatar'>
+          <img alt='' :src='listing.avatar' :onerror='listing.avatar = ""'>
         </figure>
         <div v-else class='avatar'>
           <span>{{ (listing.user || '?')[0] }}</span>

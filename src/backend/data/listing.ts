@@ -8,7 +8,7 @@ export interface SerializedListing {
   created: number;
 
   temID: number;
-  name: string;
+  temName: string;
 
   luma: boolean;
   level: number;
@@ -51,7 +51,8 @@ export class Listing implements SerializedListing, PartialListing {
   created: number;
 
   temID: number;
-  name: string;
+  temName: string;
+  temType: string[];
 
   luma: boolean;
   level: number;
@@ -85,7 +86,8 @@ export class Listing implements SerializedListing, PartialListing {
     this.type = listing.type;
 
     this.temID = Number(listing.temID) || 0;
-    this.name = String(listing.name || '');
+    this.temName = String(listing.temName || '');
+    this.temType = listing.temType && listing.temType instanceof Array ? listing.temType.slice() : [];
     this.luma = Boolean(listing.luma || false);
 
     this.level = Number(listing.level || 0);
@@ -113,12 +115,18 @@ export class Listing implements SerializedListing, PartialListing {
       delete (l as any).user;
     if(this.avatar)
       delete (l as any).avatar;
+    if(this.temName)
+      delete (l as any).temName;
+    if(this.temType)
+      delete (l as any).temType;
     if(noId)
       delete l.id;
     return l;
   }
 
-  public static deserialize(obj: SerializedListing & { user: string; avatar: string; status: Listing['status'] }): Listing {
+  public static deserialize(obj: SerializedListing & {
+    user: string; avatar: string; status: Listing['status']; temName: string; temType: string[];
+  }): Listing {
     return new Listing(obj);
   }
 }

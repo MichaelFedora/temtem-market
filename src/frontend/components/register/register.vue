@@ -6,7 +6,7 @@
 
   <section class='modal-card-body'>
     <div>
-      <img :src='avatar'>
+      <img alt='' :src='avatar'>
     </div>
     <b-field>
       <b-input placeholder='Discord Name' :value='name' disabled />

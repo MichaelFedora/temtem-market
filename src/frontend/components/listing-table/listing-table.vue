@@ -3,6 +3,11 @@
   <thead>
     <th></th> <!-- user avatar -->
     <th></th> <!-- user -->
+    <template v-if='extended'>
+      <th></th> <!-- tem avatar -->
+      <th></th> <!-- tem name -->
+      <th></th> <!-- types -->
+    </template>
     <th></th> <!-- luma -->
     <th></th> <!-- gender -->
     <th></th> <!-- level -->
@@ -34,7 +39,7 @@
     >
       <td>
         <figure v-if='listing.avatar' class='avatar'>
-          <img :src='listing.avatar'>
+          <img alt='' :src='listing.avatar' :onerror='listing.avatar = ""'>
         </figure>
         <div v-else class='avatar'>
           <span>{{ (listing.user || '?')[0] }}</span>
@@ -43,6 +48,21 @@
       <td :title='listing.user' class='user'>
         {{ listing.user }}
       </td>
+      <template v-if='extended'>
+        <td>
+          <figure class='avatar'>
+            <img :src='getTemIcon(listing.temID)'>
+          </figure>
+        </td> <!-- tem avatar -->
+        <td> {{ listing.temName }} </td> <!-- tem name -->
+        <td>
+          <div style='display:flex'>
+            <figure v-for='type of listing.temType' :key='type'>
+              <img :alt='type' :title='type' :src='"/assets/types/" + type.toLowerCase() + ".png"'>
+            </figure>
+          </div>
+        </td> <!-- types -->
+      </template>
       <td>
         <figure v-if='listing.luma'>
           <img src='/assets/luma.png'>
@@ -115,6 +135,9 @@ table#tem-listing-table {
       height: 1.5em;
       width: 1.5em;
       overflow: hidden;
+      > img {
+        max-height: 100%;
+      }
     }
 
     > td {

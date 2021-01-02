@@ -15,7 +15,7 @@
         <img src='/assets/luma.png'>
       </figure>
       <h3 class='title is-5'>
-        <span>{{ listing.name }}</span>
+        <span>{{ listing.temName }}</span>
         <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
         <span style='font-size: 0.7rem; font-weight: bold;'>Lv</span><span>{{ listing.level }}</span>
       </h3>
@@ -46,7 +46,7 @@
     </div>
     <div>
       <figure v-if='listing.avatar' class='avatar'>
-        <img :src='listing.avatar'>
+        <img alt='' :src='listing.avatar' :onerror='listing.avatar = ""'>
       </figure>
       <div v-else class='avatar'>
         <span>{{ (listing.user || '?')[0] }}</span>

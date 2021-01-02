@@ -315,7 +315,8 @@ class DatabaseService implements IDBService {
 
       return new Listing(Object.assign({ }, listing, {
         userID,
-        name: tem.name,
+        temName: tem.name,
+        temType: tem.type,
         bred_techniques: listing.bred_techniques,
         trait: listing.trait,
         score,
@@ -355,7 +356,11 @@ class DatabaseService implements IDBService {
         u.status === 'invisible' || (u.heartbeat < (Date.now() - this.parent.heartbeatTimeout)) ?
           'offline' :
           u.status;
-      return Listing.deserialize(Object.assign(l, { user: u.discordName, avatar: u.discordAvatar, status }));
+
+      const tem = await this.parent.temdataTbl.get(l.temID).run();
+      return Listing.deserialize(Object.assign(l, {
+        user: u.discordName, avatar: u.discordAvatar, status, temName: tem.name, temType: tem.type
+      }));
     }
 
     public async getForUser(userID: string) {
@@ -365,12 +370,24 @@ class DatabaseService implements IDBService {
         u.status === 'invisible' || (u.heartbeat < (Date.now() - this.parent.heartbeatTimeout)) ?
           'offline' :
           u.status;
-      return this.table.getAll(userID, { index: 'userID' }).run()
-        .then(all => all.map(l => Listing.deserialize(Object.assign(l, { user: u.discordName, avatar: u.discordAvatar, status }))));
+
+      const listings = await this.table.getAll(userID, { index: 'userID' }).run();
+
+      const uniqueTem = listings.reduce((acc, c) => { if(!acc.includes(c.temID)) acc.push(c.temID); return acc; }, [] as number[]);
+      const tem = await this.parent.temdataTbl.getAll(...uniqueTem as any).run();
+
+      return listings.map(l => {
+        const t = tem.find(a => a.id === l.temID);
+        return Listing.deserialize(Object.assign(l, {
+          user: u.discordName, avatar: u.discordAvatar, status, temName: t ? t.name : '', temType: t ? t.type : []
+        }));
+      });
     }
 
     public async getForTem(temID: number, opts?: { limit?: number; start?: number; type?: 'sell' }) {
       opts = Object.assign({ limit: 100, start: 0, type: 'sell' }, opts);
+
+      const tem = await this.parent.temdataTbl.get(temID).run();
 
       const tems = this.table.getAll(temID, { index: 'temID' }).filter(doc => doc('type').eq(opts.type).and(doc('price').ge(0)));
       const temsAndUsers = tems.eqJoin('userID', this.parent.usersTbl);
@@ -381,8 +398,10 @@ class DatabaseService implements IDBService {
 
       let ret = await ingameTems.orderBy('price', 'score', 'created').skip(opts.start).limit(opts.limit).run()
         .then(all => all.map(l =>
-          Listing.deserialize(Object.assign(l.left,
-            { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'in_game' as 'in_game' }))));
+          Listing.deserialize(Object.assign(l.left, {
+            user: l.right.discordName, avatar: l.right.discordAvatar, status: 'in_game' as 'in_game',
+            temName: tem.name, temType: tem.type
+          }))));
       if(ret.length === opts.limit)
         return ret;
 
@@ -392,8 +411,10 @@ class DatabaseService implements IDBService {
       const onlineRet = await onlineTems.orderBy('price', 'score', 'created')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
         .then(all => all.map(l =>
-          Listing.deserialize(Object.assign(l.left,
-            { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'online' as 'online' }))));
+          Listing.deserialize(Object.assign(l.left, {
+            user: l.right.discordName, avatar: l.right.discordAvatar, status: 'online' as 'online',
+            temName: tem.name, temType: tem.type
+          }))));
       ret = ret.concat(onlineRet);
       if(ret.length === opts.limit)
         return ret;
@@ -404,8 +425,10 @@ class DatabaseService implements IDBService {
       const offlineRet = await offlineTems.orderBy('price', 'score', 'created')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
         .then(all => all.map(l =>
-          Listing.deserialize(Object.assign(l.left,
-            { user: l.right.discordName, avatar: l.right.discordAvatar, status: 'offline' as 'offline' }))));
+          Listing.deserialize(Object.assign(l.left, {
+            user: l.right.discordName, avatar: l.right.discordAvatar, status: 'offline' as 'offline',
+            temName: tem.name, temType: tem.type
+          }))));
 
       return ret.concat(offlineRet);
     }
@@ -414,10 +437,16 @@ class DatabaseService implements IDBService {
       const listings = await this.table.orderBy(r.desc('created')).limit(10).run();
 
       const uids: string[] = [];
-      for(const l of listings)
-        if(!uids.includes(l.userID)) uids.push(l.userID);
+      const temids: number[] = [];
+      for(const l of listings) {
+        if(!uids.includes(l.userID))
+          uids.push(l.userID);
+        if(!temids.includes(l.temID))
+          temids.push(l.temID);
+      }
 
       const users = await this.parent.usersTbl.getAll(...uids).pluck('id', 'discordName', 'discordAvatar', 'status', 'heartbeat').run();
+      const tems = await this.parent.temdataTbl.getAll(...temids as any[]).pluck('id', 'name', 'type').run();
 
       const userInfo: { [key: string]: { user: string; avatar: string; status: 'offline' | 'in_game' | 'online' } } = { };
       for(const u of users) {
@@ -429,7 +458,11 @@ class DatabaseService implements IDBService {
         };
       }
 
-      return listings.map(l => Listing.deserialize(Object.assign(l, userInfo[l.userID])));
+      const temInfo: { [key: string]: { temName: string; temType: string[] } } = { };
+      for(const t of tems)
+        temInfo[t.id] = { temName: t.name, temType: t.type };
+
+      return listings.map(l => Listing.deserialize(Object.assign(l, userInfo[l.userID], temInfo[l.temID])));
     }
 
   }(this, this.logger);

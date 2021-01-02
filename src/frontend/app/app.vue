@@ -37,6 +37,8 @@
       </div>
 
       <div class='navbar-end'>
+        <router-link to='/tems' class='navbar-item' :class='{ "is-active": $route.name === "tems" }'>All Tems</router-link>
+        <!-- outer-link to='/listings' class='navbar-item' :class='{ "is-active": $route.name === "listings" }'>Listings</router-link -->
         <a v-if='!loggedIn' class='navbar-item has-icon' :href='discordLoginURL'>
           <b-icon icon='discord' />
           <span>&nbsp;Login</span>

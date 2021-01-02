@@ -5,7 +5,8 @@ import { Listing } from 'frontend/data/data';
 
 export default Vue.component('tem-listing-table', {
   props: {
-    listings: { type: Array, required: true } as PropValidator<Listing[]>
+    listings: { type: Array, required: true } as PropValidator<Listing[]>,
+    extended: Boolean
   },
   data() {
     return {

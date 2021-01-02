@@ -81,7 +81,8 @@ export function makeMySampleListing(): Listing {
     price: Math.round(Math.random() * 10000) + 10000,
 
 
-    name: 'Anahir',
+    temName: 'Anahir',
+    temType: ['Crystal', 'Fire'],
     temID: 161,
     level: Math.round(Math.random() * 50),
     sex: Math.round(Math.random()) ? 'm' : 'f',
@@ -125,7 +126,8 @@ export function makeListing(): Listing {
     price: Math.round(Math.random() * 10000) + 10000,
 
 
-    name: 'Adoroboros',
+    temName: 'Adoroboros',
+    temType: ['Toxic', 'Mental'],
     temID: 129,
     level: Math.round(Math.random() * 50),
     sex: Math.round(Math.random()) ? 'm' : 'f',
