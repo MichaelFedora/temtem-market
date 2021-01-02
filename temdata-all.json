@@ -1105,7 +1105,7 @@
     "evolution": [79, 80]
   },
   {
-    "id": 79,
+    "id": 80,
     "name": "Pocus",
     "type": ["Mental"],
     "stats": {
@@ -1575,7 +1575,7 @@
     "evolution": [111, 112]
   },
   {
-    "id": 111,
+    "id": 112,
     "name": "Grumper",
     "type": ["Earth", "Electric"],
     "stats": {
