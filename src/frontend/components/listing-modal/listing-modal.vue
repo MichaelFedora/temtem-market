@@ -9,7 +9,13 @@
     <div>
       <!-- icon, type, trait -->
       <div>
-        <figure><img :src='temIcon'></figure>
+        <figure>
+          <img
+            alt=''
+            :src='tem ? getTemIcon(tem.id, temIconError ? false : partial.luma) : ""'
+            @error='temIconError = true'
+          >
+        </figure>
         <div>
           <div>
             <h1 class='title is-4'>{{ tem.name }}</h1>
@@ -100,7 +106,14 @@
     <div>
       <!-- image, name, types, luma, sex, level, trait -->
       <div class='header'>
-        <figure><img :src='temIcon'></figure>
+        <figure>
+          <img
+            alt=''
+            :src='tem ? getTemIcon(tem.id, temIconError ? false :
+              listing ? listing.luma : false) : ""'
+            @error='temIconError = true'
+          >
+        </figure>
         <div>
           <router-link :to='"/tem/" + tem.id' class='hover-underline' @click.native='cancel()'>
             <h1 class='title is-4'>{{ tem.name }}</h1>
@@ -180,7 +193,7 @@
       <!-- user row -->
       <router-link v-if='!owned' :to='"/user/" + listing.userID' class='user' @click.native='cancel()'>
         <figure v-if='listing.avatar' class='avatar'>
-          <img alt='' :src='listing.avatar' :onerror='listing.avatar = ""'>
+          <img alt='' :src='listing.avatar' @error='listing.avatar = ""'>
         </figure>
         <div v-else class='avatar'>
           <span>{{ (listing.user || '?')[0] }}</span>

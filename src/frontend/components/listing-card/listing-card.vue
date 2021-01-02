@@ -8,7 +8,7 @@
   }'
   @click='() => $emit("click")'
 >
-  <div><img :src='getTemIcon(listing.temID, listing.luma)'></div>
+  <div><img :src='getTemIcon(listing.temID, !listing.ignoreLuma ? listing.luma : false)' @error='$set(listing, "ignoreLuma", true)'></div>
   <div>
     <div>
       <figure v-if='listing.luma' style='margin-right: 0.3rem'>
@@ -46,7 +46,7 @@
     </div>
     <div>
       <figure v-if='listing.avatar' class='avatar'>
-        <img alt='' :src='listing.avatar' :onerror='listing.avatar = ""'>
+        <img alt='' :src='listing.avatar' @error='listing.avatar = ""'>
       </figure>
       <div v-else class='avatar'>
         <span>{{ (listing.user || '?')[0] }}</span>

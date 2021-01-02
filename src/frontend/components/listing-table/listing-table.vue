@@ -39,7 +39,7 @@
     >
       <td>
         <figure v-if='listing.avatar' class='avatar'>
-          <img alt='' :src='listing.avatar' :onerror='listing.avatar = ""'>
+          <img alt='' :src='listing.avatar' @error='listing.avatar = ""'>
         </figure>
         <div v-else class='avatar'>
           <span>{{ (listing.user || '?')[0] }}</span>
@@ -51,7 +51,7 @@
       <template v-if='extended'>
         <td>
           <figure class='avatar'>
-            <img :src='getTemIcon(listing.temID)'>
+            <img :src='getTemIcon(listing.temID, listing.ignoreLuma ? false : listing.luma)' @error='$set(listing, "ignoreLuma", true)'>
           </figure>
         </td> <!-- tem avatar -->
         <td> {{ listing.temName }} </td> <!-- tem name -->

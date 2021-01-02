@@ -28,6 +28,7 @@ export default Vue.component('tem-listing-modal', {
       state: dataBus.state,
       editing: false,
       working: false,
+      temIconError: false,
 
       partial: Object.assign({ }, NULL_PARTIAL_LISTING) as PartialListing
     };
@@ -39,9 +40,6 @@ export default Vue.component('tem-listing-modal', {
       else if(this.temID)
         return this.state.temDB.find(a => a.id === this.temID);
       else return null;
-    },
-    temIcon(): string {
-      return this.tem ? this.getTemIcon(this.tem.id, this.editing ? this.partial.luma : this.listing ? this.listing.luma : false) : '';
     },
     owned(): Boolean {
       return this.listing ? this.state.user.id === this.listing.userID : true;
@@ -76,6 +74,11 @@ export default Vue.component('tem-listing-modal', {
 
       return true;
     }
+  },
+  watch: {
+    temID() { this.temIconError = false; },
+    editing() { this.temIconError = false; },
+    listing() { this.temIconError = false; }
   },
   mounted() {
 
