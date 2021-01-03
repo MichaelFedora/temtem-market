@@ -271,6 +271,10 @@ class DatabaseService implements IDBService {
       if(!tem.traits.includes(listing.trait))
         listing.trait = 'Unknown';
 
+      const highSVs = Object.values(listing.svs).filter(a => a >= 49).length;
+      const maxFertility = 8 - Math.ceil(highSVs / 2);
+      listing.fertility = Math.min(listing.fertility || 0, maxFertility);
+
       listing.bred_techniques = listing.bred_techniques.filter(a => tem.bred_techniques.includes(a));
 
       listing.price = Math.floor(Math.max(0, listing.price));
@@ -292,25 +296,30 @@ class DatabaseService implements IDBService {
       const badges: string[] = [];
 
       if(!Object.values(listing.svs).find(a => a < 50)) {
-        badges.push('prime');
+        badges.push('perfect');
         score += 5;
         if(score_evo > 0)
           score_evo += 5;
       }
 
       if(!Object.values(listing.tvs).find(a => a > 0)) {
-        badges.push('clean');
+        badges.push('untrained');
         score += 20;
         if(score_evo > 0)
           score_evo += 20;
-      }
-
-      const topTwo = Object.entries(tem.stats).sort(([k, v], [k2, v2]) => v2 - v).slice(0, 2).map(([k, v]) => k);
-      if(!(listing.tvs[topTwo[0]] < 500 || listing.tvs[topTwo[1]] < 500)) {
-        badges.push('perfected');
-        score += 5;
-        if(score_evo > 0)
-          score_evo += 5;
+      } else {
+        const topTwo = Object.entries(tem.stats).sort(([k, v], [k2, v2]) => v2 - v).slice(0, 2).map(([k, v]) => k);
+        if(!(listing.tvs[topTwo[0]] < 500 || listing.tvs[topTwo[1]] < 500)) {
+          badges.push('specialized');
+          score += 5;
+          if(score_evo > 0)
+            score_evo += 5;
+        } else if(Object.values(listing.tvs).reduce((acc, c) => acc + c) >= 1000) {
+          badges.push('trained');
+          score += 2;
+          if(score_evo > 0)
+            score_evo += 2;
+        }
       }
 
       return new Listing(Object.assign({ }, listing, {

@@ -11,6 +11,7 @@
     <th></th> <!-- luma -->
     <th></th> <!-- gender -->
     <th></th> <!-- level -->
+    <th></th> <!-- fertility -->
     <th></th> <!-- trait -->
     <th></th> <!-- score -->
     <th v-if='hasEvo'></th> <!-- evo score -->
@@ -63,26 +64,33 @@
           </div>
         </td> <!-- types -->
       </template>
-      <td>
+      <td title='Luma'>
         <figure v-if='listing.luma'>
           <img src='/assets/luma.png'>
         </figure>
       </td>
-      <td>
+      <td title='Sex'>
         <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
       </td>
-      <td><span style='font-size: 0.7rem; font-weight: bold;'>Lv</span><span>{{ listing.level }}</span></td>
+      <td title='Level'>
+        <span style='font-size: 0.7rem; font-weight: bold;'>Lv</span><span>{{ listing.level }}</span>
+      </td>
+      <td title='Fertility'>
+        <div style='display: flex; align-items: center'>
+          <span style='font-size: 0.7rem; font-weight: bold;'>{{ listing.fertility || '?' }}x</span><b-icon icon='leaf' />
+        </div>
+      </td>
       <td>
         <div style='display: flex; white-space: nowrap'>
           <b-icon icon='star-face' />&nbsp;{{ listing.trait }}
         </div>
       </td>
-      <td>
+      <td title='Score'>
         <div style='display: flex;'>
           <b-icon icon='star-circle-outline' />&nbsp;{{ listing.score }}
         </div>
       </td>
-      <td v-if='hasEvo'>
+      <td v-if='hasEvo' title='Evo Score'>
         ({{ listing.score_evo }})
       </td>
       <td
@@ -99,7 +107,7 @@
       >
         <span>{{ listing.svs[stat] }}</span>
       </td>
-      <td>
+      <td title='Price'>
         <div style='display: flex;'>
           <figure><img src='/assets/pansun.png'></figure>
           <span>{{ listing.price.toLocaleString() }}</span>

@@ -8,7 +8,7 @@
   <section v-if='editing' class='modal-card-body form'>
     <div>
       <!-- icon, type, trait -->
-      <div>
+      <div class='header'>
         <figure>
           <img
             alt=''
@@ -33,22 +33,36 @@
         </div>
       </div>
       <!-- luma, sex, level -->
-      <div>
-        <div class='field'>
-          <b-checkbox v-model='partial.luma'><figure><img src='/assets/luma.png'></figure></b-checkbox>
+      <div class='detail-1'>
+        <div class='field' title='Luma'>
+          <b-checkbox v-model='partial.luma' title='Luma'><figure><img src='/assets/luma.png'></figure></b-checkbox>
         </div>
         <div class='field'>
           <b-icon icon='gender-male' />
-          <b-switch v-model='partial.sex' style='margin-left: 0.5em' false-value='m' true-value='f' :rounded='true' />
+          <b-switch
+            v-model='partial.sex'
+            style='margin-left: 0.5em'
+            false-value='m'
+            true-value='f'
+            :rounded='true'
+            title='Sex'
+          />
           <b-icon icon='gender-female' />
         </div>
+      </div>
+      <div class='detail-2' title='Fertility'>
         <div class='field' style='width: 6em'>
+          <b-input v-model.number='partial.fertility' type='number' min='0' max='8' title='Fertility' />
+          <span>x</span>
+          <b-icon icon='leaf' />
+        </div>
+        <div class='field' style='width: 6em' title='Level'>
           <span>Lv</span>
-          <b-input v-model.number='partial.level' type='number' min='1' />
+          <b-input v-model.number='partial.level' type='number' min='1' max='199' title='Level' />
         </div>
       </div>
       <!-- stats -->
-      <div>
+      <div class='stats'>
         <!-- svs -->
         <div>
           <h3 class='title is-5'>SVs</h3>
@@ -83,7 +97,7 @@
         </div>
       </div>
       <!-- bred techniques -->
-      <div v-if='tem.bred_techniques.length'>
+      <div v-if='tem.bred_techniques.length' class='bred-techniques'>
         <h3 class='title is-5'><b-icon icon='egg-easter' />&nbsp;Bred Techniques</h3>
         <b-checkbox
           v-for='tech of tem.bred_techniques'
@@ -95,7 +109,7 @@
         </b-checkbox>
       </div>
       <!-- price -->
-      <div>
+      <div class='price'>
         <figure><img src='/assets/pansun.png'></figure>
         <b-input v-model.number='partial.price' type='number' min='0' />
       </div>
@@ -122,16 +136,20 @@
             </figure>
           </router-link>
           <div>
-            <figure v-if='listing.luma'>
+            <figure v-if='listing.luma' title='Luma'>
               <img src='assets/luma.png'>
             </figure>
             <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
-            <div>
+            <div title='Level'>
               <span style='font-size: 0.7rem; font-weight: bold;'>Lv</span>
               <span>{{ listing.level }}</span>
             </div>
+            <div title='Fertility'>
+              <span style='font-size: 0.7rem; font-weight: bold;'>{{ listing.fertility || '?' }}x</span>
+              <b-icon icon='leaf' />
+            </div>
           </div>
-          <div>
+          <div title='Trait'>
             <b-icon icon='star-face' />
             <span>{{ listing.trait }}</span>
           </div>
@@ -253,7 +271,7 @@ div#tem-listing-modal {
       }
 
       // image, name, types, trait
-      > div:first-child {
+      > div.header {
 
         display: flex;
 
@@ -296,10 +314,10 @@ div#tem-listing-modal {
         }
       }
       // luma, sex, level
-      > div:nth-child(2) {
+      > div.detail-1, > div.detail-2 {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
 
         > div {
           display: flex;
@@ -311,7 +329,7 @@ div#tem-listing-modal {
         }
       }
       // stats
-      > div:nth-child(3) {
+      > div.stats {
         display: flex;
         flex-wrap: wrap;
 
@@ -339,7 +357,7 @@ div#tem-listing-modal {
         }
       }
       // bred techniques
-      > div:nth-child(4):not(:last-child) {
+      > div.bred-techniques {
         display: flex;
         flex-flow: column;
         margin-bottom: 1rem;
@@ -352,7 +370,7 @@ div#tem-listing-modal {
         }
       }
       // price
-      > div:last-child{
+      > div.price {
         display: flex;
         align-items: center;
         padding-bottom: 1rem;

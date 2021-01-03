@@ -14,6 +14,7 @@ const NULL_PARTIAL_LISTING = Object.freeze({
   svs: { hp: undefined, sta: undefined, spd: undefined, atk: undefined, def: undefined, spatk: undefined, spdef: undefined },
   tvs: { hp: undefined, sta: undefined, spd: undefined, atk: undefined, def: undefined, spatk: undefined, spdef: undefined },
   trait: undefined,
+  fertility: 0,
   bred_techniques: [],
   price: undefined,
 } as PartialListing);
@@ -56,6 +57,9 @@ export default Vue.component('tem-listing-modal', {
     error(): string {
       if(!this.partial.trait) return 'No trait!';
       if(!this.partial.level || this.partial.level <= 0) return 'Level is less than 1!';
+      if(this.partial.level > 199) return 'Level is greater than 199!';
+      if(this.partial.fertility == null || this.partial.fertility < 0) return 'Fertility is less than 0!';
+      if(this.partial.fertility > 8) return 'Fertility is greater than 8!';
       if(!this.partial.type) return 'No listing type!';
       if(Object.values(this.partial.svs).findIndex(a => a == null || a === '' || a < 1 || a > 50) >= 0)
         return 'Some SVs are missing or out of bounds!';
@@ -105,6 +109,7 @@ export default Vue.component('tem-listing-modal', {
         svs: Object.assign({ }, listing.svs),
         tvs: Object.assign({ }, listing.tvs),
         trait: listing.trait,
+        fertility: listing.fertility,
         bred_techniques: listing.bred_techniques.slice(),
         price: listing.price
       } as PartialListing);

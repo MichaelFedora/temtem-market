@@ -16,6 +16,7 @@ export interface SerializedListing {
   svs: Stats;
   tvs: Stats;
   trait: string;
+  fertility: number;
   bred_techniques: string[];
 
   score: number;
@@ -35,6 +36,7 @@ export interface PartialListing {
   svs: Stats;
   tvs: Stats;
   trait: string;
+  fertility: number;
   bred_techniques: string[];
   price: number;
 }
@@ -60,6 +62,7 @@ export class Listing implements SerializedListing, PartialListing {
   sex: 'm' | 'f';
   tvs: Stats;
   trait: string;
+  fertility: number;
   bred_techniques: string[];
 
   score: number; // sqrt(sum( ((sv/50)^2 + (tv/500)) * base^2 )).toFixed(2)
@@ -95,6 +98,7 @@ export class Listing implements SerializedListing, PartialListing {
     this.svs = Object.assign({ hp: 0, sta: 0, spd: 0, atk: 0, def: 0, spatk: 0, spdef: 0 }, listing.svs);
     this.tvs = Object.assign({ hp: 0, sta: 0, spd: 0, atk: 0, def: 0, spatk: 0, spdef: 0 }, listing.tvs);
     this.trait = String(listing.trait || '');
+    this.fertility = Number(listing.fertility) || 0;
     this.bred_techniques = (listing.bred_techniques && listing.bred_techniques instanceof Array) ?
       listing.bred_techniques.map(a => String(a)) :
       [];

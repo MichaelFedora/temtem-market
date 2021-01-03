@@ -16,11 +16,18 @@
       </figure>
       <h3 class='title is-5'>
         <span>{{ listing.temName }}</span>
+
         <b-icon :icon='listing.sex === "m" ? "gender-male" : listing.sex === "f" ? "gender-female" : "help"' />
-        <span style='font-size: 0.7rem; font-weight: bold;'>Lv</span><span>{{ listing.level }}</span>
+
+        <span style='font-size: 0.7rem; font-weight: bold; margin-right: -0.5em'>Lv</span>
+        <span>{{ listing.level }}</span>
       </h3>
-      <span v-for='badge of listing.badges' :key='badge' class='badge' :class='[badge]'>{{ badge }}</span>
       <span style='flex-grow: 1;'></span>
+      <span title='Score' style='display: inline-flex; align-items: center; margin-right: 0.5em'>
+        <b-icon icon='star-circle-outline' />
+        <span>&nbsp;{{ listing.score }}</span>
+        <span v-if='listing.score_evo' title='Evolved Score'>&nbsp;({{ listing.score_evo }})</span>
+      </span>
       <b-icon
         :class='{
           "status-offline": listing.status === "offline",
@@ -33,13 +40,13 @@
     </div>
     <div>
       <span title='Trait'>
-        <b-icon icon='star-face' />&nbsp;{{ listing.trait }}</span>
-      <span title='Score'>
-        <b-icon icon='star-circle-outline' />
-        <span>&nbsp;{{ listing.score }}</span>
-        <span v-if='listing.score_evo' title='Evolved Score'>&nbsp;({{ listing.score_evo }})</span>
+        <b-icon icon='star-face' />&nbsp;{{ listing.trait }}
       </span>
-      <span>
+      <span title='Fertility'>
+        <span style='font-size: 0.7rem; font-weight: bold'>{{ listing.fertility || '?' }}x</span>
+        <b-icon icon='leaf' />
+      </span>
+      <span title='Price'>
         <figure><img src='/assets/pansun.png'></figure>
         <span>&nbsp;{{ listing.price.toLocaleString() }}</span>
       </span>
@@ -52,6 +59,8 @@
         <span>{{ (listing.user || '?')[0] }}</span>
       </div>
       <span>&nbsp;{{ listing.user }}</span>
+      <span style='flex-grow:1'></span>
+      <span v-for='badge of listing.badges' :key='badge' class='badge' :class='[badge]'>{{ badge }}</span>
     </div>
   </div>
 </button>
@@ -120,22 +129,6 @@ button.tem-listing-card {
         // display: flex;
         // align-items: baseline;
       }
-      > span.badge { // badge
-        margin-left: 0.5rem;
-        font-size: 0.7rem;
-        padding: 0.15rem 0.3rem;
-        border: 1px solid;
-        border-radius: 3px;
-        &.prime {
-          color: hsl(48, 100%, 67%) ;
-        }
-        &.perfected {
-          color: hsl(171, 100%, 41%) ;
-        }
-        &.clean {
-          color: hsl(204, 71%, 53%) ;
-        }
-      }
       > span.icon { // status
         align-self: flex-end;
         &.status-in-game {
@@ -171,6 +164,27 @@ button.tem-listing-card {
     > div:last-child { // user
       display: flex;
       align-items: center;
+
+
+      > span.badge { // badge
+        margin-left: 0.5rem;
+        font-size: 0.7rem;
+        padding: 0.15rem 0.3rem;
+        border: 1px solid;
+        border-radius: 3px;
+        &.prime, &.perfect {
+          color: hsl(48, 100%, 67%) ;
+        }
+        &.perfected, &.specialized {
+          color: hsl(171, 100%, 41%) ;
+        }
+        &.clean, &.untrained {
+          color: hsl(204, 71%, 53%) ;
+        }
+        &.trained {
+          color: hsl(256, 100%, 72%) ;
+        }
+      }
     }
   } // body
 }

@@ -88,6 +88,7 @@ export function makeMySampleListing(): Listing {
     sex: Math.round(Math.random()) ? 'm' : 'f',
     luma: Boolean(Math.round(Math.random())),
     trait: ['Trauma', 'Flawed Crystal'][Math.floor(Math.random() * 2)],
+    fertility: Math.round(Math.random() * 8),
     score: Math.round(Math.random() * 75),
     score_evo: 0,
     svs: {
@@ -109,7 +110,7 @@ export function makeMySampleListing(): Listing {
       spdef: Math.round(Math.random() * 500)
     },
     bred_techniques: [],
-    badges: [['clean'], ['prime', 'perfected']][Math.floor(Math.random() * 2)],
+    badges: [['untrained'], ['perfect', 'specialized']][Math.floor(Math.random() * 2)],
   };
 }
 
@@ -133,6 +134,7 @@ export function makeListing(): Listing {
     sex: Math.round(Math.random()) ? 'm' : 'f',
     luma: Boolean(Math.round(Math.random())),
     trait: ['Toxic Affinity', 'Amphibian'][Math.floor(Math.random() * 2)],
+    fertility: Math.round(Math.random() * 8),
     score: Math.round(Math.random() * 50),
     score_evo: Math.round(Math.random() * 50) + 50,
     svs: {
@@ -154,6 +156,6 @@ export function makeListing(): Listing {
       spdef: Math.round(Math.random() * 50)
     },
     bred_techniques: ['Tsunami', 'Water Blade'],
-    badges: [['prime'], ['clean', 'perfected']][Math.floor(Math.random() * 2)],
+    badges: [['trained'], ['untrained', 'specialized']][Math.floor(Math.random() * 2)],
   };
 }

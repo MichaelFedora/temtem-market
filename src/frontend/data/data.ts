@@ -21,6 +21,7 @@ export interface PartialListing {
   svs: Stats;
   tvs: Stats;
   trait: string;
+  fertility: number;
   bred_techniques: string[];
   price: number; // currentBidder ??
 }
@@ -40,9 +41,10 @@ export interface Listing extends PartialListing {
   score: number; // sqrt(sum( ((sv/50)^2 + (tv/500)) * base^2 )).toFixed(2)
   score_evo: number; // same as above but use final evolution. if no evolution, make 0
 
-  // 'prime' (all 50 svs)
-  // 'clean' (0 tvs, +20 score)
-  // 'perfected' (500 tvs in top two base stats)
+  // 'perfect' (all 50 svs)
+  // 'untrained' (0 tvs, +20 score)
+  // 'specialized' (500 tvs in top two base stats)
+  // 'trained' (1000 tvs)
   badges: string[];
 }
 
