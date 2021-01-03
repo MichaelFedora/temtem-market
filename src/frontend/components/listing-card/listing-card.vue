@@ -43,7 +43,7 @@
         <b-icon icon='star-face' />&nbsp;{{ listing.trait }}
       </span>
       <span title='Fertility'>
-        <span style='font-size: 0.7rem; font-weight: bold'>{{ listing.fertility || '?' }}x</span>
+        <span style='font-size: 0.7rem; font-weight: bold'>{{ listing.fertility || 0 }}x</span>
         <b-icon icon='leaf' />
       </span>
       <span title='Price'>

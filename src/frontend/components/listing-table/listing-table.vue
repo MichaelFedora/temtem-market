@@ -77,7 +77,8 @@
       </td>
       <td title='Fertility'>
         <div style='display: flex; align-items: center'>
-          <span style='font-size: 0.7rem; font-weight: bold;'>{{ listing.fertility || '?' }}x</span><b-icon icon='leaf' />
+          <span style='font-size: 0.7rem; font-weight: bold;'>{{ listing.fertility || 0 }}x</span>
+          <b-icon icon='leaf' />
         </div>
       </td>
       <td>
