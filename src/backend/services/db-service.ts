@@ -321,7 +321,8 @@ class DatabaseService implements IDBService {
         trait: listing.trait,
         score,
         score_evo,
-        badges
+        badges,
+        timestamp: Date.now()
       } as Partial<Listing>));
     }
 
@@ -396,7 +397,7 @@ class DatabaseService implements IDBService {
       const ingameTems = temsAndUsers.filter(doc => doc('right')('status').eq('in_game')
         .and(doc('right')('heartbeat').gt(Date.now() - this.parent.heartbeatTimeout)));
 
-      let ret = await ingameTems.orderBy('price', 'score', 'created').skip(opts.start).limit(opts.limit).run()
+      let ret = await ingameTems.orderBy('price', 'score', 'timestamp').skip(opts.start).limit(opts.limit).run()
         .then(all => all.map(l =>
           Listing.deserialize(Object.assign(l.left, {
             user: l.right.discordName, avatar: l.right.discordAvatar, status: 'in_game' as 'in_game',
@@ -408,7 +409,7 @@ class DatabaseService implements IDBService {
       // get online tems
       const onlineTems = temsAndUsers.filter(doc => doc('right')('status').eq('online')
         .and(doc('right')('heartbeat').gt(Date.now() - this.parent.heartbeatTimeout)));
-      const onlineRet = await onlineTems.orderBy('price', 'score', 'created')
+      const onlineRet = await onlineTems.orderBy('price', 'score', 'timestamp')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
         .then(all => all.map(l =>
           Listing.deserialize(Object.assign(l.left, {
@@ -422,7 +423,7 @@ class DatabaseService implements IDBService {
       // get offline tems
       const offlineTems = temsAndUsers.filter(doc => doc('right')('status').eq('invisible')
         .or(doc('right')('heartbeat').le(Date.now() - this.parent.heartbeatTimeout)));
-      const offlineRet = await offlineTems.orderBy('price', 'score', 'created')
+      const offlineRet = await offlineTems.orderBy('price', 'score', 'timestamp')
         .skip(Math.max(0, opts.start - ret.length)).limit(opts.limit - ret.length).run()
         .then(all => all.map(l =>
           Listing.deserialize(Object.assign(l.left, {
@@ -434,7 +435,7 @@ class DatabaseService implements IDBService {
     }
 
     public async getRecent() {
-      const listings = await this.table.orderBy(r.desc('created')).limit(10).run();
+      const listings = await this.table.orderBy(r.desc('timestamp')).limit(10).run();
 
       const uids: string[] = [];
       const temids: number[] = [];

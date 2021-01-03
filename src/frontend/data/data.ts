@@ -32,7 +32,7 @@ export interface Listing extends PartialListing {
   user: string; // name
   avatar: string; // user avatar
 
-  created: number;
+  timestamp: number;
 
   temName: string; // tem name
   temType: string[]; // tem types

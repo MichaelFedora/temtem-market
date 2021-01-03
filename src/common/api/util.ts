@@ -76,7 +76,7 @@ export function makeMySampleListing(): Listing {
     user: 'Michael Fedora#3269',
     status: 'online',
     type: 'sell',
-    created: Date.now(),
+    timestamp: Date.now(),
 
     price: Math.round(Math.random() * 10000) + 10000,
 
@@ -121,7 +121,7 @@ export function makeListing(): Listing {
     user: 'other user#' + it++,
     status: ['online', 'in_game', 'offline'][Math.floor(Math.random() * 3)] as any,
     type: 'sell',
-    created: Date.now() - Math.round(Math.random() * 10000) - 10000,
+    timestamp: Date.now() - Math.round(Math.random() * 10000) - 10000,
 
     price: Math.round(Math.random() * 10000) + 10000,
 

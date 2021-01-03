@@ -5,7 +5,7 @@ export interface SerializedListing {
   userID: string;
   type: 'sell';
   price: number;
-  created: number;
+  timestamp: number;
 
   temID: number;
   temName: string;
@@ -48,7 +48,7 @@ export class Listing implements SerializedListing, PartialListing {
   type: 'sell';// | 'buy' | 'auction'
 
   price: number; // currentBidder
-  created: number;
+  timestamp: number;
 
   temID: number;
   temName: string;
@@ -82,7 +82,7 @@ export class Listing implements SerializedListing, PartialListing {
     this.avatar = String(listing.avatar || '') || undefined;
 
     this.price = Number(listing.price || -1);
-    this.created = Number(listing.created || 0);
+    this.timestamp = Number(listing.timestamp || 0);
     this.type = listing.type;
 
     this.temID = Number(listing.temID) || 0;
