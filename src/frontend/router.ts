@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
       to.path.slice(1).split('/').forEach(v => {
         if(!v) buff += '/';
         else {
-          v = v.slice(0).toLocaleUpperCase() + v.slice(1);
+          v = v[0].toLocaleUpperCase() + v.slice(1);
           if(buff) sdir.push(buff + v);
           else sdir.push(v);
         }
