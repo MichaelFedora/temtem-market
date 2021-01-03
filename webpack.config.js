@@ -70,7 +70,7 @@ return {
       chunks: 'all'
     },
     minimizer: [ new TerserJsPlugin({
-      terserOptions: { sourceMap: production ? true : false  }
+      terserOptions: { sourceMap: production ? false : true  }
     }) ]
   },
 
