@@ -1,6 +1,6 @@
 {
   "name": "temtem-market",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Market for Temtem",
   "scripts": {
     "lint": "eslint . --ext .ts,.vue",
