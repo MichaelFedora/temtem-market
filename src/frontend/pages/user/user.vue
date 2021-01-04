@@ -8,7 +8,9 @@
       "status-in-game": user.status === "in_game"
     }'
   >
-    <figure><img alt='' :src='user.discordAvatar ? user.discordAvatar + "?size=256" : ""'></figure>
+    <figure>
+      <img style='height: 100%; object-fit: contain' alt='' :src='user.discordAvatar ? user.discordAvatar + "?size=256" : ""'>
+    </figure>
     <div>
       <!-- discord name, status -->
       <div class='discord'>
