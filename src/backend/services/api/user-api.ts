@@ -1,6 +1,6 @@
 import { Router, text, json } from 'express';
 import { Logger } from 'log4js';
-import { validateSession, wrapAsync } from './middleware';
+import { handleValidationError, validateSession, wrapAsync } from './middleware';
 import { Config } from '../../data/config';
 import dbService from '../db-service';
 import { AuthError, MalformedError } from '../../data/errors';
@@ -17,6 +17,11 @@ export default function createUserApi(logger: Logger, config: Config) {
     + `&response_type=code&redirect_uri=${config.redirectUri}`);
   });
   router.get('/discord_auth', wrapAsync(async (req, res) => {
+    if(String(req.query.error) === 'access_denied') {
+      res.redirect('/');
+      return;
+    }
+
     if(!req.query.code)
       throw new AuthError('No code given!');
 
@@ -73,7 +78,7 @@ export default function createUserApi(logger: Logger, config: Config) {
     }
 
     res.redirect(`/?sid=${sid}`);
-  }));
+  }), handleValidationError);
   router.post('/register', json(), wrapAsync(async (req, res) => {
     if(!req.body.name) throw new MalformedError('No discord name!');
     if(!req.body.temUserName) throw new MalformedError('No Temtem username!');
